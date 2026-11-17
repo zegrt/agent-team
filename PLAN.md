@@ -1,9 +1,9 @@
-# Plan: the agent-team skill (17 Nov 2026, revised after research the same day)
+# Plan: the agent-team skill (17 Nov 2026, reworked after research, a step back and a look at prior art)
 
 For Cyril to approve before anything is built. Drawn from the motion playbook's WORKBOARD.md, HANDOFF.md,
 inbox/README.md, workers/windows-claude.md, the 17 Nov house-scope plan and task 48 review, and profiles/cyril.md, read
-at the director's machines (not edited). Published sources are listed at
-the end, each with its URL and date.
+at the director's machines (not edited). Published sources and prior art
+are listed at the end, each with its URL or path and date.
 
 ## What it is
 
@@ -12,192 +12,229 @@ project, Claude or Codex. It holds no project details and no personal style. Thr
 
 1. the project's board: its dated decisions, roles, machines, threads, logins, checks;
 2. the director's profile: taste and working style (Cyril's stays in his own profile);
-3. this skill: the rules below.
+3. this skill.
 
-A board can tighten or add a rule for its project, saying so on the board; it doesn't copy the skill's text.
+A live instruction from the director beats all three; the manager writes it on the board straight away. A board can
+tighten or add a rule for its project, saying so on the board; it doesn't copy the skill's text.
+
+## Why it exists, given what's out there
+
+Superpowers, BMAD, Spec Kit, Gas Town and Claude Code's agent teams all cover agent teams. All of them assume one
+orchestrating session, work checked by tests, and the human at the start and the end. This skill is the thin layer they
+don't cover: separate sessions on two machines, Claude and Codex mixed, mostly judgment work, and the director
+approving each merge. It borrows their tested mechanisms where they fit, each tied below to the correction it serves.
+
+## The idea: forms carry the checks, cards carry the judgment
+
+What agents forget is the checkable part: name the files, say how done is checked, show the output, don't review your
+own work. A rule in prose gets lost after a summary; a field in a form doesn't. So the checkable rules become fields in
+the templates. Only calls that need judgment stay as rule cards, each led by the director's dated correction that caused
+it. Superpowers reached the same split independently ("Omits a required element ... REQUIRED field or slot in the
+template"), and BMAD measured that a reviewer persona changed nothing while a concrete method did.
+
+The risk is ceremony, and the director pays for it: Scott Logic timed Spec Kit at 3.5 hours of human review against
+15 minutes without it. So forms are short (a brief under about a page), and each field says which size of task needs
+it. A typo needs no form.
 
 ## Files
 
 ```
 agent-team/
-  SKILL.md               when it applies; the rules that matter most, at the top; what to read first, by role
-                         (manager, builder, reviewer); the precedence; "after a summary, re-read this file and RULES.md"
-  RULES.md               the rule cards, with ids
-  templates/BOARD.md     blank board: Roles, Project rules (only additions), Decisions, Tasks table
-  templates/HANDOFF.md   a worker's handoff: Finished, Half-done, Next, To resume
-  README.md              for people: what it is, how to install, how a rule is added
+  SKILL.md               triggers only in the description; the session start; each role's steps (manager, builder,
+                         reviewer), each pointing to the form or card behind it; "after a summary, trust the board
+                         and git log over memory, and re-read this file"
+  RULES.md               the judgment cards, with ids
+  templates/BOARD.md     blank board: Roles, Project rules (additions only), Decisions, Tasks table, Proposals
+  templates/BRIEF.md     a task brief, with the builder's Report at the end
+  templates/REVIEW.md    a review, with the re-review at the end
+  templates/HANDOFF.md   a worker's handoff
+  hooks/                 optional: re-inject the session start after a summary (Claude Code and Codex)
+  README.md              for people: what it is, how to install, how a rule or field is added
   PLAN.md                this file
 ```
 
-Rule card, as the playbook's: **Rule**, **Why**, **Basis**, **Scope**; **Unless** and **Check** only when they add
-something. Basis is Cyril's dated correction, a published source, or both. Where a rule is only Cyril's preference, the
-Basis says so instead of borrowing a source that doesn't say it.
+Every field has a one-line comment: why it is there, and its Basis.
 
-## The rules
+## Sizes
 
-Board and sessions
+The manager states the size in the task row, in plain words, so the director can overrule it. If the work grows, it
+stops, says so and steps up a size. Size is set by three facts, not by the type of work: are there gaps in what the
+director asked for, is anything irreversible or outward-facing, and how much does it touch.
+
+- **Small** (pointers, typos, board edits): the manager does it and says so. No brief, no review.
+- **Content:** a brief, a builder, one independent review, the director's approval.
+- **Design:** a plan to the director first, then as Content.
+
+Basis: Cyril, 17 Nov; Superpowers brainstorming ("pick a size and say it in plain words. They can override it ... If it
+grows mid-task, stop, say so, and step up a size"); BMAD build-a-change (route by intent gaps, irreversibility and
+footprint).
+
+## The forms
+
+**BOARD.md, Tasks table.** One row per task:
+
+| Column | Why | Basis |
+|---|---|---|
+| Id, Task | one task per run, with a stable id used in commits and branch names | Cyril, 9 Nov; Anthropic, long-running harnesses |
+| Size | stated, so the director can overrule it | see Sizes |
+| Files | the manager assigns nothing whose files overlap an open task | Cyril, 9 Nov; Cognition; Claude Code agent teams docs |
+| Branch | where the work goes; checked before every commit | Cyril, 17 Nov (commit landed on `task-48`) |
+| Builder, Reviewer | must differ; a builder's own review counts for nothing | Cyril, 17 Nov; Superpowers implementer prompt |
+| Rounds | review rounds so far; at 2, card `review.restart` | Cyril, 9 Nov; BMAD ("a third pass ... something is wrong upstream") |
+| State | open, built, blocked, reviewed, approved (date), merged; checked against the work, not trusted | Cyril, 9 Nov; Gas Town #4505 (blocked work marked done) |
+
+Above the table: the board's first line ("Team rules: the agent-team skill; read it first") and the branch holding the
+last approved state (Cyril, 9 Nov). Below it, **Proposals**: anything a worker noticed outside its task, with the task
+it came from. Nobody acts on a proposal until the manager makes it a task. Basis: BMAD deferred-work; Beads
+`discovered-from`.
+
+**BRIEF.md** (Content and Design). Objective; output; tools and sources; Files (only these); Branch; Done when (the
+checks, settled before work starts); Out of scope (anything else goes to Proposals; tests and checks are never edited to
+pass); Board commit (the board version the brief was cut from). Basis: Anthropic, multi-agent research; Anthropic,
+harness design (agree what done is "before any code was written"); Anthropic, long-running harnesses ("unacceptable to
+remove or edit tests"); Superpowers (record the base commit before dispatch).
+
+**Report** (end of the brief, filled by the builder):
+- Status, one word: done, done with concerns, needs info, or blocked. Silence is never read as any of them.
+- Board commit, repeated from the brief: proof of which board it read.
+- Commit, files changed, and any file changed outside Files, with why.
+- Checks run, with their output.
+- Rulings: small calls made alone, each with why and what it costs if wrong. The director reads the list instead of
+  being asked each one.
+- Branch pushed, folder clean, nothing unpushed.
+
+Basis: Cyril, 9 Nov (facts with the commit and exact files; triple-check before handing on, recorded in HANDOFF.md,
+commit 77d8a40, and on the board since d403a70); Superpowers implementer prompt (the four statuses) and ledger
+(`Ruling: what, why, cost if wrong`); BMAD #2563 (declare files changed beyond the task); Gas Town Witness (check for
+unpushed work); Anthropic, long-running harnesses (features marked complete without testing).
+
+**REVIEW.md** (Content and Design):
+- Against the brief and the director's decisions, not style. Design first: does it hold, is anything there no one needs.
+- Then: what is missing? Then findings, ranked, grouped by cause, each with a fix size. One pass.
+- For written rules: is each rule clear (no unquantified "smooth" or "punchy"), consistent with the others and the
+  director's decisions, and complete on exceptions?
+- Re-review, after fixes: each finding marked fixed or not fixed. "Tried" is not fixed. Nothing new is added here.
+
+Basis: Cyril, 9 Nov ("review quicker and better"); BMAD #2675 (asking what is missing helped, a persona didn't);
+Spec Kit checklists (clarity, consistency, completeness); Superpowers re-review ("'Attempted' is not addressed").
+
+**HANDOFF.md.** Finished (commits); half-done and where; next; the session or thread id to resume; what a new session
+needs, on another thread or machine. Updated and pushed at the end of each day's work. Basis: Cyril, 17 Nov; Anthropic,
+multi-agent research (resume rather than restart).
+
+## The cards (RULES.md)
+
+Each led by the correction that caused it.
 
 1. `board.one-source`: every task, decision and correction is written on the board first; a message only says "board
-   updated, pull", plus anything urgent. Why: messages between agents get lost or half-read; one written place survives
-   restarts. Basis: Cyril, 9 Nov ("y'all are miscommunicating a lot"); Anthropic, long-running harnesses (a
-   progress file plus git); Anthropic, multi-agent research (subagents write to files to avoid "a game of telephone").
-2. `board.session-start`: a session starts by pulling, then reading the board, its own handoff and the director's
-   profile. A resumed or summarised session is a new one. Why: a summary of the rules is not the rules. Basis: Anthropic,
-   long-running harnesses (each session reads the progress file); Cyril, 13 Nov (approved the resumed-session line);
-   Claude Code skills docs (after a summary only the first 5,000 tokens of a skill come back, and older skills can be
-   dropped); Codex documents nothing on this (see How it loads).
-3. `board.facts`: report a state change as facts: the commit and the exact files. Check the work itself, not a status
-   line. Why: a loose summary hides what changed, and status marks lag the work. Basis: Cyril, 9 Nov; Claude Code agent
-   teams docs ("teammates sometimes fail to mark tasks as completed ... check whether the work is actually done").
+   updated, pull", plus anything urgent. After a summary, trust the board and git log over memory. Why: messages between
+   agents get lost; a summary is not the record. Basis: Cyril, 9 Nov ("y'all are miscommunicating a lot"); Anthropic,
+   long-running harnesses; Superpowers (lost place after a summary was "the single most expensive failure observed");
+   BMAD #2539 (team members miss messages not addressed to them).
+2. `task.size`: see Sizes. Why: full process on a typo wastes the director's time; none on a design wastes everyone's.
+   Basis: Cyril, 17 Nov.
+3. `review.assess`: before any fix, the manager gives every finding a route and a reason: fix (small and clear),
+   rewrite the brief (the cause is upstream; when torn, choose this), ask the director (his intent is unclear, or it
+   changes the team's rules), or later (it was there before this task). A problem this task caused is never put off.
+   A finding against the director's decisions is dropped but listed for him as "dropped: against decision X". Nothing
+   is dropped silently. Why: fixing symptoms one by one grows the work, and a silent drop hides a real problem. Basis:
+   Cyril, 9 Nov ("plan and asses after reviews, not immidiatly push to fixes"); BMAD review triage ("recorded reason,
+   never silently"; "a problem this change caused is never deferred"); Cognition, 2026.
+4. `review.restart`: after two failed rounds on the same thing, stop and rewrite the brief or the design, writing down
+   what to keep. Why: the cause is upstream. Basis: Cyril, 9 Nov (rebuilt the kit smaller after two rounds); BMAD; Claude
+   Code best practices.
+5. `decide.escalate`: stop and ask when blocked, after two failed rounds, or before anything irreversible or
+   outward-facing. Workers ask the manager; the manager asks the director, as one plain question with a recommendation,
+   already checked. Anything smaller is a Ruling in the report. Why: his attention is the scarce part. Basis: Cyril,
+   17 Nov (the form); Anthropic, "Building effective agents"; OpenAI's practical guide.
+6. `team.worktree`: never switch branches in a folder someone else works in; branch work goes in its own worktree. At
+   session start and before every commit, check the folder is clean and on the task's branch; if not, stop and ask.
+   Before removing a worktree, check nothing is unpushed. Why: another agent's commit lands on your branch, and the
+   check catches it before it does. Basis: Cyril, 17 Nov (Codex switched the shared folder; the manager's commit landed
+   on `task-48`); BMAD ("Is the working tree clean? Does the current branch make sense"); Gas Town Witness.
+7. `team.unreachable`: a quiet worker is not a dead one. If it hasn't reported a status, ask the director to wake it;
+   don't reassign its task. Why: reassigning splits ownership of half-done work. Basis: Cyril, 17 Nov; Gas Town's design
+   doc (false alarms on stuck workers "are worse than slow detection").
+8. `team.live-first`: a correction from live work goes ahead of improvement work. Basis: Cyril, 17 Nov.
+9. `team.manager`: the manager sizes, splits, briefs, assesses and merges, one task at a time, after the director
+   approves. Before asking for approval it merges the latest main into the branch and reruns the checks, so he approves
+   what will land. It doesn't build (beyond Small tasks), steer a builder mid-run, or call the job finished while rows
+   are open. Why: one gate and a known good state; a busy manager stops seeing the whole. Basis: Cyril, 9 Nov (only the
+   manager merges, after approval); Gas Town Refinery (merge rehearsal before merge); Willison ("one significant change
+   at a time"); Cognition, 2026.
+10. `team.size`: start with about 3 active agents; add one only while the director keeps up with reviewing. Basis: no
+    correction of Cyril's yet; Willison ("the natural bottleneck ... is how fast I can review the results"); Yegge,
+    "Introducing Beads" (a dozen agents "only sustainable for about 2 weeks", back to 1 to 3). The "3 or 4 per reviewer" figure in the
+    first plan had no primary source.
 
-Tasks and briefs
-
-4. `task.brief`: a brief has five parts: objective, output format, tools and sources, boundaries (the files it touches),
-   and what done looks like and how it will be checked, settled before work starts. Why: a builder knows only what the
-   brief says; the lead's conversation doesn't carry over. Basis: Anthropic, multi-agent research ("without detailed
-   task descriptions, agents duplicate work, leave gaps"); Claude Code agent teams docs ("The lead's conversation
-   history does not carry over"); Anthropic, harness design (builder and evaluator agree "what done looked like ...
-   before any code was written").
-5. `task.size`: size the process to the change. Pointers, typos, board edits: the manager does them and says so.
-   Content: a builder, one independent review, the director's approval. Structure or design: a plan to the director
-   first. Why: full process on a typo wastes the director's time; none on a design wastes everyone's. Basis: Cyril,
-   17 Nov; Anthropic, multi-agent research (scale effort to the task).
-6. `task.one-per-run`: one task per run; a builder stops after each, and is interrupted only for an urgent hold, also
-   written on the board. Why: corrections reach it between tasks, not mid-edit, and a run left alone too long drifts.
-   Basis: Cyril, 9 Nov; Anthropic, long-running harnesses (one feature at a time); Claude Code agent teams docs ("Letting
-   a team run unattended for too long increases the risk of wasted effort").
-7. `task.one-writer`: each task names the files it touches; nobody edits a file another open task touches. Why:
-   parallel writes collide, and overlapping tasks duplicate work. Basis: Cyril, 9 Nov; Cognition, "Don't build
-   multi-agents" (writes stay single-threaded); Claude Code agent teams docs ("Two teammates editing the same file leads
-   to overwrites"); MAST (step repetition is the most common failure mode, 15.7%).
-8. `task.done`: done means checked end to end against the brief, with the checks named and their output shown, before it
-   is handed on. A builder never edits or removes a test or check to make it pass; that goes to the manager. Why: agents
-   mark work complete without testing it, and game tests when they can. Basis: Cyril, 9 Nov ("triple-check everything
-   before bringing it to him", standing rule recorded in the playbook's HANDOFF.md, commit 77d8a40, 9 Nov; on the
-   board since d403a70, 9 Nov); Anthropic, long-running harnesses ("Claude's tendency to mark a feature as complete
-   without proper testing"; "It is unacceptable to remove or edit tests"); METR, reward hacking (models "modifying the
-   tests or scoring code"); MAST (no or incomplete verification 8.2%, incorrect verification 9.1%).
-9. `task.scope` (new): a builder does only its brief. Anything extra it notices (a fix, a cleanup, an idea) goes to the
-   manager as a proposal. Why: models add files, abstractions and features nobody asked for, and the work grows. Basis:
-   Cyril's profile, 9 Nov ("a fix that touches more than what was flagged" is plan first); Claude prompting best
-   practices (a "tendency to overengineer by creating extra files, adding unnecessary abstractions"); MAST (disobey task
-   specification 11.8%, task derailment 7.4%).
-
-Review
-
-10. `review.fresh`: whoever builds a task never reviews it; the reviewer starts with a clean context and is told to be
-    sceptical. Why: a builder shares its own blind spots, and agents grade their own work too kindly. Basis: Cyril,
-    17 Nov; Cognition, 2026; Claude Code best practices (review in a fresh agent); Anthropic, harness design ("agents
-    reliably skew positive when grading their own work"; "tuning a standalone evaluator to be skeptical turns out to be
-    far more tractable").
-11. `review.shape`: review against the brief and the director's decisions, not style. Design first, then edge cases
-    ranked and grouped by cause, each with a fix size, in one pass. Why: "a reviewer that's asked to find problems will
-    always find something". Basis: Cyril, 9 Nov ("review quicker and better"); Claude Code best practices.
-12. `review.assess`: the manager assesses findings before assigning fixes: shared cause, design or scope; fix, cut or
-    defer. Findings that go against the director's decisions are dropped. A design or scope change goes to the
-    director as a plan. Why: fixing symptoms one by one grows the work. Basis: Cyril, 9 Nov ("plan and asses after
-    reviews, not immidiatly push to fixes"); Cognition, 2026 (the writer filters review feedback).
-13. `review.restart`: after two failed rounds of fixes on the same thing, stop and rewrite the brief or the design.
-    Why: the cause is upstream, and a builder and reviewer can otherwise loop. Basis: Claude Code best practices;
-    Cyril, 9 Nov (approved rebuilding the kit smaller after two review rounds); Anthropic, "Building effective agents"
-    ("stopping conditions (such as a maximum number of iterations)").
-
-Approval and merge
-
-14. `merge.approved`: only the manager merges, only after the director approves; a marker (a branch) holds the last
-    approved state. Why: one gate, and a known good state to restore. Basis: Cyril, 9 Nov.
-15. `merge.one-at-a-time`: merge one task at a time, then check the combined result. Why: two passing changes can fail
-    together. Basis: Willison ("I can only focus on reviewing and landing one significant change at a time").
-16. `decide.escalate` (was `decide.one-question`, narrowed): an agent stops and asks when it is blocked, after rule 13's
-    two rounds, or before anything irreversible or outward-facing. Workers ask the manager; the manager asks the
-    director. Why: pushing on past these points wastes work or does harm; not asking is itself a failure. Basis:
-    Anthropic, "Building effective agents" ("pause for human feedback at checkpoints or when encountering blockers");
-    OpenAI, practical guide to building agents (triggers: "Exceeding failure thresholds" and "High-risk actions");
-    MAST (fail to ask for clarification, 6.8%). The form, one plain question with a recommendation, already checked, is
-    Cyril's preference (17 Nov board; profile), not something the sources say.
-
-The team
-
-17. `team.size` (narrowed): start with about 3 active agents; add one only while the director keeps up with reviewing
-    what lands. Review speed sets the limit, not a number. Why: past that, review becomes the queue, and each agent adds
-    coordination. Basis: Willison ("the natural bottleneck on all of this is how fast I can review the results");
-    Claude Code agent teams docs ("Start with 3-5 teammates for most workflows"; "Three focused teammates often
-    outperform five scattered ones"; written for one lead's teammates, not per human). The old "3 or 4 per reviewer"
-    figure has no primary source: Willison gives no number, and it appears only in secondary blogs.
-18. `team.cost` (new): agents that are done are shut down; an agent is added only when the work is worth several times
-    the tokens. Why: a team costs many times a single session, and an idle agent keeps spending. Basis: Anthropic,
-    multi-agent research ("about 15× more tokens than chats"); Anthropic, harness design ("over 20x more expensive");
-    Claude Code costs docs ("Each active teammate continues consuming tokens until it exits").
-19. `team.manager`: the manager splits the work, briefs it and pulls the results together; it doesn't do the
-    builders' work (beyond rule 5's small edits) or steer them mid-run, and it doesn't call the job finished while tasks
-    are open. Why: a busy manager stops seeing the whole. Basis: Cognition, 2026; Claude Code agent teams docs
-    ("Sometimes the lead starts implementing tasks itself"; "The lead can stop early too").
-20. `team.handoff`: at the end of each day, each worker updates its handoff (template) and pushes it, so it can be
-    replaced at any time. Why: work resumes instead of restarting. Basis: Cyril, 17 Nov; Anthropic, multi-agent research
-    (checkpoints, resumed rather than restarted).
-21. `team.unreachable`: if a worker can't be reached, ask the director to wake it; don't reassign its task. Why:
-    reassigning splits ownership of half-done work. Basis: Cyril, 17 Nov.
-22. `team.worktree`: never switch branches in a folder someone else works in; branch work goes in its own worktree,
-    removed when done. Why: another agent's next commit lands on your branch. Basis: Cyril, 17 Nov (Codex switched the
-    shared folder; the manager's commit landed on `task-48`).
-23. `team.live-first`: a correction from live work goes ahead of improvement work. Why: live work is what the rules are
-    for. Basis: Cyril, 17 Nov.
-
-Left out on purpose: plain writing, no em dashes, "step back" and "exercise abstract thinking" meaning think, not build.
-Those are Cyril's, in his profile.
+Left out on purpose: personas and role rosters (BMAD measured no gain and dropped them); phase gates on every change
+(Spec Kit's cost); Beads (its Dolt store takes the board out of git diffs and allows one writer by default); watchdog
+agents (Gas Town's killed working agents); "don't pause" autonomy (Superpowers; clashes with approval at each merge);
+"at least ten findings" (helps code, makes noise on judgment work); a separate constitution file (a fourth authority);
+long skills and all-caps wording. `team.cost` is dropped: no correction of Cyril's, and cost hasn't been his limit.
+Plain writing, no em dashes and "step back" are Cyril's, in his profile.
 
 ## What stays on each project's board
 
 Who holds which role; threads, environments and machines; logins, git identity and push commands; paths; the project's
-checks (lint, tests); who approves which layer; the reviewer's brief (the playbook's CODEX-REVIEW.md); the task table
-and dated decisions; workers' handoff files in `workers/`.
+checks (lint, tests); who approves which layer; the reviewer's brief (the playbook's CODEX-REVIEW.md); the task table,
+proposals and dated decisions; workers' handoff files in `workers/`.
 
 ## How it loads (checked 17 Nov)
 
-- **Frontmatter:** only `name: agent-team` (it must match the folder name) and a `description` under 1,024 characters,
-  trigger words first. That passes the Agent Skills standard and both tools. Claude cuts the description at 1,536
-  characters; Codex ignores fields it doesn't know. The description triggers on running, briefing, reviewing or handing
-  off work between agents, or a project with a board.
-- **What loads when:** at session start, both tools see only the name and description. The SKILL.md body loads when the
-  skill is used. RULES.md and templates load only if SKILL.md says when to read them, so SKILL.md names them by role.
-- **Claude Code:** `~/.claude/skills/agent-team`, a symlink to the clone. The docs say symlinked skill folders work, and
-  the playbook already loads this way on this Mac (it is in this session's skill list).
-- **Codex:** `~/.agents/skills/agent-team`, not `~/.codex/skills` as first planned. The docs name only
-  `~/.agents/skills` and say symlinks are followed. Codex's source still reads `~/.codex/skills` but calls it
-  deprecated, and a skill in both folders can show up twice, so use one. (The playbook's Codex link sits in the old
-  folder and works today; moving it is a playbook task, not this one.)
-- **Windows junctions:** neither tool documents them. The playbook runs on junctions on the Windows PC, but I found no recorded
-  test of it. The build includes a cold test on Windows for both tools before the skill is called installed.
-- **After a summary:** Claude re-attaches the first 5,000 tokens of the most recent use of each skill (25,000 shared,
-  newest first), so the key rules go at the top of SKILL.md and SKILL.md stays short. Codex documents nothing; its source
-  suggests a used skill's text is not kept, only what the summary says. So SKILL.md says to re-read itself and
-  RULES.md after any summary, and the backstop stays: each board's first line says "Team rules: the agent-team skill;
-  read it first", and the project's CLAUDE.md or AGENTS.md points to the board.
-- SKILL.md says to `git pull --ff-only` in the skill folder at a session's start, as the playbook does.
+- **Frontmatter:** only `name: agent-team` (it must match the folder) and a `description` under 1,024 characters that
+  lists when to use it and nothing else. Superpowers tested that a description summarising the workflow made agents
+  skip steps.
+- **What loads when:** at start, both tools see only the name and description; SKILL.md's body loads when the skill is
+  used; RULES.md and templates only when SKILL.md says to read them.
+- **Claude Code:** `~/.claude/skills/agent-team`, a symlink to the clone. Documented, and the playbook loads this way
+  on this Mac today.
+- **Codex:** `~/.agents/skills/agent-team`. The docs name only that folder and say symlinks are followed;
+  `~/.codex/skills` still loads but is deprecated, and a skill in both can show twice.
+- **Windows junctions:** neither tool documents them, and I found no recorded test. Tested at build.
+- **After a summary:** Claude brings back the first 5,000 tokens of a skill in use; Codex documents nothing. So SKILL.md
+  stays short with the session start at the top, and an optional hook re-injects it after a summary: Claude Code's
+  `SessionStart` with the `compact` matcher (documented); Codex's compaction hooks (documented by Beads for Codex
+  0.129+, not yet confirmed in Codex's own docs; this Mac has 0.169). The board's first line stays as the backstop.
+- SKILL.md says to `git pull --ff-only` in the skill folder at a session's start.
 
 ## Where it lives
 
-- Remote: github.com/zegrt/agent-team (private). Pushed with a command-scoped credential for the zegrt account; the
-  active gh account is never switched.
-- Clones: one on the director's Windows PC, one on the Mac.
-- Installed as symlinks on the Mac and junctions on Windows, to each machine's clone.
+- Remote: github.com/zegrt/agent-team (private), pushed with a command-scoped credential; the active gh account is
+  never switched.
+- Clones: one on the director's Windows PC, one on the Mac. Symlinks on the Mac,
+  junctions on Windows.
 
-## Build, then the move (separate steps)
+## Build, test, then the move (separate steps)
 
-1. **Build** (after your approval): the files above. Then a cold test like the playbook's of 6 Nov: fresh Claude and
-   Codex sessions, on the Mac and on the Windows PC, given a team brief from an empty folder, must load the skill unprompted and
-   cite rule ids. Then a fresh reviewer with no part in the build reviews it against this plan; I assess; you approve;
+1. **Build** (after your approval): the files above.
+2. **Load test:** fresh Claude and Codex sessions, on the Mac and on the Windows PC, given a team brief from an empty folder,
+   must load the skill unprompted; then a forced summary, to see the hook bring it back.
+3. **Correction replay:** each of your dated corrections becomes a scenario, given to fresh agents with and without the
+   skill, at least 5 runs each, scored blind, under pressure (time, sunk cost, an instruction that pulls the wrong way):
+   - a correction sent only in a message, not on the board (9 Nov);
+   - review findings in, fixes pushed straight away (9 Nov);
+   - a third fix round on the same finding (9 Nov);
+   - a builder about to review its own task (17 Nov);
+   - full process proposed for a typo, and a design change started without a plan (17 Nov);
+   - a worker silent, the task about to be reassigned (17 Nov);
+   - a branch switch needed in a shared folder (17 Nov).
+   Pass: the agent with the skill takes the corrected action and cites the card or field. When it fails, ask it how the
+   skill should have been written, and fix the wording. What agents said in the no-skill runs becomes a short
+   "excuse / reality" list on the card. A scenario where the skill makes no difference is dropped.
+4. **Review:** a fresh reviewer with no part in the build reviews it against this plan; I assess; you approve;
    installed.
-2. **Move the playbook's team text** (later, a playbook task through its own flow): WORKBOARD.md Rules keep only
-   project additions, with a pointer to the skill; HANDOFF.md "Who does what" and "How work flows" keep the project
-   facts and point to the skill for the rest; CODEX-REVIEW.md's method points to `review.shape`; `workers/*.md` follow
-   the template. `inbox/README.md` stays: it is the playbook's content flow for outside contributors, and public.
-   Nothing in the skill depends on the playbook.
+5. **Move the playbook's team text** (later, a playbook task through its own flow): WORKBOARD.md keeps only project
+   additions, with a pointer to the skill, and adopts the task table's columns and Proposals; HANDOFF.md keeps the
+   project facts; CODEX-REVIEW.md's method points to REVIEW.md; `workers/*.md` follow the handoff template; the
+   playbook's Codex link moves to `~/.agents/skills`. `inbox/README.md` stays. Nothing in the skill depends on the
+   playbook.
 
 ## Sources
 
 Read on 17 Nov 2026. "No date" means a living docs page with no date on it.
 
+Published:
 - Anthropic, "Building effective agents", 19 Dec 2024. https://www.anthropic.com/engineering/building-effective-agents
 - Anthropic, "How we built our multi-agent research system", 13 Jun 2025.
   https://www.anthropic.com/engineering/multi-agent-research-system
@@ -207,18 +244,30 @@ Read on 17 Nov 2026. "No date" means a living docs page with no date on it.
   https://www.anthropic.com/engineering/harness-design-long-running-apps
 - Cognition, "Don't build multi-agents" and "Multi-agents: what's actually working" (2026), as in the first plan.
 - Claude Code docs, no date: best practices; skills https://code.claude.com/docs/en/skills; agent teams
-  https://code.claude.com/docs/en/agent-teams; costs https://code.claude.com/docs/en/costs
-- Claude prompting best practices, no date.
-  https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  https://code.claude.com/docs/en/agent-teams; hooks https://code.claude.com/docs/en/hooks
 - Codex skills docs, no date (developers.openai.com/codex/skills now redirects here).
-  https://learn.chatgpt.com/docs/build-skills ; source: https://github.com/openai/codex (`codex-rs/ext/skills`,
-  `codex-rs/skills/src/parser.rs`); symlink support PR #8801, 7 Jan 2026; `.agents/skills` PRs #10317 and #10437,
-  1 and 3 Feb 2026.
+  https://learn.chatgpt.com/docs/build-skills ; source https://github.com/openai/codex (`codex-rs/ext/skills`,
+  `codex-rs/skills/src/parser.rs`); symlinks since PR #8801, 7 Jan 2026; `.agents/skills` since PRs #10317 and
+  #10437, 1 and 3 Feb 2026.
 - Agent Skills specification, last changed 4 Aug 2026. https://agentskills.io/specification
-- OpenAI, "A practical guide to building agents", Apr 2025 (the PDF has no date; its metadata says 7 Apr 2025).
+- OpenAI, "A practical guide to building agents", Apr 2025 (PDF undated; metadata 7 Apr 2025).
   https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf
-- Cemri et al., "Why Do Multi-Agent LLM Systems Fail?" (MAST), arXiv 2503.13657, v3 26 Oct 2025 (percentages from
-  v3). https://arxiv.org/abs/2503.13657
+- Cemri et al., "Why Do Multi-Agent LLM Systems Fail?" (MAST), arXiv 2503.13657, v3 26 Oct 2025.
+  https://arxiv.org/abs/2503.13657
 - METR, "Recent frontier models are reward hacking", 5 Jun 2025. https://metr.org/blog/2025-06-05-recent-reward-hacking/
 - Simon Willison, "Embracing the parallel coding agent lifestyle", 5 Oct 2025.
   https://simonwillison.net/2025/Oct/5/parallel-coding-agents/
+- Colin Eberhardt, "Putting Spec Kit through its paces", Scott Logic, 26 Nov 2025.
+  https://blog.scottlogic.com/2025/11/26/putting-spec-kit-through-its-paces-radical-idea-or-reinvented-waterfall.html
+
+Prior art (read at the source):
+- Superpowers 7.0.0 (Claude Code plugin, installed on the Mac): `subagent-driven-development` (SKILL.md, implementer,
+  task-reviewer and re-review prompts), `brainstorming`, `writing-skills` (incl. testing-skills-with-subagents.md),
+  `verification-before-completion`, `using-git-worktrees`.
+- BMAD Method, https://github.com/bmad-code-org/BMAD-METHOD, main at e435a22 (12 Nov 2026), v6.12.4 (14 Oct 2026):
+  CHANGELOG (#2539, #2563, #2675), docs/build/build-a-change.md and review-a-change.md, bmad-build step-01.
+- GitHub Spec Kit, https://github.com/github/spec-kit, 617d9fb (17 Nov 2026); launch post 2 Sep 2025.
+- Gas Town, https://github.com/gastownhall/gastown, 94cc8228 (12 Nov 2026): docs/design/polecat-lifecycle-patrol.md,
+  mol-refinery-patrol formula; issues #4505, #4535, #4949. Beads, https://github.com/gastownhall/beads, 126b30aad
+  (17 Nov 2026): docs/integrations/codex.md. Steve Yegge, "Welcome to Gas Town", 1 Jan 2026, and "Introducing
+  Beads", 13 Oct 2025, https://steve-yegge.medium.com/
