@@ -36,8 +36,8 @@ Board and sessions
 
 1. `board.one-source`: every task, decision and correction is written on the board first; a message only says "board
    updated, pull", plus anything urgent. Why: messages between agents get lost or half-read; one written place survives
-   restarts. Basis: Cyril, 9 Nov ("y'all are miscommunicating a lot"); Anthropic, long-running harnesses (a progress
-   file plus git).
+   restarts. Basis: Cyril, 9 Nov ("y'all are miscommunicating a lot"); Anthropic, long-running harnesses (a
+   progress file plus git).
 2. `board.session-start`: a session starts by pulling, then reading the board, its own handoff and the director's
    profile. A resumed or summarised session is a new one. Why: a summary of the rules is not the rules. Basis: Anthropic,
    long-running harnesses (each session reads the progress file); Cyril, 13 Nov (approved the resumed-session line).
