@@ -20,7 +20,7 @@ the answer (added after the held-out test, 17 Nov: Codex read "live beats the sk
 round). A board can
 tighten or add a rule for its project, saying so on the board; it doesn't copy the skill's text.
 
-Assumes: the project is a git repo, and the team has one manager. This is v1, drawn from one project and nine days of
+Assumes: the project is a git repo, and one team with one manager per board. This is v1, drawn from one project and nine days of
 the director's corrections (9 to 17 Nov 2026). Each new correction goes in through README's "how a rule is added",
 with its date.
 
@@ -51,11 +51,13 @@ agent-team/
                          reviewer), each pointing to the form or card behind it; "after a summary, trust the board
                          and git log over memory, and re-read this file"
   RULES.md               the judgment cards, with ids
-  templates/BOARD.md     blank board: Roles, Project rules (additions only), Decisions, Tasks table, Proposals
+  templates/BOARD.md     blank board: Roles, Project rules (additions only), Decisions, Tasks table, Noticed
   templates/BRIEF.md     a task brief, with the builder's Report at the end
   templates/REVIEW.md    a review, with the re-review at the end
   templates/HANDOFF.md   a worker's handoff
   hooks/                 optional: re-inject the session start after a summary (Claude Code and Codex)
+  inbox/                 team corrections from other projects, one new file each; only the skill's manager edits
+                         the skill (agreed with the playbook's manager, 17 Nov)
   README.md              for people: what it is, how to install, how a rule or field is added
   PLAN.md                this file
 ```
@@ -95,13 +97,14 @@ The manager copies what matters onto the board. Basis: the one-writer rule appli
 9 Nov.
 
 Above the table: the board's first line ("Team rules: the agent-team skill; read it first") and the branch holding the
-last approved state (Cyril, 9 Nov). Below it, **Proposals**: anything a worker noticed outside its task, with the task
-it came from. Nobody acts on a proposal until the manager makes it a task. Basis: BMAD deferred-work; Beads
+last approved state (Cyril, 9 Nov). Below it, **Noticed**: anything a worker noticed outside its task, with the task
+it came from. Nobody acts on one until the manager makes it a task. (Named "Noticed", not "Proposals", so it doesn't
+clash with a project's own proposals flow, like the playbook's `inbox/`.) Basis: BMAD deferred-work; Beads
 `discovered-from`.
 
 **BRIEF.md** (Content and Design). Filled in as `briefs/<id>.md` in the project, linked from the task row, since a
 message only says "pull". Objective; output; tools and sources; Files (only these); Branch; Done when (the
-checks, settled before work starts); Out of scope (anything else goes to Proposals; tests and checks are never edited to
+checks, settled before work starts); Out of scope (anything else goes to Noticed; tests and checks are never edited to
 pass); Board commit (the board version the brief was cut from). Basis: Anthropic, multi-agent research; Anthropic,
 harness design (agree what done is "before any code was written"); Anthropic, long-running harnesses ("unacceptable to
 remove or edit tests"); Superpowers (record the base commit before dispatch).
@@ -190,7 +193,7 @@ Plain writing, no em dashes and "step back" are Cyril's, in his profile.
 
 Who holds which role; threads, environments and machines; logins, git identity and push commands; paths; the project's
 checks (lint, tests); who approves which layer; the reviewer's brief (the playbook's CODEX-REVIEW.md); the task table,
-proposals and dated decisions; filled briefs in `briefs/`; workers' handoff files in `workers/`.
+the Noticed list and dated decisions; filled briefs in `briefs/`; workers' handoff files in `workers/`.
 
 ## How it loads (checked 17 Nov)
 
@@ -242,7 +245,7 @@ proposals and dated decisions; filled briefs in `briefs/`; workers' handoff file
 4. **Review:** a fresh reviewer with no part in the build reviews it against this plan; I assess; you approve;
    installed.
 5. **Move the playbook's team text** (later, a playbook task through its own flow): WORKBOARD.md keeps only project
-   additions, with a pointer to the skill, and adopts the task table's columns and Proposals; HANDOFF.md keeps the
+   additions, with a pointer to the skill, and adopts the task table's columns and Noticed; HANDOFF.md keeps the
    project facts; CODEX-REVIEW.md's method points to REVIEW.md; `workers/*.md` follow the handoff template; the
    playbook's Codex link moves to `~/.agents/skills`. `inbox/README.md` stays. Nothing in the skill depends on the
    playbook.

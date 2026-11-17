@@ -4,7 +4,7 @@ A skill for one human director running a team of AI agents on long work: a manag
 separate sessions or on separate machines, with Claude Code and Codex together. It holds the general rules; each
 project's board holds its own facts (who, where, logins, checks), and the director's profile holds personal style.
 
-v1, drawn from one project (the motion playbook) and the director's corrections of 9 to 17 Nov 2026. Why it is shaped
+Assumes one team, with one manager, per board. v1, drawn from one project (the motion playbook) and the director's corrections of 9 to 17 Nov 2026. Why it is shaped
 this way, and every source, is in [PLAN.md](PLAN.md).
 
 ## What's here
@@ -58,7 +58,8 @@ agent to re-read the skill and trust the board. Mac only for now: on Windows it 
 
 ## Adding a rule or a field
 
-A new rule starts as a correction from the director, with its date.
+A new rule starts as a correction from the director, with its date. From another project, it arrives as a file in
+`inbox/` (see `inbox/README.md`); only the skill's own manager edits the skill.
 
 1. If it is checkable (something an agent can leave out), add it as a field in a template, with a one-line comment
    giving why and basis.

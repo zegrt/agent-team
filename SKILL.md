@@ -5,7 +5,7 @@ description: Use when working in a team of AI agents run by a human director - a
 
 # Agent team
 
-One director, one manager, builders and reviewers, each in its own session. The board is the record; messages only
+One director, one manager, builders and reviewers, each in its own session; one team per board. The board is the record; messages only
 point to it. The checks live in forms (`templates/`); the judgment calls live in cards (`RULES.md`). This file is the
 start; read the form or card it points to when you reach that step.
 
@@ -30,7 +30,8 @@ Every task has a size, stated in plain words on its row, so the director can ove
 and step up a size. Judge by three facts: gaps in what the director asked for; anything irreversible or
 outward-facing; how much it touches.
 
-- **Small** (pointers, typos, board edits): the manager does it and says so. No brief, no review.
+- **Small** (pointers, typos, board edits): the manager does it and says so. No brief and no independent review, but
+  any approval the board requires still applies.
 - **Content:** brief, builder, one independent review, the director's approval.
 - **Design** (structure, a new approach): a written plan to the director first. Don't assign, queue or start the build
   until the director approves the plan.
@@ -53,14 +54,15 @@ outward-facing; how much it touches.
 - A quiet worker is not a dead one: ask the director to wake it; never reassign its task (`team.unreachable`).
 
 **Builder.**
-- Do only the brief. Anything else you notice goes in your report as a proposal.
+- Do only the brief. Anything else you notice goes in your report under Noticed.
 - Work in your own worktree on the task's branch: if your folder is shared, make it yourself and say where it is
   (`git worktree add ../<project>-<id> -b <branch>` for a new branch, without `-b` if the branch exists). Check the
   branch before every commit.
 - Never edit or remove a test or check to make it pass.
 - Done means the brief's checks were run and their output is in your report. Fill the Report block at the end of the
   brief; the status is one of four (done, done with concerns, needs info, blocked), and silence is not a status.
-- Never review your own task, even if asked: its approval counts for nothing.
+- Check your own work before reporting, always: run the brief's checks and look at the result. That check is not the
+  review. The independent review is never yours, even if asked: a builder's own review counts for nothing.
 
 **Reviewer.** Start clean: read the brief and the work, not the builder's account of it. Write the review with
 `templates/REVIEW.md` as `reviews/<id>.md`. Ask what is missing. Change nothing else and never move a branch.

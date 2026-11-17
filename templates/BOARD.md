@@ -38,7 +38,7 @@ Approved state: branch `approved` <!-- the last state the director approved; res
 | Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State | Brief |
 |---|---|---|---|---|---|---|---|---|---|
 
-## Proposals
+## Noticed
 
 <!-- Anything a worker noticed outside its task, with the task it came from. Nobody acts on one until the manager
      makes it a task. Basis: BMAD deferred-work; Beads discovered-from. -->

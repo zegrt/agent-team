@@ -30,7 +30,7 @@ it. If the work grows, stop, say so and step up a size.
 - **fix:** small and clear, inside the task's Files;
 - **rewrite the brief:** the cause is upstream (when torn between this and fix, choose this);
 - **ask the director:** the director's intent is unclear, it changes structure or design, or it changes the team's rules;
-- **later:** it was there before this task (goes to Proposals).
+- **later:** it was there before this task (goes to the board's Noticed list).
 
 A problem this task caused is never put off. A finding against the director's decisions is dropped, but listed for
 the director as "dropped: against decision X". Nothing is dropped silently.

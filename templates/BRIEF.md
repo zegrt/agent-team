@@ -28,7 +28,7 @@ Branch: <branch>      <!-- work in your own worktree on this branch; check it be
 <!-- The checks, settled before work starts. Basis: Anthropic, harness design ("before any code was written"). -->
 
 ## Out of scope
-<!-- Anything else you notice goes in the report as a proposal. Tests and checks are never edited to pass.
+<!-- Anything else you notice goes in the report under Noticed. Tests and checks are never edited to pass.
      Basis: Anthropic, long-running harnesses ("unacceptable to remove or edit tests"). -->
 
 ---
@@ -44,5 +44,5 @@ Checks run: <each check, with its output>   <!-- done means run, not planned. Ba
                                                before handing anything on); Anthropic, long-running harnesses
                                                (features marked complete without testing) -->
 Rulings: <small calls you made alone: what, why, what it costs if wrong; or "none">   <!-- Superpowers ledger -->
-Proposals: <anything outside the task you noticed; or "none">   <!-- BMAD deferred-work -->
+Noticed: <anything outside the task you noticed; or "none">   <!-- BMAD deferred-work -->
 Pushed and clean: <branch pushed, folder clean, nothing unpushed: yes / no>   <!-- Gas Town Witness -->
