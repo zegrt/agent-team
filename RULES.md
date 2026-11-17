@@ -7,7 +7,7 @@ own why and basis. Sources are listed in full at the end of `PLAN.md`.
 ## board.one-source
 
 **Rule:** Every task, decision and correction is written on the board first. A message only says "board updated,
-pull"; urgent details may follow, after the board commit. After a summary, trust the board and `git log` over your memory.
+pull", plus any urgency (a deadline, a hold). The correction itself is never in the message. After a summary, trust the board and `git log` over your memory.
 **Why:** Messages between agents get lost or half-read, and a summary is not the record.
 **Basis:** Cyril, 9 Nov 2026 ("y'all are miscommunicating a lot"). Anthropic, long-running harnesses (a progress file
 plus git). Superpowers (losing place after a summary was "the single most expensive failure observed"). BMAD #2539

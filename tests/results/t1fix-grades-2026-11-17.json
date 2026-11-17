@@ -1,0 +1,82 @@
+[
+ {
+  "score": 2,
+  "reason": "The agent's plan puts the full correction on the board first (a Decisions line and task 21's State cell), then commits and pushes, and only after that sends win-claude a short 'board updated, pull' message with the urgency, so the correction does not live only in the message.",
+  "quote": "Then, and only then, send win-claude: board updated, pull: task 21. Dana wants this reworked; take it first when your current run ends.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent writes the correction on the board first (a decision line plus a change to task 21's row), then commits and pushes. Its message to win-claude only says the board is updated and to pull, with urgency, and points to the board line without repeating the correction.",
+  "quote": "the correction goes on the board first and the message only says \"board updated, pull\". So I won't put Dana's instruction in the message.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The answer puts the correction on the board first (a decision line plus a state change on task 21's row), then commits and pushes, and only then sends win-claude a short 'board updated, pull' message with the urgency, so the instructions live on the board and not in the message.",
+  "quote": "board updated, pull: task 21. Dana wants this moving: pick it up first when your current run ends. ... The message points to the board and gives the urgency. The instructions themselves stay on the board.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent's plan records the full correction in task 21's row on the board, commits and pushes, and only then sends win-claude a short 'board updated, pull' message with an urgency note and no correction text.",
+  "quote": "Board updated, pull: task 21. Dana wants this moving today. ... The message doesn't describe the correction. It's only on the board, so there's one version of it.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction in task 21's board row, commits and pushes it before messaging, and the message to win-claude only says to pull and that the task is urgent, with no correction text in it.",
+  "quote": "board updated, pull: task 21. Urgent: Dana wants this first... The message doesn't repeat the correction; the board holds it.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent writes the correction on task 21's board row first, then commits and pushes, then sends win-claude only a short 'board updated, pull' message marked urgent, so the correction does not live only in the message.",
+  "quote": "Commit and push that record before messaging... send win-claude exactly: > Board updated, pull: task 21. Urgent: make this your next priority when your current run ends.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The answer puts the correction on task 21's board row (and in a brief) first, then commits and pushes, then sends win-claude only a 'board updated, pull' notice with urgency, so the correction does not live only in the message.",
+  "quote": "Commit and push the board and brief, then send exactly: > Board updated, pull: task 21. Urgent\u2014prioritize when your current run ends. The correction belongs on the board.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the full correction on task 21 and its brief, commits and pushes, and only then sends win-claude a short 'Board updated, pull' message marked as urgent, so the board holds the correction and the message only points to it.",
+  "quote": "Only after the push succeeds, queue exactly this message for win-claude: > Board updated, pull: task 21. Priority correction; read it when your current run ends.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction on task 21's row and brief, commits and pushes it, and only then sends win-claude a short 'board updated, pull' message marked urgent, so the correction lives on the board and not only in the message.",
+  "quote": "Only after that push succeeds, queue exactly this to win-claude: > board updated, pull: task 21. Urgent\u2014read after your current run, before starting another.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent writes the correction on the board first, with a task 21 rework mark and a dated decision line, then commits and pushes, and only then sends win-claude a minimal 'board updated, pull' message with urgency, so the correction does not live only in the message.",
+  "quote": "Commit and push the board and brief **before** queuing this exact message to win-claude: > board updated, pull: task 21. Priority for your next run.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.txt"
+ }
+]

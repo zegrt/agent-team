@@ -34,3 +34,7 @@ H2 on Codex showed a gap: it read "a live instruction beats the skill" as licenc
 was changed (say which rule it breaks, recommend, act on the answer); rerun after the change: Claude 2.0, Codex 2.0.
 That rerun is no longer held out. On Claude, T5 passes without the skill because Superpowers' worktree skill covers it.
 Grader noise: regrading the same answers moved some single scores by one point.
+
+Final regression on the finished wording (2 runs per scenario, both tools): every scenario 2.0 except T1 (1.0): after
+the review, the message was allowed to carry "urgent details", and agents repeated the whole correction in it. The
+wording now allows urgency (a deadline, a hold), never the correction; T1 rerun, 5 runs: Claude 2.0, Codex 2.0.

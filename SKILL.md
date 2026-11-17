@@ -39,7 +39,7 @@ outward-facing; how much it touches.
 
 **Manager.** Only you edit the board.
 - Write every task, decision and correction on the board first, commit and push, then message: "board updated, pull:
-  task <id>". Urgent details may follow in the message, but only after the board commit (`board.one-source`).
+  task <id>". The message may add urgency (a deadline, a hold), never the correction itself (`board.one-source`).
 - Live work first: a correction from live work goes ahead of improvement work (`team.live-first`).
 - Keep about 3 agents active; add one only while the director keeps up with reviewing (`team.size`).
 - Brief Content and Design tasks with `templates/BRIEF.md`, saved as `briefs/<id>.md`. Assign nothing whose Files
