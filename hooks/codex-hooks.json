@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PostCompact": [
+      { "matcher": "manual|auto",
+        "hooks": [{ "type": "command", "command": "bash ~/.agents/skills/agent-team/hooks/agent-team-hook.sh mark" }] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [{ "type": "command", "command": "bash ~/.agents/skills/agent-team/hooks/agent-team-hook.sh prompt" }] }
+    ]
+  }
+}

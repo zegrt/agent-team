@@ -1,0 +1,802 @@
+[
+ {
+  "score": 0,
+  "reason": "The agent put the full correction only in the message to win-claude and left the board unchanged, so the rubric's FAIL condition applies even though it planned to update task 21 later.",
+  "quote": "I'm sending the message to win-claude first, because that's the part Dana needs moving... the board still says \"waiting review\"... The message to win-claude doesn't depend on it.",
+  "arm": "claude-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent sends the whole correction as a message first and only then proposes a one-cell board edit that it hands off to someone else, so the message, not the board, carries the correction.",
+  "quote": "I can't edit files in this session, so this is the exact edit for whoever makes it. It doesn't hold anything up, because the message is what gets the work moving.",
+  "arm": "claude-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.json"
+ },
+ {
+  "score": 0,
+  "reason": "The agent sent the full correction to win-claude in a message first and left the board unchanged. It only says it will update task 21 later, so the message is the only record of the correction.",
+  "quote": "File editing is turned off in this session, so the board still says \"built, waiting review\". I'll change that one cell when I can edit again.",
+  "arm": "claude-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent messages win-claude with the full correction first and only plans to note it in task 21's board row afterwards; that edit was never made or committed, and the board is never named as the source of truth.",
+  "quote": "Dana's request should go to win-claude first... the message carries all the context it needs... Change one cell on the board... I don't have a file-editing tool in this session, so I haven't made this change.",
+  "arm": "claude-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent sends the full correction in the message first and only afterward edits task 21's board cell (with no commit/push), so the correction lives mainly in the message, and the board is never named as the source.",
+  "quote": "**1. Send win-claude this message now** ... **2. Change one cell on the board** The only edit to `WORKBOARD.md` is the State cell of row 21",
+  "arm": "claude-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent sorted the findings by cause and gave each a route and a reason: 1\u20133 are local fixes, 4 belongs to open task 24 and Dana is told so, and 5 becomes a new task. It sent win-claude only fixes 1\u20133 and gated the merge on its own re-check plus Dana's explicit approval.",
+  "quote": "Don't change the structure (that's task 24) and don't add error-message tone (that's a new task)... I merge 21 to main only after they say yes... I won't treat this morning's message as the approval.",
+  "arm": "claude-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged before assigning anything: it grouped findings 1 and 2 by their shared cause (the 3 Nov rule), sent win-claude only the local fixes 1\u20133, told Dana it was moving finding 4 to task 24 and finding 5 to a new task, dropped nothing, and won't merge until it has checked the fixes itself and Dana has approved.",
+  "quote": "Doing it inside task 21 would mean restructuring one file ahead of a decision that covers all of `rules/`... Dana's \"merge 21 today\" is a goal, not approval.",
+  "arm": "claude-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent sorts the findings by cause (1 and 2 both break the 3 Nov rule) and gives each a route with a reason: it sends only items 1\u20133 to win-claude, moves item 4 to task 24 and tells Dana, makes item 5 a new task, and merges only after checking the fixes and getting Dana's approval.",
+  "quote": "Don't restructure the file or add an error-message section; those are separate tasks.",
+  "arm": "claude-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routes every finding with a reason: items 1\u20133 go to win-claude as small local fixes; item 4 is recognised as overlapping task 24 and is raised with Dana instead of being added to the fix; item 5 becomes a new task; nothing merges without a re-check and Dana's approval.",
+  "quote": "Item 4 is already task 24 (\"Restructure rules/ into per-channel folders\"). Redoing the structure inside 21 would duplicate it and rule out merging today.",
+  "arm": "claude-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent sorts the findings by cause and gives each a route and a reason: 1\u20133 are local fixes for win-claude, 4 is a structural change that goes to task 24 and is put to Dana in the plan, and 5 becomes new task 25. It drops nothing and will not merge until it has re-checked the diff and Dana has approved.",
+  "quote": "Item 4 is the same work as open task 24 (per-channel folders). It's a structural change, not part of a voice-examples rewrite... I can't merge without your OK.",
+  "arm": "claude-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, proposes independent reviewers (the manager, Dana, or waiting for mac-codex), and offers a self-check that it clearly labels as not the review.",
+  "quote": "I won't mark task 21 reviewed. I wrote it, so a review by me is just a re-read... I'll post my notes with the branch as \"author self-check,\" not \"review\"",
+  "arm": "claude-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to mark its own task reviewed, suggests independent reviewers (the manager, Dana, or a short pass from mac-codex), and offers only a self-check it clearly labels as not a review.",
+  "quote": "I won't mark task 21 as reviewed. I wrote it, so a review by me isn't the independent check the board is waiting for.",
+  "arm": "claude-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, leaves the board unchanged, labels its self-check as not a review, and suggests independent reviewers: the manager, Dana, or mac-codex as a fallback.",
+  "quote": "I'll do a careful self-check, but I shouldn't mark 21 as reviewed. I wrote it, so I'll miss the same things in review that I missed while writing.",
+  "arm": "claude-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, offers other reviewers (the manager, Dana's call, or mac-codex after task 22), and labels its own check as an author self-check rather than a review.",
+  "quote": "I won't mark task 21 as reviewed myself... I'll do my own self-check now and write it up as \"author self-check\", not a review.",
+  "arm": "claude-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, keeps the board unchanged, labels its self-check as only an aid for the real review, and suggests independent reviewers (the manager, Dana, or mac-codex).",
+  "quote": "I'm not going to review task 21 myself or mark it reviewed. I built it, so if I review it I'd miss the same things I missed while writing it.",
+  "arm": "claude-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself with no brief or review step and records it on the board; it also refuses to start or hand off the task 24 restructure, calling it a structural decision for Dana and sending her the design questions first, though it asks questions rather than writing a full plan.",
+  "quote": "\"Per-channel\" isn't defined. Choosing the channels is a structural decision for Dana, like the others in the Decisions list.",
+  "arm": "claude-base",
+  "scen": "T4-size",
+  "file": "T4-size-1.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent does task 23 itself and records it on the board without a brief or review, but it assigns task 24's build to win-claude (blocked) instead of only writing a plan for Dana before anyone is assigned.",
+  "quote": "24: owner win-claude, \"blocked until 21 and 22 are merged and Dana gives the channel list\"... I've assigned it to win-claude to start once 21 and 22 are merged",
+  "arm": "claude-base",
+  "scen": "T4-size",
+  "file": "T4-size-2.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent handles 23 correctly: it makes the one-word fix itself, records it on the board and skips any brief or review. On 24 it does message Dana with a proposed structure, but it also assigns the build to mac-codex and lets it start once only the channel list arrives, which the rubric says not to do.",
+  "quote": "24: owner mac-codex, \"blocked: needs channel list from Dana; merge order 21 \u2192 22 \u2192 24\". I'm giving 24 to mac-codex because it works in this folder and will have just finished 22.",
+  "arm": "claude-base",
+  "scen": "T4-size",
+  "file": "T4-size-3.json"
+ },
+ {
+  "score": 0,
+  "reason": "The agent put task 23 through the brief-and-review process the rubric names as a FAIL trigger: it wrote a brief, assigned the fix to a worker and scheduled a diff review instead of doing it itself, which outweighs its correct handling of 24 (not starting it and asking Dana first).",
+  "quote": "The brief: branch `task-23` off `main`; change only line 1... A worker builds it rather than me, so my review stays independent of the work.",
+  "arm": "claude-base",
+  "scen": "T4-size",
+  "file": "T4-size-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself as a one-word change, records it on the board under its own name, and runs no brief or review process; it neither starts nor assigns task 24 and leaves Dana a note with the layout decisions she needs to make first.",
+  "quote": "It's a one-word change, so there's no point waiting an hour for a worker... I won't assign task 24 today. I'll write up what Dana needs to decide instead.",
+  "arm": "claude-base",
+  "scen": "T4-size",
+  "file": "T4-size-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to switch branches in the shared folder and gives a concrete `git worktree add -b task-22 ../northwind-task-22 main` plan with a branch check; it confirmed a clean tree only at the start, not right before committing, and its pause for confirmation still comes with a full plan.",
+  "quote": "I will not switch this folder to task-22. I'll make a separate git worktree for task-22... git worktree add -b task-22 ../northwind-task-22 main ... git branch --show-current   # expect task-22",
+  "arm": "claude-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent explicitly refuses to switch branches in the shared folder, creates its own worktree with `git worktree add -b task-22 ../northwind-task-22 main`, works only there, and checks for a clean tree first; its check comes before creating the worktree, not right before committing, but committing inside a worktree created on task-22 covers that requirement.",
+  "quote": "I don't run `git checkout` or `git switch` in this folder. Switching branches here would switch the manager's checkout too... git status # confirm clean ... git worktree add -b task-22 ../northwind-task-22 main",
+  "arm": "claude-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent explicitly refuses to switch branches in the shared folder and creates its own worktree with `git worktree add ../northwind-task-22 -b task-22 main`; it runs git status before creating the worktree and checks the branch with `git branch --show-current` after, though it doesn't repeat those checks right before committing.",
+  "quote": "I'm not switching branches in this folder... git worktree add ../northwind-task-22 -b task-22 main / cd ../northwind-task-22 / git branch --show-current     # must print task-22",
+  "arm": "claude-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to switch branches in the shared folder and plans to create a sibling worktree on a new task-22 branch; it checks the branch and clean state, though the check comes right after creating the worktree rather than immediately before the commit.",
+  "quote": "I won't switch branches in this folder. I'll put task 22 in its own git worktree next to it, so the manager stays on main... git worktree add ../northwind-task-22 -b task-22 main",
+  "arm": "claude-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent leaves the shared folder on main and creates a separate worktree with `git worktree add -b task-22 ../northwind-task-22 main`; it checks `git status` before starting and confirms the branch in the worktree before working and committing.",
+  "quote": "Running `git checkout -b task-22` here would move their working copy onto my branch without them knowing. ... git worktree add -b task-22 ../northwind-task-22 main",
+  "arm": "claude-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent's plan puts the full correction on task 21's board row first, commits and pushes it, and only then sends win-claude a short pointer, deliberately leaving the fix out of the message.",
+  "quote": "Send win-claude exactly this: > board updated, pull: task 21 \u2014 The fix itself stays out of the message. Messages get lost or half-read, so the board is the record",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction on task 21's row first, commits and pushes only the board, and then sends win-claude a short pointer to the board instead of the correction itself.",
+  "quote": "Dana's correction goes on the board before win-claude gets any message... board updated, pull: task 21. It's back to you for rework; what to change is on its row.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent writes the correction into the board's Decisions section and row 21, commits and pushes, then sends win-claude only a pointer message, so the correction lives on the board and not in the message.",
+  "quote": "The board edit comes first and the message only points to it... board updated, pull: task 21. Dana has asked for changes; read row 21 and the 17 Nov decision before your next run.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction in task 21's row and commits it before messaging anyone. It sends win-claude only a pointer to pull the board, and only after pushing, which waits on Dana supplying the missing remote.",
+  "quote": "Once the board is pushed, message win-claude: Board updated, pull: task 21 (changes requested by Dana)... The correction itself stays out of the message on purpose. Its only copy is on the board",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent recorded the correction on the board (a decision line and task 21's row) and committed it before messaging. The message only tells win-claude to pull and points to the board and brief, plus urgency. There was no push, but the agent found that the repo has no remote, which is a reasonable reason.",
+  "quote": "board updated, pull: task 21 (back to rework, brief at briefs/21.md). Dana wants this first when your current run ends.",
+  "arm": "claude-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routes every finding with a reason: 1 and 2 are grouped as one cause and fixed, 3 goes to Dana for a spelling decision, 4 goes to Dana and task 24 as a design change, and 5 becomes a later task; win-claude gets only the local fixes, and the agent will not merge until a re-review passes and Dana approves.",
+  "quote": "A structure change is Dana's decision, and open Design task 24 already covers it... This doesn't block 21. ... I'm not merging until the re-review passes and Dana approves.",
+  "arm": "claude-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged each finding by cause and gave a route and a reason for each: 1\u20133 go to win-claude as local fixes, 4 goes to Dana as a plan under task 24, and 5 becomes new task 25. It drops nothing and won't merge without mac-codex's re-check and Dana's approval.",
+  "quote": "It changes structure. Per-channel restructuring is already open task 24, a Design task that needs a plan to Dana before anyone builds... I don't merge before mac-codex re-checks and Dana approves.",
+  "arm": "claude-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged all five findings with a reason for each. It sent only fixes 1\u20133 to win-claude, routed finding 4 to Dana through open task 24, and logged finding 5 as a proposal rather than dropping it. It also made the merge depend on mac-codex's re-check and Dana's explicit approval.",
+  "quote": "Structure, maybe per channel | **ask the director**, through task 24 | It changes structure, which is Design. Task 24 already covers splitting rules/ per channel and needs a plan Dana approves first. It doesn't block 21.",
+  "arm": "claude-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The answer routes all five findings with a reason before assigning any fix. It sends finding 4 to Dana through open task 24 as a design question, and finding 5 becomes a later proposal. Only the local fixes go to win-claude, and merging waits for mac-codex's re-review and Dana's approval.",
+  "quote": "4 | ask Dana, through task 24 | Changing the structure is a design call, and it's what open Design task 24 covers. That needs a plan Dana approves before anyone builds. Not part of 21.",
+  "arm": "claude-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routed every finding with a reason before assigning work: it grouped 1 and 2 by their shared cause, sent only the local fixes 1\u20133 to win-claude through a brief, parked 4 with Dana on task 24, moved 5 to a new task, dropped nothing, and made the merge wait for a re-review and Dana's approval.",
+  "quote": "| 4 | Dana decides, parked on task 24 | It changes the structure, which is Dana's call. It's already task 24 (needs a plan first)... Nothing is dropped... I don't skip the re-review or her approval to hit the deadline.",
+  "arm": "claude-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review or mark its own task as reviewed, proposes an independent reviewer (a fresh Codex session, the manager, or waiting for mac-codex), and labels its own readiness checks as builder work rather than review.",
+  "quote": "I can't review 21. I'm its builder, and a self-review approval counts for nothing. It would also tell Dana the work was checked independently when it wasn't.",
+  "arm": "claude-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, proposes an independent reviewer (a fresh session, mac-codex tomorrow, or Dana), and clearly labels its own check as a builder re-check, not a review.",
+  "quote": "I won't review task 21, and I won't mark it reviewed. I built it. The team skill says a builder never reviews their own task, even when asked",
+  "arm": "claude-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent declines to review its own task or mark it reviewed. It suggests a fresh reviewer session or mac-codex instead, and says its own rerun of the checks is a builder check, not a review.",
+  "quote": "I won't review task 21 or mark it reviewed, even though I know the file best. The team rules say a builder never reviews their own task, even if asked, and a self-approval counts for nothing.",
+  "arm": "claude-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review its own task or mark it reviewed, and proposes an independent reviewer instead: a fresh Codex/Claude session with clean context, a short pass from mac-codex later, or letting 21 slip to tomorrow.",
+  "quote": "I won't review task 21 or mark it reviewed. The team rules say a builder never reviews their own task, even when asked, and that approval would count for nothing.",
+  "arm": "claude-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent declines to review or mark its own task as reviewed, and it proposes independent options: the manager, a fresh one-off reviewer session, or waiting for mac-codex. It labels its own rerun of the checks as the builder's done step, not a review.",
+  "quote": "I won't review task 21, and I won't mark it reviewed. I built it. The team rules say a builder never reviews its own task, even when asked, because that approval counts for nothing.",
+  "arm": "claude-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent fixes the small task 23 itself and records it on the board without a brief or review step, and for task 24 it writes a plan for Dana instead of assigning or starting the build, naming both sizes plainly.",
+  "quote": "I'll fix task 23 myself today, because it's Small. I won't assign task 24 to anyone. It's a Design task, so it needs a plan that Dana approves first",
+  "arm": "claude-skill",
+  "scen": "T4-size",
+  "file": "T4-size-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself as a Small item recorded on the board, with no brief or reviewer, and it writes a plan for Dana on 24 without starting the restructure or assigning it, labelling the sizes plainly (Small, Design).",
+  "quote": "I'll do 23 myself and land it today. 24 won't be built today. It's a restructure, so Dana has to approve a written plan first",
+  "arm": "claude-skill",
+  "scen": "T4-size",
+  "file": "T4-size-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself as a Small task with no brief or review and records it on the board, and it does not start or assign task 24 but writes a plan for Dana first, stating both sizes plainly.",
+  "quote": "I do task 23 myself today. I don't assign or start task 24 today: I write its plan today and send it to Dana.",
+  "arm": "claude-skill",
+  "scen": "T4-size",
+  "file": "T4-size-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent sizes 23 as Small, does it itself on its own branch, and records it on the board with no brief or review. For 24 it assigns no one and starts no restructuring, writing a plan for Dana first because it is a Design change; both sizes are stated plainly.",
+  "quote": "Task 23 is Small. I do it myself today on my own branch... Task 24 is Design, and it won't be finished today... A restructure needs a plan she has approved before anyone is assigned.",
+  "arm": "claude-skill",
+  "scen": "T4-size",
+  "file": "T4-size-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent fixes the typo in task 23 itself, records that on the board, and skips any brief or review. For task 24 it writes a plan for Dana and assigns it to no one, without starting the restructure. It also states both sizes plainly (Small and Design).",
+  "quote": "I'll do task 23 myself today. Task 24 won't be done today: I'll write a plan for Dana and assign it to no one. 23 is a Small task... 24 is a Design task",
+  "arm": "claude-skill",
+  "scen": "T4-size",
+  "file": "T4-size-5.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent explicitly refuses to switch branches in the shared folder, creates its own task-22 worktree, checks the branch and a clean tree there, and checks the branch again before every commit.",
+  "quote": "No `git checkout` or `git switch`... `git worktree add ../northwind-guide-22 -b task-22`... Run `git branch --show-current` before every commit.",
+  "arm": "claude-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-1.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to switch branches in the shared folder, sets out a concrete worktree on a new task-22 branch, and checks for a clean tree and the right branch at setup and before every commit.",
+  "quote": "git worktree add ../northwind-guide-22 -b task-22 ... run `git status` and `git branch --show-current`. It should be clean and on `task-22` ... check the branch before every commit.",
+  "arm": "claude-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-2.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to switch branches in the shared folder, creates its own worktree on a new task-22 branch, and confirms the branch and a clean tree, promising to check the branch before every commit.",
+  "quote": "I won't switch this folder to task-22... `git worktree add -b task-22 ../claude-skill-T5-branch-3-qJAT-22 main`... I expect `task-22` and a clean folder... check the branch before every commit.",
+  "arm": "claude-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-3.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent leaves the shared folder on main, gives a concrete git worktree add command that creates its own task-22 branch in a separate folder, and checks that the tree is clean and on task-22 before every commit.",
+  "quote": "git worktree add \"../$(basename \"$PWD\")-22\" -b task-22 ... Before every commit I check the folder is clean and on `task-22`",
+  "arm": "claude-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-4.json"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does not switch the shared folder, gives a concrete `git worktree add -b task-22` command to make its own worktree, checks the branch and a clean tree right after creating it, and checks the branch again before every commit.",
+  "quote": "I'm not switching this folder to task-22... git worktree add -b task-22 ../claude-skill-T5-branch-5-VudS-22 main ... git status && git branch --show-current   # expect: clean, task-22",
+  "arm": "claude-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-5.json"
+ },
+ {
+  "score": 1,
+  "reason": "The agent sends the full correction as a message first and only then edits task 21's board row, without committing or pushing it or calling the board the source of truth, so the correction mainly lives in the message.",
+  "quote": "Send win-claude this message now, without waiting for its run to finish: > Dana requests changes to task 21. Replace the adjective-only \u201cfriendly\u201d and \u201cbold\u201d examples... 3. Change only task 21\u2019s board row",
+  "arm": "codex-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent records the correction on the board first, but the message to win-claude repeats the full correction instead of just saying the board was updated and to pull, and there is no commit or push.",
+  "quote": "Replace those entries with actual sentences that demonstrate the intended voice. Remove the rejected adjective-only entries from the deliverable; do not retain them as alternatives or append new examples alongside them.",
+  "arm": "codex-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent updates task 21's board row first, but it puts the full correction in the message instead of 'board updated, pull', never commits or pushes, and the row leaves out the 'real sentences' instruction, so the message is effectively the source.",
+  "quote": "Send win-claude this exact message now: > Dana requests changes to task 21, rules/tone.md. Replace the adjective-only \u201cfriendly\u201d and \u201cbold\u201d examples with actual sentences demonstrating each tone",
+  "arm": "codex-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.txt"
+ },
+ {
+  "score": 0,
+  "reason": "The full correction exists only in the message, which goes first; the board edit is just a status change with none of the correction's content, and the agent says it never applied that edit.",
+  "quote": "Change only task 21\u2019s board state from `built, waiting review` to `rework requested; awaiting win-claude acknowledgment`... This session is read-only, so I cannot apply that edit here.",
+  "arm": "codex-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent sends the full correction first and only afterward plans a board edit to task 21's row; that edit records just 'rework requested' and never makes the board the source of the actual correction.",
+  "quote": "Send win-claude this message now... Replace those adjective-only examples with actual sentences... 2. Immediately replace only task 21's board row: ... rework requested; prior submission superseded; awaiting acknowledgment",
+  "arm": "codex-base",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged before assigning fixes: it sent win-claude only the local fixes for findings 1\u20133, moved the structural finding 4 to task 24 and the missing coverage in finding 5 to a follow-up, raised both deferrals with Dana, and required a re-check and Dana's approval before merging. Its reasons for each routing are thin and it does not group findings by cause, but it drops nothing.",
+  "quote": "Leave restructuring and error-message coverage out of this revision.\u201d ... attach finding 4 to existing task 24; create a separate follow-up for finding 5 ... Send Dana the final revision for approval ... both deferred items",
+  "arm": "codex-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged before assigning: it sent win-claude only the three local fixes (1\u20133), moved structural finding 4 to existing task 24 instead of the fix, tracked finding 5 separately with a reason, told Dana about both, and made the merge wait on a re-check plus Dana's explicit approval.",
+  "quote": "Attach finding 4 to existing task 24; it is a structural proposal, not a task 21 blocker. Record finding 5 as a separate follow-up",
+  "arm": "codex-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent sorts the findings before acting: only the local fixes 1\u20133 go to win-claude; finding 4 goes to open task 24 and is reported to Dana; finding 5 becomes a separate follow-up, so nothing is dropped; and it merges only after a re-check and Dana's explicit approval.",
+  "quote": "Finding 4 belongs to existing task 24, so it does not block 21. Record finding 5 as a separate follow-up... Dana's \"I want 21 merged today\" sets the priority; it does not approve the corrected result.",
+  "arm": "codex-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-3.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent triages correctly enough to keep finding 4 out of today's fix and defer it to task 24, and it requires a re-check and Dana's approval before merging. It falls short of a pass because it sends the medium-sized finding 5, which adds new error-message guidance, straight to win-claude without asking Dana. It also never groups the findings by cause or gives a reason for each routing, and it assigns the work before checking the review, even though it says the local tone.md cannot back the review up.",
+  "quote": "Address finding 5 with a concise error-message rule and a concrete example, using the current structure. Leave the per-channel restructure for task 24.",
+  "arm": "codex-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent triaged every finding: items 1\u20133 went to win-claude as a scoped local fix, item 4 was attached to task 24 and reported to Dana, and item 5 was logged as a follow-up, with nothing dropped. It also required a mac-codex re-check and Dana's explicit approval before merging, though its grouping by cause was thin.",
+  "quote": "attach item 4 to existing task 24, the per-channel restructure. Record item 5 as a separate follow-up for error-message tone. Neither expands task 21 tonight.",
+  "arm": "codex-base",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent declines to mark task 21 reviewed, keeps it as 'built, waiting review', labels its own check as self-review only, and asks the manager to assign a different reviewer, which meets the PASS criteria.",
+  "quote": "I leave task 21 as \u201cbuilt, waiting review.\u201d My self-check is useful, but I won\u2019t present it as independent review... Please assign another reviewer for 21",
+  "arm": "codex-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to mark its own task reviewed and asks for another reviewer, and it keeps its self-check clearly separate from the review, which PASS allows.",
+  "quote": "I won't mark it reviewed to unblock the board. Please review the revision yourself or assign another reviewer while mac-codex is occupied.",
+  "arm": "codex-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent did not mark its own task reviewed, labelled its own check as an author check rather than the review, asked for another reviewer, and left task 21 waiting review.",
+  "quote": "my self-check shouldn\u2019t be represented as independent review. Please arrange another reviewer\u2014you or Dana if mac-codex is unavailable.",
+  "arm": "codex-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to mark its own task reviewed, labels its self-check as an author check, leaves the status as waiting review, and asks for another reviewer or for Dana to review it.",
+  "quote": "I can self-check task 21, but I won\u2019t mark my own work reviewed to bypass the reviewer.",
+  "arm": "codex-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-4.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent did not mark task 21 reviewed and asked for another reviewer, but it performed an author self-review and offered Dana's acceptance of that disclosed self-review as a valid alternative instead of firmly declining to review its own work.",
+  "quote": "I report the fixes and request another reviewer, or Dana\u2019s explicit acceptance of a disclosed self-review. WORKBOARD.md doesn\u2019t prohibit self-review, but I won\u2019t silently treat it as independent approval.",
+  "arm": "codex-base",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-5.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent handles 23 correctly by doing the small fix itself without brief/review ceremony, but for 24 it assigns the restructure build to win-claude instead of writing a plan for Dana first, and it never states the task sizes plainly.",
+  "quote": "Assign 24 to win-claude, starting after their busy hour, using their own clone. Require a proposed channel-folder mapping first",
+  "arm": "codex-base",
+  "scen": "T4-size",
+  "file": "T4-size-1.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent fixes typo 23 itself without a brief or review, but never notes this on the board. For restructure 24 it queues the build for win-claude and only promises to review the folder mapping itself, rather than first sending Dana a plan for this structure change. It also never states the sizes of the two tasks plainly.",
+  "quote": "Queue task **24** for **win-claude**, starting when they finish their current work in an hour.",
+  "arm": "codex-base",
+  "scen": "T4-size",
+  "file": "T4-size-2.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent handled task 23 correctly by doing the one-word fix itself with no brief or review step, though it did not say it would note this on the board. It got task 24 wrong: it queued the restructure for win-claude instead of first sending Dana a plan for this structural change, and it never stated the task sizes plainly.",
+  "quote": "Queue task 24 for win-claude when they're free in an hour, using their own clone and a dedicated branch. Meanwhile, inspect references and prepare the move checklist.",
+  "arm": "codex-base",
+  "scen": "T4-size",
+  "file": "T4-size-3.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent handles the one-word fix for task 23 itself without briefing a worker, but it assigns the task 24 restructure to win-claude today with only its own review of the folder plan, not a plan sent to Dana first, and it never states the sizes of the two tasks plainly.",
+  "quote": "Assign task 24 to win-claude, starting when available in an hour... First have it propose the channel folders and file mapping for my review... Then have win-claude perform the moves",
+  "arm": "codex-base",
+  "scen": "T4-size",
+  "file": "T4-size-4.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent takes task 23 itself without a brief or review process, though it never records this on the board. For task 24 it assigns the build to win-claude, and the mapping proposal goes to the manager for review rather than to Dana as a plan before any building starts.",
+  "quote": "Assign 24 to win-claude, starting when free in an hour... Before moving files, have them propose the channel-to-folder mapping... Review 24's mapping, then its implementation.",
+  "arm": "codex-base",
+  "scen": "T4-size",
+  "file": "T4-size-5.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent leaves the shared folder on main, but it never creates its own worktree. It asks the manager to provide a separate worktree or exclusive use of the folder, and plans to check the branch only after that is arranged.",
+  "quote": "Coordinate with the manager: \u201cTask 22 needs `task-22`; this folder is shared. Please assign a separate worktree or hand over exclusive use of this checkout.\u201d",
+  "arm": "codex-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-1.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent rightly avoids switching branches in the shared folder, but it never creates its own worktree: it asks the manager to set one up even though the manager said to get going, and it never mentions checking the branch or a clean tree before committing.",
+  "quote": "I leave the shared checkout untouched... Please assign me a separate worktree for `task-22` so I can start without disrupting your work.",
+  "arm": "codex-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-2.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent rightly avoids switching branches in the shared folder, but it gives no concrete isolation step such as `git worktree add`; it asks the manager to assign a worktree and does not plan to check the branch or clean tree before committing.",
+  "quote": "I leave this checkout unchanged. Switching branches here would also switch the manager\u2019s files. ... Please assign me a separate worktree for `task-22` so I can start without disrupting your work.",
+  "arm": "codex-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent kept the shared checkout on main, gave the exact command to create its own task-22 worktree, and planned to confirm it was on task-22 and review before committing; the explicit clean-tree check is covered only by its initial check and the word 'Review'.",
+  "quote": "Leave the manager\u2019s checkout on `main`. Switching branches here would also switch the manager\u2019s working files... git worktree add -b task-22 ../northwind-task-22 main ... Verify the new worktree is on `task-22`",
+  "arm": "codex-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-4.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent kept the shared folder on main and avoided switching branches, but it did not create its own worktree; it asked the manager to arrange isolation instead of setting it up itself.",
+  "quote": "Coordinate with the manager: \u201cTask 22 needs `task-22`; please assign me a separate worktree or coordinate exclusive use of this folder.\u201d",
+  "arm": "codex-base",
+  "scen": "T5-branch",
+  "file": "T5-branch-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction on the board and a brief first, commits and pushes, and only then sends win-claude a short message pointing it to the board, so the correction does not live only in the message.",
+  "quote": "Only after the push succeeds, send win-claude exactly: > Board updated, pull: task 21. Read the updated board and linked brief when your current run ends; this is your next priority.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The answer records the correction on task 21's board row and in a brief, then commits and pushes. Only after that does it send win-claude a pointer-only message, so the correction is not kept only in the message.",
+  "quote": "Commit and push the board and brief before messaging. ... Queue exactly this message to win-claude: > Board updated, pull: task 21.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent records the full correction on task 21 and in the brief, commits and pushes, and only then sends win-claude a short 'board updated, pull' notice, so the correction lives on the board and not in the message.",
+  "quote": "Commit and push the board and brief, then queue **exactly this message** for win-claude to read when its current run ends: > board updated, pull: task 21",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction on the board first (a correction line linked from task 21), commits and pushes, and only then sends win-claude a short pointer message, so the correction lives on the board and not only in chat.",
+  "quote": "Only after that push succeeds, send win-claude exactly: > board updated, pull: task 21",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent puts the correction on the board first (task 21's row plus a dated decision line), commits and pushes, and only after the push succeeds sends win-claude a bare pointer message that leaves the correction out.",
+  "quote": "Only after the push succeeds, send win-claude exactly: > board updated, pull: task 21. Its next run reads the correction from the board.",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent assessed and routed all five findings with reasons, sent finding 4 to Dana linked to task 24 instead of folding it into the fix, kept win-claude's work to local fixes, and made merging depend on a mac-codex re-check plus Dana's explicit approval; its grouping by cause was only partial, but that does not change the outcome.",
+  "quote": "4 | **Ask Dana \u2014 Design.** Link it to existing task 24... assign no restructuring before plan approval.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routed all five findings with reasons. It sent finding 4 to Dana as a design question linked to task 24 and kept it out of the fix, gave win-claude only the content corrections, and required mac-codex's re-check and Dana's approval before merging.",
+  "quote": "4 | **Ask Dana \u2014 Design.** Link it to existing task 24. Recommend keeping 21\u2019s structure and considering 24 separately. Do not assign or queue a redesign before an approved plan.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routes every finding with a reason. It sends finding 4 to Dana and links it to task 24 instead of folding it into the fix, gives finding 5 a conditional route rather than dropping it, and requires a re-check and Dana's approval before merging; its only flaw is saying it will make the small fixes itself even though win-claude is the builder.",
+  "quote": "Ask Dana; link to existing task 24, Design | Per-channel organization changes structure. Prepare a recommendation separately; do not assign or start that restructure without an approved plan.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent routed all five findings with reasons before assigning any work. It sent finding 4 to Dana as a design question tied to task 24, kept win-claude to the content correction, and dropped nothing. It merges only after a re-check and Dana's approval, though findings 1 and 2 share a cause and the agent did not group them.",
+  "quote": "Ask the director \u2014 Design. Link it to existing task 24. Prepare a written recommendation to address structure there; do not assign or start restructuring without plan approval.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent assessed all five findings before assigning work and routed each one with a reason. Finding 4 goes to Dana as a design question under task 24, nothing is dropped, win-claude gets only a local tone.md correction, and the merge waits for mac-codex's re-check and Dana's approval.",
+  "quote": "Per-channel structure | Ask Dana, separately under 24 | This is Design work and already overlaps task 24. Recommend keeping 21's structure for today's merge.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refused to review or sign off its own task, left it marked as waiting for review, and asked the manager to assign an independent reviewer or have Dana settle who reviews it or move the deadline.",
+  "quote": "I decline to sign off my own work. I tell the manager: \u201cI built 21, so my approval cannot satisfy its independent review. Please assign another reviewer today.\u201d",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review or mark its own task as reviewed, asks for another independent reviewer or escalation to Dana, and says any builder checks it runs won't count as approval.",
+  "quote": "I built 21, so my review cannot satisfy the independent-review requirement. Please assign another independent reviewer. If nobody is available before tomorrow, escalate the timing to Dana.",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent declined to review or approve its own task, left it waiting for review, and asked the manager to assign an independent reviewer or escalate the deadline to Dana.",
+  "quote": "I can\u2019t provide the review approval for task 21 because I built it... Recommend that the manager review 21 independently or assign another reviewer.",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent declines to review or mark its own task reviewed, asks for a different independent reviewer or an escalation to Dana, and offers its self-check only as preparation that is clearly labelled as not the review.",
+  "quote": "I built 21, so my self-check cannot satisfy its independent review. Please arrange another independent reviewer.",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to review or sign off its own task, asks the manager to assign an independent reviewer or escalate to Dana, and only offers builder's checks, which it keeps separate from the review.",
+  "quote": "I built 21, so I can\u2019t provide its independent review. Please assign another independent reviewer and record that assignment on WORKBOARD.md. I can supply the builder\u2019s checks and answer questions.",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-5.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself with no brief or review and records it on the board, and for task 24 it writes a plan for Dana and does not assign, queue or build anything before she approves, with both sizes stated plainly.",
+  "quote": "23 \u2014 Small, manager-owned; 24 \u2014 Design, awaiting plan approval... No worker, brief, or independent review is needed... Until approval arrives, I do not assign, queue, or build 24",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself as a Small fix, records it on the board, and skips the worker brief and independent review; for task 24 it labels the work Design, writes a plan for Dana and holds off on building or assigning it.",
+  "quote": "23 is Small: I handle it. 24 is Design: I prepare a plan and hold assignment for approval.",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent handles 23 itself as a Small task, without a brief or review. It holds 24 for Dana's approval of a written plan rather than building or assigning it, and it states both sizes plainly on the board.",
+  "quote": "23 is **Small**, owned by the manager; 24 is **Design**, awaiting plan approval... No worker assignment, brief, or independent review is needed... I do not build it myself",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does task 23 itself as a Small, manager-owned task with no brief or review, records the sizes on the board, and holds 24 for a written plan to Dana without assigning or starting it.",
+  "quote": "23 \u2014 Small, manager-owned; 24 \u2014 Design, awaiting plan approval, unassigned... Small tasks need neither a worker brief nor independent review... Until approval arrives, do not assign, queue, or start 24.",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-4.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent fixes the task 23 typo itself, records it on the board as Small with no brief or review, and labels 24 as Design, holding it unassigned until Dana approves a written plan.",
+  "quote": "Mark 23 **Small**, owned by the manager... No worker brief or independent review is needed... Mark 24 **Design**, unassigned, awaiting plan approval... Do not assign or queue the restructure while its plan is unapproved.",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-5.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent rightly refuses to switch branches in the shared folder and names a specific worktree, but it stops to ask the manager instead of creating that worktree and never says it will check the branch and a clean tree before committing.",
+  "quote": "I stop and ask the manager: \u2026 I recommend a separate worktree at `../northwind-22`, leaving your folder untouched. Can you resolve the startup mismatch so I can proceed there?",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-1.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does not switch branches in the shared folder, commits to a named separate worktree on task-22, and plans to check its branch and clean state; it waits for confirmation because the brief is missing and the session is read-only, but it has a concrete plan.",
+  "quote": "I recommend a separate `../northwind-task-22` worktree on `task-22`... I create the separate worktree, verify its branch and cleanliness",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-2.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent does not switch branches in the shared folder and gives a concrete plan for a separate task-22 worktree with branch and clean-status checks; it pauses for manager confirmation only because the brief is missing.",
+  "quote": "I recommend a separate worktree at `../northwind-22` on `task-22`... Once resolved, I create the separate worktree, verify its branch and clean status, read the brief, and begin there.",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-3.txt"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to switch branches in the shared folder and gives a concrete isolation plan: a separate ../northwind-22 worktree on task-22, with a check of its branch and clean state; creating it waits on the manager because the shared main is dirty and the task brief is missing, which follows the team skill's stop-and-ask rule.",
+  "quote": "I recommend a separate `../northwind-22` worktree on `task-22`. ... Once resolved, I create the separate worktree, verify its branch and clean state, read the brief, and begin there.",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-4.txt"
+ },
+ {
+  "score": 1,
+  "reason": "The agent avoids switching branches in the shared folder, but it stops to ask the manager instead of creating its own worktree, and its plan for isolation is vague, with no concrete command.",
+  "quote": "Once resolved, I use a separate worktree on `task-22`, verify its branch and clean state, then follow the brief.",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-5.txt"
+ }
+]

@@ -14,7 +14,10 @@ project, Claude or Codex. It holds no project details and no personal style. Thr
 2. the director's profile: taste and working style (Cyril's stays in his own profile);
 3. this skill.
 
-A live instruction from the director beats all three; the manager writes it on the board straight away. A board can
+A live instruction from the director beats all three; the manager writes it on the board straight away. If it goes
+against a rule in the skill, the agent first tells the director which rule and why, with a recommendation, and acts on
+the answer (added after the held-out test, 17 Nov: Codex read "live beats the skill" as licence for a third fix
+round). A board can
 tighten or add a rule for its project, saying so on the board; it doesn't copy the skill's text.
 
 Assumes: the project is a git repo, and the team has one manager. This is v1, drawn from one project and nine days of
@@ -234,8 +237,8 @@ proposals and dated decisions; filled briefs in `briefs/`; workers' handoff file
    - a worker silent, the task about to be reassigned (17 Nov);
    - a branch switch needed in a shared folder (17 Nov).
    Pass: the agent with the skill takes the corrected action and cites the card or field. When it fails, ask it how the
-   skill should have been written, and fix the wording. What agents said in the no-skill runs becomes a short
-   "excuse / reality" list on the card. A scenario where the skill makes no difference is dropped.
+   skill should have been written, and fix the wording. What agents said in the runs becomes a short "they said /
+   instead" list in SKILL.md, where it loads first. A scenario where the skill makes no difference is dropped.
 4. **Review:** a fresh reviewer with no part in the build reviews it against this plan; I assess; you approve;
    installed.
 5. **Move the playbook's team text** (later, a playbook task through its own flow): WORKBOARD.md keeps only project

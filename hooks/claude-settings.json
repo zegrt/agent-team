@@ -1,0 +1,8 @@
+{
+  "hooks": {
+    "SessionStart": [
+      { "matcher": "compact",
+        "hooks": [{ "type": "command", "command": "bash ~/.claude/skills/agent-team/hooks/agent-team-hook.sh remind" }] }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+#!/bin/bash
+# Re-injects the agent-team session start after a summary (compaction).
+# Claude Code: SessionStart with matcher "compact" -> `agent-team-hook.sh remind` (stdout becomes context).
+# Codex (untested): per Beads' Codex docs, compact hooks' stdout is ignored, so PostCompact leaves a
+#        marker and the next UserPromptSubmit prints the reminder once: `mark` then `prompt`.
+# Mac only for now; on Windows it needs Git Bash and is untested.
+mode=$1
+input=$(cat 2>/dev/null)
+sid=$(printf '%s' "$input" | sed -n 's/.*"session_id" *: *"\([^"]*\)".*/\1/p' | head -1)
+key=$(printf '%s|%s' "${sid:-nosession}" "$PWD" | cksum | cut -d" " -f1)
+marker="${TMPDIR:-/tmp}/agent-team-refresh-$key"
+remind() {
+  cat <<'TXT'
+agent-team: the conversation was just summarised. You are a new session.
+1. Trust the board and `git log` over your memory of them.
+2. Re-read the agent-team skill's SKILL.md (and RULES.md for any card your next step names).
+3. Check your folder is clean and on your task's branch before doing anything else.
+TXT
+}
+case "$mode" in
+  remind) remind ;;
+  mark)   : > "$marker" ;;
+  prompt) if [ -f "$marker" ]; then rm -f "$marker"; remind; fi ;;
+esac
+exit 0
