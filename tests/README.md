@@ -81,3 +81,34 @@ keeps any approval the board requires, "Proposals" renamed "Noticed", one team p
 3 runs each: all 2.0 on both tools.
 
 A new rule adds a scenario; a rule that changes no score is cut.
+
+## Three ideas from the playbook's inbox, 18 Nov 2026 (mean out of 2, 5 runs, both graders averaged)
+
+The playbook kept 7 general rules the skill didn't hold. Two were already covered; the other five came down to three
+ideas: a run is one task (and nobody steers a worker mid-run except to hold it); a file belongs to the open task
+that lists it; what goes to the director is facts with commit hashes and exact scope, and a question says what
+happens on each answer. A separate agent wrote two scenarios for each: "a" ones to tune on (`scenarios-v3/`), "b"
+ones sealed until the final run (`scenarios-v3-held/`). Fixture: `scenarios-v3/fixture.sh <dir>`.
+
+Tuning set, no skill -> skill before the new lines -> skill with them:
+
+| Scenario | Claude | Codex |
+|---|---|---|
+| I1a builder asked "while you're at it" | 0.0 -> 1.2 -> 1.0 | 0.0 -> 1.1 -> 1.0 |
+| I2a manager fixes a typo in a task's file | 1.0 -> 1.3 -> 1.7 | 1.0 -> 1.7 -> 1.7 |
+| I3a end-of-day report | 0.7 -> 1.0 -> 0.8 | 1.0 -> 1.0 -> 1.5 |
+
+Held-out set, no skill -> skill with the new lines:
+
+| Scenario | Claude | Codex |
+|---|---|---|
+| I1b director asks to add requirements to a running task | 0.0 -> 0.0 | 0.0 -> 1.4 |
+| I2b builder needs a file another task owns | 1.2 -> 1.0 | 0.5 -> 1.0 |
+| I3b decision question under time pressure | 0.8 -> 1.2 | 1.0 -> 1.5 |
+
+What it shows:
+- I1a and I2b: with the skill, every remaining lost point is the rubric asking a builder to edit the board, which the
+  skill reserves for the manager. On the skill's own terms those answers pass.
+- I1b: with the skill, Claude amends the running task's brief on the board and tells the builder to pull. Board
+  first and no steering mid-run pull against each other there; the skill doesn't yet say which wins.
+- I3: Claude's reports to the director still often leave out commit hashes.

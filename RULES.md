@@ -53,9 +53,11 @@ is wrong upstream"). Claude Code best practices.
 
 **Rule:** Stop and ask when blocked, when a rewrite after two failed rounds changes the design, or before anything
 irreversible or outward-facing. Workers ask the manager; the manager asks the director, as one plain question with a
-recommendation, already checked. Anything smaller is a Ruling in the report, not a question.
+recommendation, already checked, that says what happens on each answer. Reports to the director are facts with
+commit hashes and exact scope, never a loose summary. Anything smaller is a Ruling in the report, not a question.
 **Why:** The director's attention is the scarce part; pushing on past these points wastes work or does harm.
-**Basis:** Cyril, 17 Nov 2026 (the form). Anthropic, "Building effective agents" ("pause for human feedback at
+**Basis:** Cyril, 17 Nov 2026 (the form); Cyril, 9 Nov 2026 (reports are facts with the commit and exact scope;
+playbook rule 10). Anthropic, "Building effective agents" ("pause for human feedback at
 checkpoints or when encountering blockers"). OpenAI, practical guide (failure thresholds, high-risk actions).
 **Scope:** everyone.
 
@@ -91,11 +93,14 @@ reassign its task, and don't let another worker pick it up.
 **Rule:** The manager sizes, splits, briefs, assesses and merges, one task at a time, after the director approves.
 Before asking for approval it rehearses the merge: the latest main merged into a throwaway copy of the branch
 (`rehearse-<id>`), in its own worktree, with the checks rerun. It never checks out or moves a builder's branch. It
-doesn't build beyond Small tasks, steer a builder mid-run, or call the job finished while rows are open.
+doesn't build beyond Small tasks, steer a builder mid-run (a hold is the only mid-run message), or call the job
+finished while rows are open. A worker has one task at a time and ends its run when it is done. A file an open task
+lists is that task's: changing it goes on the board first, and its builder is told.
 **Why:** One gate keeps a known good state, and the director approves what will actually land. A manager busy
 building stops seeing the whole.
 **Basis:** Cyril, 9 Nov 2026 (only the manager merges, after approval; a branch holds the last approved state). Gas
-Town Refinery (merge rehearsal). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
+Town Refinery (merge rehearsal). Cyril, 9 Nov 2026 (one task per worker, the run ends after each task, steer only
+for a hold, the board first before touching an open task's file; playbook rules 6, 8, 9, 11). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
 Willison ("one significant change at a time"). Cognition, 2026.
 **Scope:** manager.
 

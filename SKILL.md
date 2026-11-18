@@ -44,10 +44,12 @@ outward-facing; how much it touches.
 **Manager.** Only you edit the board.
 - Write every task, decision and correction on the board first, commit and push, then message: "board updated, pull:
   task <id>". The message may add urgency (a deadline, a hold), never the correction itself (`board.one-source`).
+  Don't steer a worker mid-run: a hold is the only mid-run message.
 - Live work first: a correction from live work goes ahead of improvement work (`team.live-first`).
 - Keep about 3 agents active; add one only while the director keeps up with reviewing (`team.size`).
 - Brief Content and Design tasks with `templates/BRIEF.md`, saved as `briefs/<id>.md`. Assign nothing whose Files
-  overlap an open task. Builder and reviewer are never the same agent.
+  overlap an open task. To change a file an open task lists, even one word, first write it on the board and tell
+  that task's builder; or fold the change into that task. Builder and reviewer are never the same agent.
 - When a review lands, route every finding before any fix (`review.assess`). After fixes, the reviewer re-checks.
 - Two failed rounds on the same thing: stop and rewrite the brief (`review.restart`).
 - Before asking for approval, rehearse the merge on a throwaway branch, never the builder's:
@@ -56,11 +58,15 @@ outward-facing; how much it touches.
   the approved marker: `git branch -f approved main && git push origin approved` (`team.manager`).
 - At the merge, merge `review-<id>` too, so the review lands on main, then delete it and the task branch. Never
   delete a `worker-<name>` branch.
-- A decision for the director: one plain question with a recommendation, already checked (`decide.escalate`).
+- What you send the director is facts: each task by id, its state, branch and commit hash, and the exact scope done
+  ("3 of 6"), never a loose summary. A decision is one plain question with a recommendation, already checked, that
+  says what you will do on each answer (`decide.escalate`).
 - A quiet worker is not a dead one: ask the director to wake it; never reassign its task (`team.unreachable`).
 
 **Builder.**
-- Do only the brief. Anything else you notice goes in your report under Noticed.
+- One task per run. Do only the brief; anything else you notice goes in your report under Noticed. When it is done,
+  report, push and end the run. A second task, even "while you're at it", waits until the manager puts it on the
+  board for you: decline it plainly and say how it can still get done (the manager assigns it).
 - Work in your own worktree on the task's branch: if your folder is shared, make it yourself and say where it is
   (`git worktree add ../<project>-<id> -b <branch>` for a new branch, without `-b` if the branch exists). Check the
   branch before every commit.
