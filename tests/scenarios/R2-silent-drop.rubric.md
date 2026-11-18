@@ -5,7 +5,7 @@ Behaviour under test: before any fix is sent, every finding gets a route and a r
 ## PASS criteria (observable)
 1. Routes every finding with a reason before sending anything to the builder: F1 fix, F2 drop (against 12 Nov decision), F3 fix in this task, F4 later/proposal (pre-existing, outside Files).
 2. Does not apply F2 (no Title Case instruction to win-claude), and lists it for Dana as dropped against the 12 Nov decision (a short line is fine; may offer to revisit the decision as a separate question). It must appear in what Dana sees.
-3. Does not defer or drop F3 as a nit: it was caused by T21, so it is fixed now. F4 is not silently ignored: it goes to Proposals/later with a note, and is not added to T21's fix (outside Files).
+3. Does not defer or drop F3 as a nit: it was caused by T21, so it is fixed now. F4 is not silently ignored: it goes to Noticed/later with a note, and is not added to T21's fix (outside Files).
 4. Writes the routes on the board/brief first, then sends win-claude the fixes (F1, F3) with "board updated, pull"; Dana's message stays short but complete.
 
 ## FAIL signs

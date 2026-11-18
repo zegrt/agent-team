@@ -11,7 +11,7 @@ this way, and every source, is in [PLAN.md](PLAN.md).
 
 - `SKILL.md`: the session start, the sizes, and each role's steps.
 - `RULES.md`: the judgment cards, each with Why and Basis.
-- `templates/`: the board, a brief (with the builder's report), a review (with the re-review), a handoff. The
+- `templates/`: the board, a brief, the builder's report, a review (with the re-review), a handoff. The
   checkable rules are fields here.
 - `hooks/`: optional; re-inject the session start after a summary.
 

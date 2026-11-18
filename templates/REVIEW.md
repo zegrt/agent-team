@@ -1,9 +1,9 @@
 # Review <id>: <task>
 
-<!-- Saved as reviews/<id>.md. Reviewer: never the builder (Cyril, 17 Nov 2026). Start clean: read the brief and
-     the work, not the builder's account of it (Claude Code best practices: review in a fresh agent; Superpowers:
-     "Do Not Trust the Report"). Change nothing else and never move a branch (Superpowers reviewer prompt). One pass
-     (Cyril, 9 Nov 2026). -->
+<!-- Saved as reviews/<id>.md, committed only to review-<id> (made from main; the manager merges it). Reviewer: never the builder (Cyril, 17 Nov 2026).
+     Start clean: read the brief and the work, not reports/<id>.md (Claude Code best practices: review in a fresh
+     agent; Superpowers: "Do Not Trust the Report"). Change nothing else (Superpowers reviewer prompt). Find
+     everything in one go, not a drip of rounds (Cyril, 9 Nov 2026). -->
 
 Brief: briefs/<id>.md      Reviewed commit: <hash>   <!-- so the re-review checks the same change. Superpowers -->
 

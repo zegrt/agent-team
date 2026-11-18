@@ -42,7 +42,7 @@ the director as "dropped: against decision X". Nothing is dropped silently.
 
 ## review.restart
 
-**Rule:** After two failed review rounds on the same thing, stop fixing. Rewrite the brief, writing down what to keep.
+**Rule:** After two failed review rounds on the same thing, stop fixing (a round that passes doesn't count). Rewrite the brief, writing down what to keep.
 If the rewrite changes the design, it goes to the director first (`decide.escalate`).
 **Why:** By the third round the cause is upstream, and builder and reviewer otherwise loop.
 **Basis:** Cyril, 9 Nov 2026 (the kit was rebuilt smaller after two review rounds). BMAD ("a third pass ... something
@@ -62,7 +62,8 @@ checkpoints or when encountering blockers"). OpenAI, practical guide (failure th
 ## team.worktree
 
 **Rule:** Never switch branches in a folder someone else works in. Branch work goes in its own worktree
-(`git worktree add ../<project>-<id> -b <branch>`, or without `-b` if the branch exists). At session start and before every commit, check the folder is
+(`git worktree add ../<project>-<id> -b <branch>`, or without `-b` if the branch exists); if you can't (a sandbox),
+ask the manager. At session start and before every commit, check the folder is
 clean and on the task's branch; if not, stop and ask. Before removing a worktree, check nothing is unpushed.
 **Why:** Another agent's next commit lands on your branch; the check catches it before it does.
 **Basis:** Cyril, 17 Nov 2026 (Codex switched the shared folder; the manager's commit landed on `task-48`). BMAD
@@ -88,12 +89,14 @@ reassign its task, and don't let another worker pick it up.
 ## team.manager
 
 **Rule:** The manager sizes, splits, briefs, assesses and merges, one task at a time, after the director approves.
-Before asking for approval it merges the latest main into the branch, in its own worktree, and reruns the checks. It
+Before asking for approval it rehearses the merge: the latest main merged into a throwaway copy of the branch
+(`rehearse-<id>`), in its own worktree, with the checks rerun. It never checks out or moves a builder's branch. It
 doesn't build beyond Small tasks, steer a builder mid-run, or call the job finished while rows are open.
 **Why:** One gate keeps a known good state, and the director approves what will actually land. A manager busy
 building stops seeing the whole.
 **Basis:** Cyril, 9 Nov 2026 (only the manager merges, after approval; a branch holds the last approved state). Gas
-Town Refinery (merge rehearsal). Willison ("one significant change at a time"). Cognition, 2026.
+Town Refinery (merge rehearsal). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
+Willison ("one significant change at a time"). Cognition, 2026.
 **Scope:** manager.
 
 ## team.size

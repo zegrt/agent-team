@@ -1,3 +1,6 @@
 fixture/
+fixture-v2*/
+sv2-*/
 work/
-out/
+out*/
+*.log

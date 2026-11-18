@@ -11,18 +11,21 @@ start; read the form or card it points to when you reach that step.
 
 ## Every session, first
 
-1. `git pull --ff-only` in this skill's folder, then pull the project.
-2. Read the board, your own handoff (`workers/<you>.md`) and the director's profile, if the project has one.
+1. `git pull --ff-only` in this skill's folder, then pull the project. If you can't (no network, a sandbox), say so
+   to the manager and go on with what you have.
+2. Read the board, your own handoff if you have one (`git show origin/worker-<you>:workers/<you>.md`) and the
+   director's profile, if the board names one.
 3. Check your folder is clean and on the branch your task names. If the folder is shared and your task has its own
-   branch, make your own worktree for it (see Builder). If it is dirty or on a branch you can't explain, stop and ask
-   the manager. Never switch branches in a folder someone else works in (`team.worktree`).
+   branch, make your own worktree for it (see Builder); if you can't, ask the manager. If it is dirty or on a branch
+   you can't explain, stop and ask the manager. Never switch branches in a folder someone else works in (`team.worktree`).
 4. After a summary or a resume you are a new session: trust the board and `git log` over your memory, and re-read this
    file.
 
 Precedence: a live instruction from the director, then the board, then the director's profile, then this skill. The
 manager writes any live instruction onto the board straight away. If a live instruction goes against a rule here (for
-example "one more quick fix" after two failed rounds), don't follow it yet: tell the director plainly which rule it
-breaks and why the rule exists, give your recommendation, and act on the answer.
+example "one more quick fix" after two failed rounds), don't follow it yet: put it on the board as "pending: breaks
+<rule>, asked director", tell the director plainly which rule it breaks and why the rule exists, give your
+recommendation, and act on the answer. Nobody acts on a pending line.
 
 ## Size first
 
@@ -34,7 +37,7 @@ outward-facing; how much it touches.
   any approval the board requires still applies.
 - **Content:** brief, builder, one independent review, the director's approval.
 - **Design** (structure, a new approach): a written plan to the director first. Don't assign, queue or start the build
-  until the director approves the plan.
+  until the director approves the plan; then build it as Content.
 
 ## Your role
 
@@ -47,9 +50,12 @@ outward-facing; how much it touches.
   overlap an open task. Builder and reviewer are never the same agent.
 - When a review lands, route every finding before any fix (`review.assess`). After fixes, the reviewer re-checks.
 - Two failed rounds on the same thing: stop and rewrite the brief (`review.restart`).
-- Before asking for approval: merge the latest main into the branch in your own worktree and rerun the checks. Merge
-  one task at a time, only after the director approves, then move the approved marker:
-  `git branch -f approved main && git push origin approved` (`team.manager`).
+- Before asking for approval, rehearse the merge on a throwaway branch, never the builder's:
+  `git worktree add -b rehearse-<id> ../<project>-rehearse-<id> origin/<branch>`, merge the latest main, rerun the
+  checks, then remove that worktree and branch. Merge one task at a time, only after the director approves, then move
+  the approved marker: `git branch -f approved main && git push origin approved` (`team.manager`).
+- At the merge, merge `review-<id>` too, so the review lands on main, then delete it and the task branch. Never
+  delete a `worker-<name>` branch.
 - A decision for the director: one plain question with a recommendation, already checked (`decide.escalate`).
 - A quiet worker is not a dead one: ask the director to wake it; never reassign its task (`team.unreachable`).
 
@@ -59,17 +65,23 @@ outward-facing; how much it touches.
   (`git worktree add ../<project>-<id> -b <branch>` for a new branch, without `-b` if the branch exists). Check the
   branch before every commit.
 - Never edit or remove a test or check to make it pass.
-- Done means the brief's checks were run and their output is in your report. Fill the Report block at the end of the
-  brief; the status is one of four (done, done with concerns, needs info, blocked), and silence is not a status.
+- Done means the brief's checks were run and their output is in your report. Write it with `templates/REPORT.md` as
+  `reports/<id>.md` on the task branch; the status is one of four (done, done with concerns, needs info, blocked), and
+  silence is not a status.
 - Check your own work before reporting, always: run the brief's checks and look at the result. That check is not the
   review. The independent review is never yours, even if asked: a builder's own review counts for nothing.
 
-**Reviewer.** Start clean: read the brief and the work, not the builder's account of it. Write the review with
-`templates/REVIEW.md` as `reviews/<id>.md`. Ask what is missing. Change nothing else and never move a branch.
+**Reviewer.** Start clean: read the brief and the work, not the builder's report (`reports/<id>.md`). Write the review
+with `templates/REVIEW.md` as `reviews/<id>.md`, and commit it only to your own branch, `review-<id>`, made from main
+so it holds nothing but your review. Read the work with `git diff origin/main...origin/<branch>`; to run checks, use a
+detached worktree (`git worktree add --detach ../<project>-check-<id> origin/<branch>`). Ask what is missing. Change
+nothing else; never commit to the task branch or main.
 
-**Everyone.** Workers write only their own files: the report in their brief, their review, their handoff. At the end
-of each day's work, update and push your handoff (`templates/HANDOFF.md`). Stop and ask before
-anything irreversible or outward-facing.
+**Everyone.** Workers push only to their own branches: the builder to the task branch, the reviewer to `review-<id>`,
+and each worker's handoff (`templates/HANDOFF.md`, as `workers/<you>.md`) only to `worker-<you>`, updated and pushed
+at the end of each day's work. Only the manager commits to main; it reads workers' files with
+`git show origin/<branch>:<path>`. Stop and ask before anything irreversible or outward-facing (seen outside the
+team: publishing, sending, deleting others' work; pushing your own branch is neither).
 
 ## Red flags
 

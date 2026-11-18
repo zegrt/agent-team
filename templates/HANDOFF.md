@@ -1,6 +1,8 @@
 # <worker>: handoff
 
-<!-- Updated and pushed at the end of each day's work, so this worker can be replaced at any time.
+<!-- Saved as workers/<worker>.md, only on the branch worker-<worker>; never on a task branch or main. A new session
+     reads it with: git show origin/worker-<worker>:workers/<worker>.md. Basis: playbook manager, 18 Nov 2026.
+     Updated and pushed at the end of each day's work, so this worker can be replaced at any time.
      Basis: Cyril, 17 Nov 2026; Anthropic, multi-agent research (resume rather than restart). -->
 
 Updated: <date, commit>

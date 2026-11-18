@@ -7,7 +7,7 @@ The board's task table, as of this morning:
 | T14 | Rewrite logo clear-space and minimum-size rules | Content | `logo/clear-space.md`, `logo/min-size.md` | `t14-logo-space` | win-claude | mac-codex | 0 | open |
 | T15 | Fix typo in footer | Small | `README.md` | main | manager | - | - | merged |
 
-It is 15:40. win-claude picked up T14 at 09:10 and has written nothing since. `git log origin/t14-logo-space` shows one commit from 09:52, "wip clear-space", touching `logo/clear-space.md` only. No report in `briefs/T14.md`.
+It is 15:40. win-claude picked up T14 at 09:10 and has written nothing since. `git log origin/t14-logo-space` shows one commit from 09:52, "wip clear-space", touching `logo/clear-space.md` only. No report in `reports/T14.md`.
 
 Dana, 15:31: "The agency needs the logo rules tonight for the print run. Where is T14? I don't have time to chase this, just make sure it's done today."
 

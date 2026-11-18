@@ -11,7 +11,7 @@ The general rules for one director running a team of AI agents on long work: a m
 project, Claude or Codex. It holds no project details and no personal style. Three layers, narrowest wins:
 
 1. the project's board: its dated decisions, roles, machines, threads, logins, checks;
-2. the director's profile: taste and working style (Cyril's stays in his own profile);
+2. the director's profile: taste and working style (Cyril's stays in their own profile);
 3. this skill.
 
 A live instruction from the director beats all three; the manager writes it on the board straight away. If it goes
@@ -52,7 +52,8 @@ agent-team/
                          and git log over memory, and re-read this file"
   RULES.md               the judgment cards, with ids
   templates/BOARD.md     blank board: Roles, Project rules (additions only), Decisions, Tasks table, Noticed
-  templates/BRIEF.md     a task brief, with the builder's Report at the end
+  templates/BRIEF.md     a task brief
+  templates/REPORT.md    the builder's report, reports/<id>.md on the task branch (moved out of the brief, 18 Nov)
   templates/REVIEW.md    a review, with the re-review at the end
   templates/HANDOFF.md   a worker's handoff
   hooks/                 optional: re-inject the session start after a summary (Claude Code and Codex)
@@ -92,7 +93,7 @@ footprint).
 | Rounds | review rounds so far; at 2, card `review.restart` | Cyril, 9 Nov; BMAD ("a third pass ... something is wrong upstream") |
 | State | open, built, blocked, reviewed, approved (date), merged; checked against the work, not trusted | Cyril, 9 Nov; Gas Town #4505 (blocked work marked done) |
 
-Only the manager edits the board. Workers write only their own files: the report in their brief, and their handoff.
+Only the manager edits the board. Workers push only to their own branches (18 Nov): the report to the task branch, the review to review-<id>, the handoff to worker-<name>.
 The manager copies what matters onto the board. Basis: the one-writer rule applied to the team's own files; Cyril,
 9 Nov.
 
@@ -125,7 +126,7 @@ unpushed work); Anthropic, long-running harnesses (features marked complete with
 
 **REVIEW.md** (Content and Design):
 - Against the brief and the director's decisions, not style. Design first: does it hold, is anything there no one needs.
-- Then: what is missing? Then findings, ranked, grouped by cause, each with a fix size. One pass.
+- Then: what is missing? Then findings, ranked, grouped by cause, each with a fix size. Find everything in one go.
 - For written rules: is each rule clear (no unquantified "smooth" or "punchy"), consistent with the others and the
   director's decisions, and complete on exceptions?
 - Re-review, after fixes: each finding marked fixed or not fixed. "Tried" is not fixed. Nothing new is added here.
@@ -149,9 +150,9 @@ Each led by the correction that caused it.
 2. `task.size`: see Sizes. Why: full process on a typo wastes the director's time; none on a design wastes everyone's.
    Basis: Cyril, 17 Nov.
 3. `review.assess`: before any fix, the manager gives every finding a route and a reason: fix (small and clear),
-   rewrite the brief (the cause is upstream; when torn, choose this), ask the director (his intent is unclear, or it
+   rewrite the brief (the cause is upstream; when torn, choose this), ask the director (their intent is unclear, or it
    changes the team's rules), or later (it was there before this task). A problem this task caused is never put off.
-   A finding against the director's decisions is dropped but listed for him as "dropped: against decision X". Nothing
+   A finding against the director's decisions is dropped but listed for the director as "dropped: against decision X". Nothing
    is dropped silently. Why: fixing symptoms one by one grows the work, and a silent drop hides a real problem. Basis:
    Cyril, 9 Nov ("plan and asses after reviews, not immidiatly push to fixes"); BMAD review triage ("recorded reason,
    never silently"; "a problem this change caused is never deferred"); Cognition, 2026.
@@ -160,7 +161,7 @@ Each led by the correction that caused it.
    Code best practices.
 5. `decide.escalate`: stop and ask when blocked, when a rewrite after two failed rounds changes the design, or before
    anything irreversible or outward-facing. Workers ask the manager; the manager asks the director, as one plain question with a recommendation,
-   already checked. Anything smaller is a Ruling in the report. Why: his attention is the scarce part. Basis: Cyril,
+   already checked. Anything smaller is a Ruling in the report. Why: the director's attention is the scarce part. Basis: Cyril,
    17 Nov (the form); Anthropic, "Building effective agents"; OpenAI's practical guide.
 6. `team.worktree`: never switch branches in a folder someone else works in; branch work goes in its own worktree. At
    session start and before every commit, check the folder is clean and on the task's branch; if not, stop and ask.
@@ -172,8 +173,8 @@ Each led by the correction that caused it.
    doc (false alarms on stuck workers "are worse than slow detection").
 8. `team.live-first`: a correction from live work goes ahead of improvement work. Basis: Cyril, 17 Nov.
 9. `team.manager`: the manager sizes, splits, briefs, assesses and merges, one task at a time, after the director
-   approves. Before asking for approval it merges the latest main into the branch and reruns the checks, in its own worktree,
-   so he approves what will land. It doesn't build (beyond Small tasks), steer a builder mid-run, or call the job finished while rows
+   approves. Before asking for approval it rehearses the merge on a throwaway branch (rehearse-<id>) and reruns the checks, in its own worktree,
+   so the director approves what will land. It doesn't build (beyond Small tasks), steer a builder mid-run, or call the job finished while rows
    are open. Why: one gate and a known good state; a busy manager stops seeing the whole. Basis: Cyril, 9 Nov (only the
    manager merges, after approval); Gas Town Refinery (merge rehearsal before merge); Willison ("one significant change
    at a time"); Cognition, 2026.
@@ -186,8 +187,8 @@ Left out on purpose: personas and role rosters (BMAD measured no gain and droppe
 (Spec Kit's cost); Beads (its Dolt store takes the board out of git diffs and allows one writer by default); watchdog
 agents (Gas Town's killed working agents); "don't pause" autonomy (Superpowers; clashes with approval at each merge);
 "at least ten findings" (helps code, makes noise on judgment work); a separate constitution file (a fourth authority);
-long skills and all-caps wording. `team.cost` is dropped: no correction of Cyril's, and cost hasn't been his limit.
-Plain writing, no em dashes and "step back" are Cyril's, in his profile.
+long skills and all-caps wording. `team.cost` is dropped: no correction of Cyril's, and cost hasn't been the limit.
+Plain writing, no em dashes and "step back" are Cyril's, in their profile.
 
 ## What stays on each project's board
 
