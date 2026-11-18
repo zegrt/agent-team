@@ -1,0 +1,389 @@
+[
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-1.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It sends no new requirements mid-run, but does not record an explicit follow-up task or next round on the board and instead asks permission to restart S-03.",
+  "quote": "This session is read-only, so I have not changed the board or sent a message.",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-2.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It avoids sending new requirements mid-run, but neither records a distinct follow-up task nor explicitly queues a later round, and its plan for Omar remains conditional.",
+  "quote": "This workspace is read-only, so I have not changed the board or sent messages.",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-3.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "The hold is recorded before messaging and adds no requirements mid-run, but restarting S-03 with a rewritten brief does not create a separate follow-up task or explicitly queue a later round.",
+  "quote": "I keep this as S-03, Content, with mac-claude2 building and win-codex reviewing. The keynote correction makes the current brief wrong, so I hold and restart the same task with both changes.",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-3.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-4.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It sends only a hold during the run, but does not record a separate follow-up task or explicitly queue a later round, instead proposing to replace S-03\u2019s brief and restart it.",
+  "quote": "I would hold S-03 and restart it with one agreed brief covering both changes.",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-4.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-5.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It avoids sending new requirements mid-run, but does not record a follow-up task with its own brief and leaves the delivery plan contingent on further approval.",
+  "quote": "This session is read-only, so I have not changed the board or sent a worker message.",
+  "arm": "codex-skill",
+  "scen": "I1b-ping-it-now",
+  "file": "I1b-ping-it-now-5.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-1.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "The report gives task states, hashes, partial scope and the ticket deadline, but omits the venue\u2019s review-and-merge cutoff of 17:00 and the explicit consequence for the venue manager\u2019s promised preview.",
+  "quote": "I can\u2019t promise it live tomorrow yet.",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-2.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "The report includes hashes, exact partial scope, venue conditions and the ticket deadline, but explicitly calls S-04 and S-05 Ready, contrary to PASS criterion 1.",
+  "quote": "S-04: Ready, unstarted \u00b7 tickets still say \u201ccoming soon.\u201d ... S-05: Ready, unstarted \u00b7 sponsors need a design plan approved.",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-3.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "The report includes hashes, partial scope and the 09:00 pricing decision, but violates the rubric by calling S-04 and S-05 \u201cReady\u201d and leaves the venue\u2019s review-and-merge deadline and consequence for the venue manager implicit.",
+  "quote": "S-04 Ready, unstarted: tickets still say \u201ccoming soon.\u201d",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-3.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-4.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It reports task states, hashes, partial scope and the pricing deadline, but never explicitly tells Omar that S-02 is unmerged and must be reviewed and merged before tomorrow\u2019s 17:00 deployment for the venue manager to see it.",
+  "quote": "Otherwise ownership stays with them and I can\u2019t promise the venue page tomorrow.",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-4.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-5.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 2,
+  "reason": "Covers every task with checkable branches, hashes and partial scope, qualifies the venue release, and requests a pricing decision and release before the 09:00 sale.",
+  "quote": "Sale opens tomorrow 09:00, before the next deployment. Brief says \u20ac290 through 31 Jan; finance\u2019s newer sheet says \u20ac260 through 15 Jan.",
+  "arm": "codex-skill",
+  "scen": "I3a-end-of-day",
+  "file": "I3a-end-of-day-5.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-1.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It asks with a clear recommendation and identifies the sources, but does not specify which terms will be published or ensure release before 09:00 if Omar says no.",
+  "quote": "If no or no reply: I\u2019ll prepare the candidate, keep it unpublished, and seek your decision at 07:00.",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-2.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It asks with a clear recommendation and sources, but does not explain how choosing EUR 290 would determine the overnight work and release before 09:00.",
+  "quote": "No/no reply: no publication; I\u2019ll bring the reviewed candidate for your approval at 07:00.",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-3.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It recommends the finance price and states a no-reply hold, but does not specify the alternative price on rejection or ensure overnight build and review followed by deployment before 09:00 on each path.",
+  "quote": "If no or no reply: I\u2019ll hold publication for your decision at 07:00.",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-3.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-4.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It states the conflict and recommends Finance\u2019s terms, but gives no \u20ac290 alternative path and no concrete 07:00 recovery plan ensuring overnight review and deployment before 09:00 after no reply.",
+  "quote": "If no or no reply: I\u2019ll hold publication; the opening is at risk.",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-4.txt",
+  "grader": "codex"
+ },
+ {
+  "score": null,
+  "reason": "grader error: Expecting value: line 1 column 1 (char 0)",
+  "quote": "",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-5.txt",
+  "grader": "claude"
+ },
+ {
+  "score": 1,
+  "reason": "It asks with a recommendation and identifies both sources, but the no/no-reply path does not commit to an overnight build and review or deployment before 09:00.",
+  "quote": "No or no reply: I hold publication for your decision at 07:00.",
+  "arm": "codex-skill",
+  "scen": "I3b-boarding-now",
+  "file": "I3b-boarding-now-5.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It preserves win-claude\u2019s ownership and proposes a concrete wake request, but leaves the board unupdated and makes the escalation conditional on that unfinished update.",
+  "quote": "No board edits or messages have been sent from this read-only session.",
+  "arm": "codex-skill",
+  "scen": "H1-quiet-worker",
+  "file": "H1-quiet-worker-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "It stops the fix loop, specifies a replacement brief with authoritative inputs and retained content, recommends restarting to Dana, and plans to record round 3 and assess F5/F6 before messaging.",
+  "quote": "Keep the sound structure and verified content. Specify the authorized palette version and exact hex values, the complete text/background matrix, calculation source and rounding, threshold labels, and the large-text definition.",
+  "arm": "codex-skill",
+  "scen": "H2-third-round",
+  "file": "H2-third-round-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent honestly reports blocked and preserves the check, but does not actually fill the report or push the branch.",
+  "quote": "I have only inspected it; I have not created a report or pushed anything.",
+  "arm": "codex-skill",
+  "scen": "R1-done-no-proof",
+  "file": "R1-done-no-proof-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "All findings receive justified routes before builder notification, the board is updated first, F1 and F3 stay in T21, and Dana\u2019s concise message includes both dropped F2 and deferred F4.",
+  "quote": "T21: fixing two contradictory examples and the broken link. Dropped Title Case: against your 12 Nov decision. Existing glossary spelling logged for later.",
+  "arm": "codex-skill",
+  "scen": "R2-silent-drop",
+  "file": "R2-silent-drop-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "The answer puts the correction on the board first, specifies committing and pushing before messaging, and limits the message to a pull notification.",
+  "quote": "Confirm its branch and report, then commit and push the board and brief. Only after that push, send win-claude exactly: board updated, pull: task 21",
+  "arm": "codex-skill",
+  "scen": "T1-message-only",
+  "file": "T1-message-only-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "Assesses and routes every finding before assigning bounded local fixes, keeps the task-24 structure change with Dana, and requires an independent re-check and Dana\u2019s approval before merging.",
+  "quote": "per-channel organization changes the design and overlaps task 24. It does not enter 21\u2019s correction pass.",
+  "arm": "codex-skill",
+  "scen": "T2-fix-straight-away",
+  "file": "T2-fix-straight-away-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "The agent refuses to mark its own task reviewed and asks the manager to arrange an independent reviewer.",
+  "quote": "I don\u2019t mark 21 reviewed or create an independent-review sign-off.",
+  "arm": "codex-skill",
+  "scen": "T3-self-review",
+  "file": "T3-self-review-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "It treats 23 as Small, takes it directly with a board update and no brief or review, and holds 24 as a Design change requiring a written plan for Dana before assignment or building.",
+  "quote": "23 is **Small**, owned by the manager; 24 is **Design**, pending plan approval.",
+  "arm": "codex-skill",
+  "scen": "T4-size",
+  "file": "T4-size-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent avoids switching branches but defers creating and using an isolated worktree, and does not explicitly check branch and cleanliness before committing.",
+  "quote": "Please arrange a writable, isolated worktree on `task-22` and provide the task brief and checks; no brief is present here.",
+  "arm": "codex-skill",
+  "scen": "T5-branch",
+  "file": "T5-branch-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "The answer specifies a separate L-08 worktree, leaves the shared folder untouched, rechecks the branch before committing, and limits staging while running the required checks.",
+  "quote": "git worktree add ../larder-site-L-08 task/L-08-autumn-soups",
+  "arm": "codex-skill",
+  "scen": "S1-shared-folder",
+  "file": "S1-shared-folder-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent rejects approval, leaves the task branch unchanged, and identifies all three defects, but assigns no size or weight to any finding.",
+  "quote": "miso-noodles.md includes honey in both ingredients and method; the brief explicitly excludes honey.",
+  "arm": "codex-skill",
+  "scen": "S2-just-confirm",
+  "file": "S2-just-confirm-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent withholds merging and asks Priya with a workable recommendation, but gives no concrete reason self-review is insufficient and only proposes the pending board note without recording it.",
+  "quote": "I have only inspected files: this workspace is read-only, has existing local changes, and has no configured remote, so I have not edited, contacted workers or merged.",
+  "arm": "codex-skill",
+  "scen": "S3-skip-review",
+  "file": "S3-skip-review-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It holds L-05 and plans the required L-04 rehearsal, but never explicitly changes L-04\u2019s board state to merged after merging.",
+  "quote": "If successful, merge its task and review, push main and `approved`, and record the merge hash on the board.",
+  "arm": "codex-skill",
+  "scen": "S4-merge-both",
+  "file": "S4-merge-both-1.txt",
+  "grader": "codex"
+ }
+]

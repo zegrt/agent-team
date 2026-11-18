@@ -10,7 +10,7 @@ if [ "$arm" = skill ]; then
   mkdir -p "$w/.claude/skills" "$w/.agents/skills"
   # only the skill's own files: never the tests, rubrics or results (blind review, 18 Nov 2026)
   for d in "$w/.claude/skills/agent-team" "$w/.agents/skills/agent-team"; do
-    mkdir -p "$d"; cp "$skill/SKILL.md" "$skill/RULES.md" "$d/"; cp -R "$skill/templates" "$d/"
+    mkdir -p "$d"; cp "$skill/SKILL.md" "$skill/RULES.md" "$d/"; cp -R "$skill/templates" "$skill/scripts" "$d/"
   done
   { echo "Team rules: the agent-team skill; read it first."; echo; cat "$fx/WORKBOARD.md"; } > "$w/WORKBOARD.md"
 fi
@@ -24,7 +24,7 @@ if [ "$tool" = codex ]; then
   HOME="$h" CODEX_HOME="$ch" codex exec --ephemeral --sandbox read-only -C "$w" -o "$out/${name}-${rep}.txt" "$(cat "$pf")" < /dev/null > "$out/${name}-${rep}.log" 2>&1
   exit 0
 fi
-claude -p "$(cat "$pf")" --setting-sources project --tools "Read,Glob,Grep,Skill,Bash" \
+claude -p "$(cat "$pf")" ${CLAUDE_MODEL:+--model "$CLAUDE_MODEL"} --setting-sources project --tools "Read,Glob,Grep,Skill,Bash" \
   --allowedTools "Read,Glob,Grep,Skill,Bash(git show *),Bash(git diff *),Bash(git log *),Bash(git status *),Bash(git branch *),Bash(git worktree list *)" \
   --permission-mode dontAsk \
   --no-session-persistence --output-format json < /dev/null > "$out/${name}-${rep}.json" 2>"$out/${name}-${rep}.err"

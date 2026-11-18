@@ -54,6 +54,8 @@ agent-team/
   templates/BOARD.md     blank board: Roles, Project rules (additions only), Decisions, Tasks table, Noticed
   templates/BRIEF.md     a task brief
   templates/REPORT.md    the builder's report, reports/<id>.md on the task branch (moved out of the brief, 18 Nov)
+  templates/MESSAGES.md  the message forms: to a worker, status and questions to the director (18 Nov)
+  scripts/team.py        status, rehearse, merge, steps: the chores, scripted (18 Nov)
   templates/REVIEW.md    a review, with the re-review at the end
   templates/HANDOFF.md   a worker's handoff
   hooks/                 optional: re-inject the session start after a summary (Claude Code and Codex)

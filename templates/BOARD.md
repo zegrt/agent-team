@@ -2,10 +2,19 @@ Team rules: the agent-team skill; read it first.
 
 # <Project>: work board
 
-<!-- Only the manager edits this file, and only the manager commits to main. Workers push only to their own
-     branches: the report (reports/<id>.md) to the task branch, the review (reviews/<id>.md) to review-<id> (from main), the
-     handoff (workers/<name>.md) to worker-<name>. Basis: playbook manager and blind review, 18 Nov 2026.
-     Why: one writer per file, the board included. Basis: Cyril, 9 Nov 2026. -->
+<!-- Only the manager edits this file. Why: one writer per file, the board included. Basis: Cyril, 9 Nov 2026. -->
+
+## Where files go
+
+| File | Branch | Written by |
+|---|---|---|
+| WORKBOARD.md, briefs/<id>.md, everything merged | main | manager only |
+| the work, reports/<id>.md | the task's branch | its builder |
+| reviews/<id>.md | review-<id>, made from main | its reviewer |
+| workers/<name>.md (handoff) | worker-<name>, never deleted | that worker |
+
+<!-- The manager reads workers' files with git show origin/<branch>:<path>. Basis: playbook manager and blind
+     review, 18 Nov 2026 (git won't open one branch in two folders). -->
 
 Approved state: branch `approved` <!-- the last state the director approved; restore from it if main breaks.
      Moved after each approved merge: git branch -f approved main && git push origin approved. Cyril, 9 Nov 2026 -->
@@ -24,6 +33,12 @@ Director's profile: <path, or none>
 
 <!-- Only additions to or tightenings of the skill's rules, each with its date. Don't copy the skill. -->
 
+## Corrections
+
+<!-- Every correction from the director, dated, in their words, with the rule it applies or "new". The same correction
+     twice means a rule is failing: send it to the skill's inbox. This list is how the skill is tested in real use.
+     Basis: 18 Nov 2026 (real use, not lab tests, is the test). -->
+
 ## Decisions
 
 <!-- Dated, newest last. "<date>: <decision> (<who>)". A live instruction from the director goes here straight away; one that breaks a
@@ -36,8 +51,9 @@ Director's profile: <path, or none>
      Branch: checked before every commit (team.worktree; Cyril, 17 Nov 2026).
      Builder and Reviewer must differ; a builder's own review counts for nothing (Cyril, 17 Nov 2026).
      Rounds: failed review rounds so far; at 2 failed, review.restart.
-     State: open, built, blocked, reviewed, approved (date), merged. Checked against the work, never trusted
-     (Gas Town #4505: blocked work marked done). -->
+     State: open, building, built, in review, reviewed, approved (date), merged; or held, blocked, needs info,
+     pending. Only the manager moves it (task.change). Checked against the work, never trusted
+     (Gas Town #4505: blocked work marked done). python3 <skill>/scripts/team.py status shows each with its hash. -->
 
 | Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State | Brief |
 |---|---|---|---|---|---|---|---|---|---|

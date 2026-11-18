@@ -6,8 +6,9 @@ own why and basis. Sources are listed in full at the end of `PLAN.md`.
 
 ## board.one-source
 
-**Rule:** Every task, decision and correction is written on the board first. A message only says "board updated,
-pull", plus any urgency (a deadline, a hold). The correction itself is never in the message. After a summary, trust the board and `git log` over your memory.
+**Rule:** Every task, decision and correction is written on the board first. A message only points to it, in one of
+the shapes in `templates/MESSAGES.md`; the correction itself is never in the message. A correction to a task that
+is building changes it by `task.change`. After a summary, trust the board and `git log` over your memory.
 **Why:** Messages between agents get lost or half-read, and a summary is not the record.
 **Basis:** Cyril, 9 Nov 2026 ("y'all are miscommunicating a lot"). Anthropic, long-running harnesses (a progress file
 plus git). Superpowers (losing place after a summary was "the single most expensive failure observed"). BMAD #2539
@@ -18,11 +19,31 @@ plus git). Superpowers (losing place after a summary was "the single most expens
 ## task.size
 
 **Rule:** State each task's size in plain words: Small, Content or Design (see SKILL.md). The director can overrule
-it. If the work grows, stop, say so and step up a size.
+it. If the work grows, stop, say so and step up a size (`task.change`).
 **Why:** Full process on a typo wastes the director's time; none on a design wastes everyone's.
 **Basis:** Cyril, 17 Nov 2026. Superpowers brainstorming ("pick a size and say it in plain words"). BMAD build-a-change
 (route by intent gaps, irreversibility and footprint).
 **Scope:** manager.
+
+## task.change
+
+**Rule:** A task is in one state, and only the manager moves it on the board:
+open -> building (builder named) -> built (report in) -> in review -> reviewed -> approved (date) -> merged;
+or held (by the manager), blocked or needs info (said by the builder), pending (waiting on the director).
+While a task is building, its brief is frozen and its Files are its own. Any change to it, from anyone, the director
+included, goes one of two ways:
+- it makes the current work wrong: hold it (board first, then "hold: task <id>"), rewrite the brief, and the builder
+  starts a new run from it;
+- it only adds: the task finishes as briefed, and the addition becomes a new task, or waits for the report.
+The same holds when a review fails twice (`review.restart`), when the work outgrows its size, and when anyone needs
+to change a file the task lists: through the task, or after it, never beside it. A worker has one task, ends its run
+when it reports, and is told "board updated, pull" only between tasks or with a restart.
+**Why:** A builder working toward a target that moves mid-run builds the wrong thing, and two rules (board first; no
+steering) otherwise pull against each other.
+**Basis:** Cyril, 9 Nov 2026 (one task per worker; the run ends after each task; steer only for a hold; the board
+first before touching an open task's file; playbook rules 6, 8, 9, 11). Tests, 18 Nov 2026 (I1b: with the board-first
+rule alone, agents amended a running brief and told the builder to pull).
+**Scope:** manager; builders.
 
 ## review.assess
 
@@ -42,8 +63,8 @@ the director as "dropped: against decision X". Nothing is dropped silently.
 
 ## review.restart
 
-**Rule:** After two failed review rounds on the same thing, stop fixing (a round that passes doesn't count). Rewrite the brief, writing down what to keep.
-If the rewrite changes the design, it goes to the director first (`decide.escalate`).
+**Rule:** After two failed review rounds on the same thing, stop fixing (a round that passes doesn't count). Rewrite the brief, writing down what to keep,
+and restart (`task.change`). If the rewrite changes the design, it goes to the director first (`decide.escalate`).
 **Why:** By the third round the cause is upstream, and builder and reviewer otherwise loop.
 **Basis:** Cyril, 9 Nov 2026 (the kit was rebuilt smaller after two review rounds). BMAD ("a third pass ... something
 is wrong upstream"). Claude Code best practices.
@@ -52,9 +73,9 @@ is wrong upstream"). Claude Code best practices.
 ## decide.escalate
 
 **Rule:** Stop and ask when blocked, when a rewrite after two failed rounds changes the design, or before anything
-irreversible or outward-facing. Workers ask the manager; the manager asks the director, as one plain question with a
-recommendation, already checked, that says what happens on each answer. Reports to the director are facts with
-commit hashes and exact scope, never a loose summary. Anything smaller is a Ruling in the report, not a question.
+irreversible or outward-facing. Workers ask the manager; the manager asks the director with the question form in `templates/MESSAGES.md`
+(one question, a recommendation, what happens on each answer, what was checked). Status to the director uses the
+status form there: facts with commit hashes and exact scope, never a loose summary. Anything smaller is a Ruling in the report, not a question.
 **Why:** The director's attention is the scarce part; pushing on past these points wastes work or does harm.
 **Basis:** Cyril, 17 Nov 2026 (the form); Cyril, 9 Nov 2026 (reports are facts with the commit and exact scope;
 playbook rule 10). Anthropic, "Building effective agents" ("pause for human feedback at
@@ -91,16 +112,15 @@ reassign its task, and don't let another worker pick it up.
 ## team.manager
 
 **Rule:** The manager sizes, splits, briefs, assesses and merges, one task at a time, after the director approves.
-Before asking for approval it rehearses the merge: the latest main merged into a throwaway copy of the branch
-(`rehearse-<id>`), in its own worktree, with the checks rerun. It never checks out or moves a builder's branch. It
-doesn't build beyond Small tasks, steer a builder mid-run (a hold is the only mid-run message), or call the job
-finished while rows are open. A worker has one task at a time and ends its run when it is done. A file an open task
-lists is that task's: changing it goes on the board first, and its builder is told.
+Before asking for approval it rehearses the merge: the latest main merged into a throwaway copy of the branch,
+with the checks rerun (`scripts/team.py rehearse`). It merges with `scripts/team.py merge`, which refuses unless the
+board says approved; if the script can't run, `scripts/team.py steps` (or its STEPS text) gives the same steps by
+hand. It never checks out or moves a builder's branch. It doesn't build beyond Small tasks or call the job finished
+while rows are open.
 **Why:** One gate keeps a known good state, and the director approves what will actually land. A manager busy
 building stops seeing the whole.
 **Basis:** Cyril, 9 Nov 2026 (only the manager merges, after approval; a branch holds the last approved state). Gas
-Town Refinery (merge rehearsal). Cyril, 9 Nov 2026 (one task per worker, the run ends after each task, steer only
-for a hold, the board first before touching an open task's file; playbook rules 6, 8, 9, 11). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
+Town Refinery (merge rehearsal). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
 Willison ("one significant change at a time"). Cognition, 2026.
 **Scope:** manager.
 

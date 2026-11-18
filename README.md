@@ -11,8 +11,11 @@ this way, and every source, is in [PLAN.md](PLAN.md).
 
 - `SKILL.md`: the session start, the sizes, and each role's steps.
 - `RULES.md`: the judgment cards, each with Why and Basis.
-- `templates/`: the board, a brief, the builder's report, a review (with the re-review), a handoff. The
-  checkable rules are fields here.
+- `templates/`: the board, a brief, the builder's report, a review (with the re-review), a handoff, and the
+  message forms (status and questions to the director). The checkable rules are fields here.
+- `scripts/team.py`: the mechanical chores, so they run the same way every time: `status` (each task's state and
+  commit hash), `rehearse` (latest main merged into a throwaway copy, checks run), `merge` (only when the board says
+  approved), `steps` (the same by hand). Standard Python; on Windows run it with `python`.
 - `hooks/`: optional; re-inject the session start after a summary.
 
 ## Install

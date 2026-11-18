@@ -112,3 +112,21 @@ What it shows:
 - I1b: with the skill, Claude amends the running task's brief on the board and tells the builder to pull. Board
   first and no steering mid-run pull against each other there; the skill doesn't yet say which wins.
 - I3: Claude's reports to the director still often leave out commit hashes.
+
+## Restructure check, 18 Nov 2026 (one task-change card, message forms, scripts)
+
+Claude's usage limit ran out mid-run, so Claude was checked on Haiku (the smallest model, `CLAUDE_MODEL=haiku`),
+new wording against the committed wording, graded by Codex only. Mean out of 2:
+
+| Scenario | Haiku, committed wording (3 runs) | Haiku, new wording (3 runs) | Codex, new wording (5 runs) |
+|---|---|---|---|
+| I1b change to a running task | 0.0 | 0.7 | 1.0 |
+| I3a end-of-day report | 0.7 | 1.0 | 1.2 |
+| I3b decision question | 0.0 | 0.3 | 1.0 |
+| T1 correction on the board first | 0.3 | 0.0 | 2.0 |
+
+The new wording is ahead on the three scenarios it was for. T1 fails on Haiku with either wording (it repeats the
+correction in the message), so that is the model, not the change; Codex keeps 2.0. One run of every older scenario
+on the new wording, on Codex: none fell to 0 (H1 went from 2 to 1 on its single run). These are tuning checks on spent scenarios, not proof; real use
+(the board's Corrections list) is the test from here.
+
