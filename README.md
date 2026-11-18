@@ -69,3 +69,19 @@ A new rule starts as a correction from the director, with its date. From another
 2. If it needs judgment, add a card to `RULES.md`: Rule, Why, Basis (the dated correction first), Scope.
 3. Add a scenario for it to the test set, and check that agents with the skill now get it right and agents without it
    don't. A rule that changes nothing is cut.
+
+## Credits
+
+Built by [ze.grt](https://github.com/zegrt), from the corrections of one director running a real team of Claude
+Code and Codex agents. The rules are original; several ideas were learned from published work, credited where
+used in `RULES.md` and listed with links in `PLAN.md`: [Superpowers](https://github.com/obra/superpowers) (Jesse
+Vincent), the [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD), GitHub's
+[Spec Kit](https://github.com/github/spec-kit), Steve Yegge's [Gas Town](https://github.com/gastownhall/gastown) and
+[Beads](https://github.com/gastownhall/beads),
+Anthropic's engineering posts on agents and long-running harnesses, and Simon Willison's notes on running agents in
+parallel. No code from them is included.
+
+## License
+
+[MIT](LICENSE). Use it, change it, ship it; keep the copyright notice, so the work stays credited. A link back is
+appreciated.
