@@ -1,12 +1,13 @@
 # agent-team
 
-**Rules for running a team of AI agents without the chaos.**
+**Rules for running a team of AI agents without the chaos.** Made by [XERO WORKS](https://xeroworks.org).
 
 One person directs. One agent manages. Other agents build and review, each in its own session, on one machine or
 several, with Claude Code and Codex mixed. `agent-team` is a skill that gives every one of them the same rules, so
 work doesn't get lost between messages, nobody reviews their own work, and the director only gets asked what
 actually needs them.
 
+[![Made by XERO WORKS](https://img.shields.io/badge/made%20by-XERO%20WORKS-d73535)](https://xeroworks.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Works with Claude Code](https://img.shields.io/badge/Claude%20Code-skill-orange)
 ![Works with Codex](https://img.shields.io/badge/Codex-skill-black)
@@ -160,7 +161,7 @@ Corrections from other projects arrive as files in [`inbox/`](inbox/README.md).
 
 ## Credits
 
-Built by [ze.grt](https://github.com/zegrt), from the corrections of one director running a real team of Claude
+Made by [XERO WORKS](https://xeroworks.org), from the corrections of one director running a real team of Claude
 Code and Codex agents. The rules are original. Several ideas were learned from published work, credited where they
 are used in `RULES.md` and listed with links in `PLAN.md`:
 
@@ -175,5 +176,5 @@ No code from them is included.
 
 ## License
 
-[MIT](LICENSE). Use it, change it, ship it. Keep the copyright notice so the work stays credited; a link back is
-appreciated.
+[MIT](LICENSE), © 2026 XERO WORKS PRIVATE LIMITED. Use it, change it, ship it. Keep the copyright notice so the
+work stays credited; a link back to [XERO WORKS](https://xeroworks.org) is appreciated.
