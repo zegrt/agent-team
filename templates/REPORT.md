@@ -8,7 +8,7 @@ Status: <done | done with concerns | needs info | blocked>   <!-- one of these f
 Board commit: <hash>   <!-- from the brief: proof of which board you read -->
 Commit: <hash>
 Files changed: <list; mark any outside Files, with why>   <!-- BMAD #2563 -->
-Checks run: <each check, with its output>   <!-- done means run, not planned. Basis: Cyril, 9 Nov 2026 (triple-check
+Checks run: <each check, with its output>   <!-- done means run, not planned. Basis: the director, 9 Nov 2026 (triple-check
                                                before handing anything on); Anthropic, long-running harnesses
                                                (features marked complete without testing) -->
 Rulings: <small calls you made alone: what, why, what it costs if wrong; or "none">   <!-- Superpowers ledger -->

@@ -2,8 +2,8 @@
 
 <!-- Every message between agents, and every report or question to the director, takes one of these shapes. A
      message points to the board; the board is the record (board.one-source). Short and complete are not in
-     conflict when the shape is fixed. Basis: Cyril, 9 Nov 2026 ("y'all are miscommunicating a lot"; reports are
-     facts with the commit and exact scope); Cyril, 17 Nov 2026 (one plain question with a recommendation). -->
+     conflict when the shape is fixed. Basis: the director, 9 Nov 2026 ("y'all are miscommunicating a lot"; reports are
+     facts with the commit and exact scope); the director, 17 Nov 2026 (one plain question with a recommendation). -->
 
 ## To a worker
 

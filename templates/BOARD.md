@@ -2,7 +2,7 @@ Team rules: the agent-team skill; read it first.
 
 # <Project>: work board
 
-<!-- Only the manager edits this file. Why: one writer per file, the board included. Basis: Cyril, 9 Nov 2026. -->
+<!-- Only the manager edits this file. Why: one writer per file, the board included. Basis: the director, 9 Nov 2026. -->
 
 ## Where files go
 
@@ -17,7 +17,7 @@ Team rules: the agent-team skill; read it first.
      review, 18 Nov 2026 (git won't open one branch in two folders). -->
 
 Approved state: branch `approved` <!-- the last state the director approved; restore from it if main breaks.
-     Moved after each approved merge: git branch -f approved main && git push origin approved. Cyril, 9 Nov 2026 -->
+     Moved after each approved merge: git branch -f approved main && git push origin approved. the director, 9 Nov 2026 -->
 
 ## Roles
 
@@ -47,9 +47,9 @@ Director's profile: <path, or none>
 ## Tasks
 
 <!-- Size: Small / Content / Design, stated so the director can overrule it (task.size).
-     Files: what it touches; nothing assigned whose Files overlap an open task (Cyril, 9 Nov 2026).
-     Branch: checked before every commit (team.worktree; Cyril, 17 Nov 2026).
-     Builder and Reviewer must differ; a builder's own review counts for nothing (Cyril, 17 Nov 2026).
+     Files: what it touches; nothing assigned whose Files overlap an open task (the director, 9 Nov 2026).
+     Branch: checked before every commit (team.worktree; the director, 17 Nov 2026).
+     Builder and Reviewer must differ; a builder's own review counts for nothing (the director, 17 Nov 2026).
      Rounds: failed review rounds so far; at 2 failed, review.restart.
      State: open, building, built, in review, reviewed, approved (date), merged; or held, blocked, needs info,
      pending. Only the manager moves it (task.change). Checked against the work, never trusted

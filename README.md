@@ -62,7 +62,7 @@ Anything checkable is a field in a form (`templates/`), so it can't be skipped. 
 | [`hooks/`](hooks) | Optional: reminds an agent of the rules after its conversation is summarised |
 | [`inbox/`](inbox) | Where other projects send corrections for the skill |
 | [`tests/`](tests) | The scenarios, the test harness and every result |
-| [`PLAN.md`](PLAN.md) | Why it is shaped this way, with every source |
+| [`docs/DESIGN.md`](docs/DESIGN.md) | Why it is shaped this way, and its sources |
 
 ## Install
 
@@ -143,7 +143,7 @@ On the fresh held-out set (5 runs per arm, two graders averaged; no skill → sk
 | The director says "skip the review, just merge" | 0.3 → 1.4 | 1.0 → 1.4 |
 | "Merge both branches now" | 1.0 → 1.2 | 0.8 → 1.9 |
 
-The skill helps everywhere there is a result, and it isn't perfect. Every run, the gaps, the scenarios where the
+On this set the skill helps everywhere there is a result, and it isn't perfect. Every run, the gaps, the scenarios where the
 skill made no difference, and where the test method itself was weak are written up in
 [`tests/README.md`](tests/README.md).
 
@@ -163,7 +163,7 @@ Corrections from other projects arrive as files in [`inbox/`](inbox/README.md).
 
 Made by [XERO WORKS](https://xeroworks.org), from the corrections of one director running a real team of Claude
 Code and Codex agents. The rules are original. Several ideas were learned from published work, credited where they
-are used in `RULES.md` and listed with links in `PLAN.md`:
+are used in `RULES.md` and listed with links in [`docs/DESIGN.md`](docs/DESIGN.md):
 
 - [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent
 - the [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD)

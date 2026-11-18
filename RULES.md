@@ -2,7 +2,7 @@
 
 Each card: **Rule**, **Why**, **Basis** (the director's dated correction first, then published support), **Scope**;
 **Unless** and **Check** only where they add something. The checkable rules are fields in `templates/`, each with its
-own why and basis. Sources are listed in full at the end of `PLAN.md`.
+own why and basis. Sources are listed in full in `docs/DESIGN.md`.
 
 ## board.one-source
 
@@ -10,7 +10,7 @@ own why and basis. Sources are listed in full at the end of `PLAN.md`.
 the shapes in `templates/MESSAGES.md`; the correction itself is never in the message. A correction to a task that
 is building changes it by `task.change`. After a summary, trust the board and `git log` over your memory.
 **Why:** Messages between agents get lost or half-read, and a summary is not the record.
-**Basis:** Cyril, 9 Nov 2026 ("y'all are miscommunicating a lot"). Anthropic, long-running harnesses (a progress file
+**Basis:** The director, 9 Nov 2026 ("y'all are miscommunicating a lot"). Anthropic, long-running harnesses (a progress file
 plus git). Superpowers (losing place after a summary was "the single most expensive failure observed"). BMAD #2539
 (team members miss messages not addressed to them).
 **Scope:** manager; everyone reading.
@@ -21,7 +21,7 @@ plus git). Superpowers (losing place after a summary was "the single most expens
 **Rule:** State each task's size in plain words: Small, Content or Design (see SKILL.md). The director can overrule
 it. If the work grows, stop, say so and step up a size (`task.change`).
 **Why:** Full process on a typo wastes the director's time; none on a design wastes everyone's.
-**Basis:** Cyril, 17 Nov 2026. Superpowers brainstorming ("pick a size and say it in plain words"). BMAD build-a-change
+**Basis:** The director, 17 Nov 2026. Superpowers brainstorming ("pick a size and say it in plain words"). BMAD build-a-change
 (route by intent gaps, irreversibility and footprint).
 **Scope:** manager.
 
@@ -40,8 +40,8 @@ to change a file the task lists: through the task, or after it, never beside it.
 when it reports, and is told "board updated, pull" only between tasks or with a restart.
 **Why:** A builder working toward a target that moves mid-run builds the wrong thing, and two rules (board first; no
 steering) otherwise pull against each other.
-**Basis:** Cyril, 9 Nov 2026 (one task per worker; the run ends after each task; steer only for a hold; the board
-first before touching an open task's file; playbook rules 6, 8, 9, 11). Tests, 18 Nov 2026 (I1b: with the board-first
+**Basis:** The director, 9 Nov 2026 (one task per worker; the run ends after each task; steer only for a hold; the board
+first before touching an open task's file). Tests, 18 Nov 2026 (I1b: with the board-first
 rule alone, agents amended a running brief and told the builder to pull).
 **Scope:** manager; builders.
 
@@ -56,7 +56,7 @@ rule alone, agents amended a running brief and told the builder to pull).
 A problem this task caused is never put off. A finding against the director's decisions is dropped, but listed for
 the director as "dropped: against decision X". Nothing is dropped silently.
 **Why:** Fixing symptoms one by one grows the work, and a silent drop hides a real problem.
-**Basis:** Cyril, 9 Nov 2026 ("plan and asses after reviews, not immidiatly push to fixes"). BMAD review triage
+**Basis:** The director, 9 Nov 2026 ("plan and asses after reviews, not immidiatly push to fixes"). BMAD review triage
 ("recorded reason, never silently"; "a problem this change caused is never deferred"). Cognition, 2026.
 **Scope:** manager.
 **Check:** every finding number appears once in the routing, with a reason.
@@ -66,7 +66,7 @@ the director as "dropped: against decision X". Nothing is dropped silently.
 **Rule:** After two failed review rounds on the same thing, stop fixing (a round that passes doesn't count). Rewrite the brief, writing down what to keep,
 and restart (`task.change`). If the rewrite changes the design, it goes to the director first (`decide.escalate`).
 **Why:** By the third round the cause is upstream, and builder and reviewer otherwise loop.
-**Basis:** Cyril, 9 Nov 2026 (the kit was rebuilt smaller after two review rounds). BMAD ("a third pass ... something
+**Basis:** The director, 9 Nov 2026 (the kit was rebuilt smaller after two review rounds). BMAD ("a third pass ... something
 is wrong upstream"). Claude Code best practices.
 **Scope:** manager.
 
@@ -77,8 +77,7 @@ irreversible or outward-facing. Workers ask the manager; the manager asks the di
 (one question, a recommendation, what happens on each answer, what was checked). Status to the director uses the
 status form there: facts with commit hashes and exact scope, never a loose summary. Anything smaller is a Ruling in the report, not a question.
 **Why:** The director's attention is the scarce part; pushing on past these points wastes work or does harm.
-**Basis:** Cyril, 17 Nov 2026 (the form); Cyril, 9 Nov 2026 (reports are facts with the commit and exact scope;
-playbook rule 10). Anthropic, "Building effective agents" ("pause for human feedback at
+**Basis:** The director, 17 Nov 2026 (the form); the director, 9 Nov 2026 (reports are facts with the commit and exact scope). Anthropic, "Building effective agents" ("pause for human feedback at
 checkpoints or when encountering blockers"). OpenAI, practical guide (failure thresholds, high-risk actions).
 **Scope:** everyone.
 
@@ -89,7 +88,7 @@ checkpoints or when encountering blockers"). OpenAI, practical guide (failure th
 ask the manager. At session start and before every commit, check the folder is
 clean and on the task's branch; if not, stop and ask. Before removing a worktree, check nothing is unpushed.
 **Why:** Another agent's next commit lands on your branch; the check catches it before it does.
-**Basis:** Cyril, 17 Nov 2026 (Codex switched the shared folder; the manager's commit landed on `task-48`). BMAD
+**Basis:** The director, 17 Nov 2026 (Codex switched the shared folder; the manager's commit landed on `task-48`). BMAD
 ("Is the working tree clean? Does the current branch make sense"). Gas Town Witness (unpushed work before removal).
 **Scope:** everyone.
 
@@ -98,7 +97,7 @@ clean and on the task's branch; if not, stop and ask. Before removing a worktree
 **Rule:** A quiet worker is not a dead one. If it hasn't reported a status, ask the director to wake it. Don't
 reassign its task, and don't let another worker pick it up.
 **Why:** Reassigning splits ownership of half-done work, often unpushed.
-**Basis:** Cyril, 17 Nov 2026. Gas Town design doc (false alarms on stuck workers "are worse than slow detection").
+**Basis:** The director, 17 Nov 2026. Gas Town design doc (false alarms on stuck workers "are worse than slow detection").
 **Scope:** manager.
 **Unless:** the director says to reassign; then first check the quiet worker's branch for unpushed work.
 
@@ -106,7 +105,7 @@ reassign its task, and don't let another worker pick it up.
 
 **Rule:** A correction from live work goes ahead of improvement work.
 **Why:** Live work is what the rules are for.
-**Basis:** Cyril, 17 Nov 2026.
+**Basis:** The director, 17 Nov 2026.
 **Scope:** manager.
 
 ## team.manager
@@ -119,7 +118,7 @@ hand. It never checks out or moves a builder's branch. It doesn't build beyond S
 while rows are open.
 **Why:** One gate keeps a known good state, and the director approves what will actually land. A manager busy
 building stops seeing the whole.
-**Basis:** Cyril, 9 Nov 2026 (only the manager merges, after approval; a branch holds the last approved state). Gas
+**Basis:** The director, 9 Nov 2026 (only the manager merges, after approval; a branch holds the last approved state). Gas
 Town Refinery (merge rehearsal). Blind review, 18 Nov 2026 (git won't check out a branch open in another worktree).
 Willison ("one significant change at a time"). Cognition, 2026.
 **Scope:** manager.
@@ -128,6 +127,6 @@ Willison ("one significant change at a time"). Cognition, 2026.
 
 **Rule:** Start with about 3 active agents. Add one only while the director keeps up with reviewing what lands.
 **Why:** Review is the queue; agents past that wait on it.
-**Basis:** No correction of Cyril's yet. Willison ("the natural bottleneck ... is how fast I can review the
+**Basis:** No correction from the director yet. Willison ("the natural bottleneck ... is how fast I can review the
 results"). Yegge, "Introducing Beads" (a dozen agents "only sustainable for about 2 weeks", back to 1 to 3).
 **Scope:** director and manager.
