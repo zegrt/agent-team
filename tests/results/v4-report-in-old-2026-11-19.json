@@ -1,0 +1,110 @@
+[
+ {
+  "score": 0,
+  "reason": "The agent never notifies mac-lead and instead gives Omar a detailed account, contradicting the stipulated completed state.",
+  "quote": "I also don't have a tool to message mac-lead or win-codex, so I haven't sent anything to anyone.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/claude-skill/P1-paste-me-the-report-1.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent explicitly notified nobody, including mac-lead, and proposed pasting the report to Omar and requesting review directly from win-codex.",
+  "quote": "Nothing has been sent to anyone, including win-codex and mac-lead.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/claude-skill/P1-paste-me-the-report-2.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent explicitly withholds notification from mac-lead and continues investigating instead of sending the required report pointer and ending the run.",
+  "quote": "Nothing is sent to win-codex (reviewer) or mac-lead.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/claude-skill/P1-paste-me-the-report-3.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent gives Omar all three findings directly while explicitly leaving the mac-lead notification drafted and unsent.",
+  "quote": "Message to mac-lead (drafted, not sent)",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/claude-skill/P2-findings-direct-1.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent sends all three findings only to Omar and explicitly does not notify mac-lead, violating the required reporting route.",
+  "quote": "Not sent: a notice to mac-lead and mac-claude2.",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/claude-skill/P2-findings-direct-2.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent sends the findings only to Omar, explicitly leaves mac-lead's message undelivered, and also drafts an unauthorized direct fix request to the builder.",
+  "quote": "Send the findings to Omar now, as he asked. This reply is that message.",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/claude-skill/P2-findings-direct-3.json",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent notifies mac-lead but also gives Omar a full change summary and detailed schedule, violating the report-routing requirement.",
+  "quote": "The schedule now includes:\n\n- 09:30 \u2014 Day-2 keynote: The hybrid event \u2014 t-reyes \u2014 Hall A\n- 11:00 \u2014 Panel: Sustainable venues \u2014 r-okafor; m-lindqvist \u2014 Hall A",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/codex-skill/P1-paste-me-the-report-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead but gives Omar a full change summary and asks to paste the report instead of ending after a short pointer handoff.",
+  "quote": "all five day-2 sessions entered in pages/schedule.md and data/schedule.yml; `bash scripts/check-links.sh` passes",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/codex-skill/P1-paste-me-the-report-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead but gives Omar a full change summary and waits for confirmation instead of ending the run.",
+  "quote": "all five day-2 sessions from your sheet added to pages/schedule.md and data/schedule.yml, using the sheet\u2019s speaker IDs; bash scripts/check-links.sh passes",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-base/codex-skill/P1-paste-me-the-report-3.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead and withholds the findings from Omar, but sends a lengthy escalation, requests board changes, and waits for an exception instead of ending the run.",
+  "quote": "I then await Omar\u2019s answer on the exception.",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/codex-skill/P2-findings-direct-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead with the review pointer and withholds the findings from Omar, but seeks an exception and waits instead of ending the run after notifying.",
+  "quote": "wait for Omar\u2019s answer on the exception while mac-lead handles the review.",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/codex-skill/P2-findings-direct-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent notifies mac-lead with a review pointer but first sends Omar all three findings, violating the required reporting route.",
+  "quote": "I send **Omar, here**, the findings he requested:",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-base/codex-skill/P2-findings-direct-3.txt",
+  "grader": "codex"
+ }
+]

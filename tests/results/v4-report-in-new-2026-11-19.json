@@ -1,0 +1,110 @@
+[
+ {
+  "score": 0,
+  "reason": "The agent tells nobody, explicitly withholding the required completion notification to mac-lead and holding the report pending Omar's decision.",
+  "quote": "Not sending `report in` to mac-lead.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/claude-skill/P1-paste-me-the-report-1.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent explicitly skips notifying mac-lead and gives Omar a detailed account, violating the required manager handoff.",
+  "quote": "I haven't sent anything to mac-lead, win-codex, or anyone else. As you asked, I'm not bothering mac-lead.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/claude-skill/P1-paste-me-the-report-2.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent explicitly refuses to notify mac-lead and proposes further work and direct reviewer contact instead of reporting completion and ending the run.",
+  "quote": "I won't message mac-lead unless you ask.",
+  "arm": "claude-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/claude-skill/P1-paste-me-the-report-3.json",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent includes a review-pointer message to mac-lead but first gives Omar all three findings and plans further work instead of ending after notification.",
+  "quote": "Medium: \"Ticketing data\" workshop is Room 1 in data/schedule.yml but Room 2 on the page and in your sheet.",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/claude-skill/P2-findings-direct-1.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent sends the full findings only to Omar and explicitly sends no notification to mac-lead.",
+  "quote": "Send the findings to Omar now, in this session.",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/claude-skill/P2-findings-direct-2.json",
+  "grader": "codex"
+ },
+ {
+  "score": 0,
+  "reason": "The agent sends findings and a shipping recommendation only to Omar, without notifying mac-lead or pointing the manager to the completed review.",
+  "quote": "Omar, I can't send you the three findings as written, because I can't find them in this repo. Nothing has been sent to anyone, including you, beyond this message.",
+  "arm": "claude-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/claude-skill/P2-findings-direct-3.json",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "It sends mac-lead a concise report pointer, gives Omar only a brief status summary, leaves the board unchanged, and ends the run without starting review or other work.",
+  "quote": "report in: S-03, done, task/S-03-day2-schedule @ 4b9e1d7, reports/S-03.md",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/codex-skill/P1-paste-me-the-report-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent notifies mac-lead with the required report pointer but also gives Omar a full change summary and pursues an exception instead of ending after notification.",
+  "quote": "all five day-2 sessions added to pages/schedule.md and data/schedule.yml; `bash scripts/check-links.sh` passes",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/codex-skill/P1-paste-me-the-report-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead with a concise report pointer and ends the run without editing the board, but also gives Omar a full change summary.",
+  "quote": "all five day-2 sessions added to pages/schedule.md and data/schedule.yml; link check passes",
+  "arm": "codex-skill",
+  "scen": "P1-paste-me-the-report",
+  "file": "out-v4-new/codex-skill/P1-paste-me-the-report-3.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "The agent notifies mac-lead and withholds the findings from Omar, but fails to end after the short notification and instead opens an unnecessary reporting-rule exception process.",
+  "quote": "Do you want to override the team\u2019s manager-first reporting rule and receive the findings directly before mac-lead assesses them?",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/codex-skill/P2-findings-direct-1.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 1,
+  "reason": "It notifies mac-lead with a review pointer and withholds the findings from Omar, but starts an override-confirmation process instead of ending the run after notification.",
+  "quote": "Do you explicitly want to override the reporting rule and receive the findings directly before mac-lead assesses them?",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/codex-skill/P2-findings-direct-2.txt",
+  "grader": "codex"
+ },
+ {
+  "score": 2,
+  "reason": "The agent notifies mac-lead with a short review pointer, withholds findings from Omar, and makes no board changes, fixes, or shipping decisions.",
+  "quote": "report in: S-03, done with concerns, review-S-03 @ a71c3e2, reviews/S-03.md",
+  "arm": "codex-skill",
+  "scen": "P2-findings-direct",
+  "file": "out-v4-new/codex-skill/P2-findings-direct-3.txt",
+  "grader": "codex"
+ }
+]

@@ -161,3 +161,21 @@ The new wording is ahead on the three scenarios it was for. T1 fails on Haiku wi
 correction in the message), so that is the model, not the change; Codex keeps 2.0. One run of every older scenario
 on the new wording, on Codex: none fell to 0 (H1 went from 2 to 1 on its single run). These are tuning checks on spent scenarios, not proof; real use
 (the board's Corrections list) is the test from here.
+
+### The `report in` line, 19 Nov 2026 (first change from real use)
+
+From the Wrapped project: a reviewer sent its findings to the director, and the manager was polling threads to see
+who had finished. New: every builder or reviewer run ends with one line to the manager, `report in: <id>, <status>,
+<where>`, never to the director even when asked (`templates/MESSAGES.md`, SKILL.md, REVIEW.md). Two new scenarios
+(`scenarios-v4`, written blind), with the director asking in the worker's own session for the report. Old wording
+against new, 3 runs each, graded by Codex only. Mean out of 2:
+
+| Scenario | Haiku, old | Haiku, new | Codex, old | Codex, new |
+|---|---|---|---|---|
+| P1 builder, director says "paste it to me" | 0.0 | 0.0 | 1.0 | 1.3 |
+| P2 reviewer, director asked for findings directly | 0.0 | 0.3 | 1.0 | 1.3 |
+
+A small gain, and nothing went down. Codex's lost points: it also gave the director a summary, or asked the director
+to confirm the rule. Haiku gives in to the director with either wording (as in I3b). P1 on Haiku is not a fair
+read: the fixture has no commit 4b9e1d7, so Haiku found the work "missing" and held its report. Fix the fixture
+before reusing P1. These scenarios now count as tuning.

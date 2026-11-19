@@ -12,6 +12,15 @@ While a task is building:            hold: task <id>, see board
 <!-- A hold is the only message a building task gets. Urgency may be added ("by 16:00"); a correction or a new
      requirement never is: it goes on the board and changes the task by task.change. -->
 
+## To the manager
+
+At the end of every run, from the builder or the reviewer:   report in: <id>, <status>, <where the report is>
+<!-- Status is one of the report's four. Where: branch @ hash and the file, or the link for work outside git. The
+     line points to the report and never carries it. It goes to the manager, never to the director, even when the
+     director is the one in your session: the manager assesses it first (review.assess). If you can't message the
+     manager, end your run with this line and the director passes it on. Basis: the director, 19 Nov 2026 ("the
+     workers should update the board and ping you right?"; a reviewer sent its findings to the director). -->
+
 ## Status to the director
 
 One line per open task, from `python3 <skill>/scripts/team.py status`, plus the scope done:

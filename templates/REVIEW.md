@@ -3,7 +3,9 @@
 <!-- Saved as reviews/<id>.md, committed only to review-<id> (made from main; the manager merges it). Reviewer: never the builder (the director, 17 Nov 2026).
      Start clean: read the brief and the work, not reports/<id>.md (Claude Code best practices: review in a fresh
      agent; Superpowers: "Do Not Trust the Report"). Change nothing else (Superpowers reviewer prompt). Find
-     everything in one go, not a drip of rounds (the director, 9 Nov 2026). -->
+     everything in one go, not a drip of rounds (the director, 9 Nov 2026).
+     When done: push review-<id>, then send the manager `report in` (templates/MESSAGES.md). The review goes to the
+     manager, never to the director, even if the director asks for it (the director, 19 Nov 2026). -->
 
 Brief: briefs/<id>.md      Reviewed commit: <hash>   <!-- so the re-review checks the same change. Superpowers -->
 

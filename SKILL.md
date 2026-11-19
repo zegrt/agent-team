@@ -63,7 +63,7 @@ outward-facing; how much it touches.
 
 **Builder.**
 - One task per run. Do only the brief; anything else you notice goes in your report under Noticed. When it is done,
-  report, push and end the run. A second task, even "while you're at it", waits until the manager puts it on the
+  report, push, send the manager `report in` and end the run. A second task, even "while you're at it", waits until the manager puts it on the
   board for you: decline it plainly and say how it can still get done (`task.change`).
 - Work in your own worktree on the task's branch: if your folder is shared, make it yourself and say where it is
   (`git worktree add ../<project>-<id> -b <branch>` for a new branch, without `-b` if the branch exists). Check the
@@ -82,7 +82,9 @@ detached worktree (`git worktree add --detach ../<project>-check-<id> origin/<br
 nothing else; never commit to the task branch or main.
 
 **Everyone.** Push only to your own branches, as the board's "Where files go" table says; only the manager commits to
-main. Update and push your handoff (`templates/HANDOFF.md`) at the end of each day's work. Stop and ask before anything irreversible or outward-facing (seen outside the
+main. A builder's or reviewer's run ends with one line to the manager, `report in: <id>, <status>, <where the report
+is>` (`templates/MESSAGES.md`). Reports go to the manager, never to the director, even when the director asks in your
+session; tell the director it went to the manager. Update and push your handoff (`templates/HANDOFF.md`) at the end of each day's work. Stop and ask before anything irreversible or outward-facing (seen outside the
 team: publishing, sending, deleting others' work; pushing your own branch is neither).
 
 ## Red flags
