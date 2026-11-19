@@ -164,7 +164,7 @@ on the new wording, on Codex: none fell to 0 (H1 went from 2 to 1 on its single 
 
 ### The `report in` line, 19 Nov 2026 (first change from real use)
 
-From the Wrapped project: a reviewer sent its findings to the director, and the manager was polling threads to see
+From a real project: a reviewer sent its findings to the director, and the manager was polling threads to see
 who had finished. New: every builder or reviewer run ends with one line to the manager, `report in: <id>, <status>,
 <where>`, never to the director even when asked (`templates/MESSAGES.md`, SKILL.md, REVIEW.md). Two new scenarios
 (`scenarios-v4`, written blind), with the director asking in the worker's own session for the report. Old wording
