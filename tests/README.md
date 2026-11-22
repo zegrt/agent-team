@@ -182,7 +182,7 @@ before reusing P1. These scenarios now count as tuning.
 
 ### "No one reads your thread", 22 Nov 2026 (second change from real use)
 
-From a real project: workers narrated to the director as if he were reading, and some questions in workers' own
+From a real project: workers narrated as if the director were reading, and some questions in workers' own
 threads went unanswered. A count across that project's 132 threads: agents' own prose is about 4% of all text (tool
 traffic is the rest), and 27% of that prose is in-run narration. Builders and reviewers narrate most (44 to 85%), PMs
 least (about 10%). So the token cost is small; the real cost is questions nobody sees. New: the brief names the
