@@ -17,7 +17,9 @@ While a task is building:            hold: task <id>, see board
 At the end of every run, from the builder or the reviewer:   report in: <id>, <status>, <where the report is>
 <!-- Status is one of the report's four. Where: branch @ hash and the file, or the link for work outside git. The
      line points to the report and never carries it. It goes to the manager, never to the director, even when the
-     director is the one in your session: the manager assesses it first (review.assess). If you can't message the
+     director is the one in your session: the manager assesses it first (review.assess). A question is status
+     needs info, with the question, the options and your recommendation after it. No one reads your own thread, so it
+     is the run's last message: no summary written for the director. The brief's Manager line says where to send it. If you can't message the
      manager, end your run with this line and the director passes it on. Basis: the director, 19 Nov 2026 ("the
      workers should update the board and ping you right?"; a reviewer sent its findings to the director). -->
 

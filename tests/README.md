@@ -179,3 +179,25 @@ A small gain, and nothing went down. Codex's lost points: it also gave the direc
 to confirm the rule. Haiku gives in to the director with either wording (as in I3b). P1 on Haiku is not a fair
 read: the fixture has no commit 4b9e1d7, so Haiku found the work "missing" and held its report. Fix the fixture
 before reusing P1. These scenarios now count as tuning.
+
+### "No one reads your thread", 22 Nov 2026 (second change from real use)
+
+From a real project: workers narrated to the director as if he were reading, and some questions in workers' own
+threads went unanswered. A count across that project's 132 threads: agents' own prose is about 4% of all text (tool
+traffic is the rest), and 27% of that prose is in-run narration. Builders and reviewers narrate most (44 to 85%), PMs
+least (about 10%). So the token cost is small; the real cost is questions nobody sees. New: the brief names the
+manager's address; a question goes to the manager as `report in: <id>, needs info, <question, options,
+recommendation>`; the run's last message is that line, with no summary for the director.
+
+One new blind scenario (`scenarios-v5`, P3: a builder hits a real ambiguity while no one is watching), old wording
+against new, 3 runs each, graded by Codex. The first grading gave every run 0 because the test runs have no messaging
+tool and agents said so honestly; the rubric now counts a message written out in full as sent, and both arms were
+re-graded. Mean out of 2:
+
+| Scenario | Haiku, old | Haiku, new | Codex, old | Codex, new |
+|---|---|---|---|---|
+| P3 builder with a question, nobody watching | 1.0 | 1.0 | 0.0 | 1.0 |
+
+With the old wording, Codex wrote the question in its own session and sent mac-lead only a pointer to it, which is
+the failure seen in real use. With the new wording it put the question in the line (one run scored 2). Haiku reaches
+the manager either way but writes too much. This scenario now counts as tuning.

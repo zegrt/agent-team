@@ -84,7 +84,8 @@ nothing else; never commit to the task branch or main.
 **Everyone.** Push only to your own branches, as the board's "Where files go" table says; only the manager commits to
 main. A builder's or reviewer's run ends with one line to the manager, `report in: <id>, <status>, <where the report
 is>` (`templates/MESSAGES.md`). Reports go to the manager, never to the director, even when the director asks in your
-session; tell the director it went to the manager. Update and push your handoff (`templates/HANDOFF.md`) at the end of each day's work. Stop and ask before anything irreversible or outward-facing (seen outside the
+session; tell the director it went to the manager. No one reads your own thread: a question goes to the manager as
+`report in` with status needs info, and the run's last message is that line, not a summary. Update and push your handoff (`templates/HANDOFF.md`) at the end of each day's work. Stop and ask before anything irreversible or outward-facing (seen outside the
 team: publishing, sending, deleting others' work; pushing your own branch is neither).
 
 ## Red flags

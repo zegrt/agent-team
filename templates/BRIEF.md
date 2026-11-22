@@ -10,6 +10,12 @@ Board commit: <hash>  <!-- the board version this brief was cut from; the builde
                            Basis: Superpowers (record the base commit before dispatch) -->
 Branch: <branch>      <!-- work in your own worktree on this branch; check it before every commit.
                            Basis: the director, 17 Nov 2026 (a commit landed on the wrong branch) -->
+Manager: <how to reach the manager: its thread or session>
+<!-- No one reads your own thread. Anything meant for someone goes to them as a message. A question is
+     `report in: <id>, needs info, <question, options, your recommendation>` and ends the run. The run's last message
+     is the `report in` line, with no summary for the director (templates/MESSAGES.md). Basis: the director, 22 Nov 2026
+     ("the worker all talk in the thread as if im there to read all of it"); a report sent to a wrong address was lost,
+     20 Nov 2026. -->
 
 ## Objective
 <!-- What the task is for, in one or two lines. -->
