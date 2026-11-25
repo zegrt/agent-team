@@ -1,5 +1,7 @@
 # Report <id>
 
+<!-- Keep within a page. Link long outputs saved in a file. -->
+
 Status: <done, done with concerns, needs info or blocked>
 Board commit: <hash from brief>
 Work commit: <hash>

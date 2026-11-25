@@ -47,6 +47,7 @@
 - Use a separate worktree. From a shared folder: use `git worktree add ../<project>-<id> -b <branch>` for a new branch or omit `-b` for an existing branch. Tell the manager its path or if creation fails.
 - Never switch branches in a shared folder. At startup and before each commit: check branch and changes. If unexpected: stop and ask.
 - Before removing finished worktrees: preserve cited evidence, check local changes and verify needed commits on a retained ref.
+- When a task merges or closes: each builder and reviewer removes their own worktree for it with `git worktree remove <path>` after these checks. Never use `--force`. If removal fails: tell the manager.
 
 ## build.check
 
@@ -71,10 +72,11 @@
 - The manager assesses first. Before fixing: record one route and reason per finding.
 - Fix small, clear issues inside Files. Re-brief upstream causes or doubtful fixes.
 - Ask the director about unclear intent, design or rule changes.
+- A reviewer's suggestion or proposed tolerance is not a requirement. Enforce it only after the director's yes.
 - List pre-existing issues under Noticed. Resolve issues this task caused before approval.
 - For findings against a director decision: record and tell the director `dropped: against decision <id>`.
 - Drop nothing silently. The director's summary lists every finding with its route, one line each.
-- Have the reviewer recheck fixes on the new commit.
+- Have the reviewer recheck fixes on the new commit. The reviewer appends the recheck to `reviews/<id>.md` on the same `review-<id>` branch and sets `Reviewed commit:` to the full new task hash. Never create `review-<id>-rN`.
 
 ## review.restart
 
