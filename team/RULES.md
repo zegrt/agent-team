@@ -3,7 +3,8 @@
 ## team.start
 
 - Use one director, one manager and one `WORKBOARD.md`. Give each worker a separate session.
-- Read your role, task, branch, handoff and any named director profile. For files on another branch: use `git show origin/<branch>:<path>`.
+- Read your role, task, branch, handoff and any named director profile.
+- Worker, before editing: read your board row and `briefs/<id>.md`. State the task id, branch, Files and agreed checks. If any is missing: `report in: <id>, needs info, <question>`. For files on another branch: use `git show origin/<branch>:<path>`.
 - Check branch and local changes before `git pull --ff-only` in the skill folder and then your project worktree. If unable: tell the manager and use the available version.
 - After a summary or resume: reread `SKILL.md` and these rules. Recover from the board, handoff and `git log`. Verify against the live work.
 - Read each linked form at its step. `<skill>` is the skill folder.
@@ -72,6 +73,7 @@
 - Ask the director about unclear intent, design or rule changes.
 - List pre-existing issues under Noticed. Resolve issues this task caused before approval.
 - For findings against a director decision: record and tell the director `dropped: against decision <id>`.
+- Drop nothing silently. The director's summary lists every finding with its route, one line each.
 - Have the reviewer recheck fixes on the new commit.
 
 ## review.restart

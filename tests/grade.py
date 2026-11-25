@@ -44,7 +44,7 @@ def ask(grader, prompt):
 def grade(job):
     arm, name, f, rb, pr, grader = job
     ans = blind(answer(f))
-    if not ans.strip(): return dict(arm=arm, scen=name, file=f, score=None, reason='empty answer')
+    if not ans.strip(): return dict(arm=arm, scen=name, file=f, score=None, reason='empty answer', grader=grader)
     prompt = f"""You grade one agent's answer against a rubric. You don't know which setup produced it.
 SCENARIO GIVEN TO THE AGENT:
 {pr}

@@ -139,9 +139,9 @@ def rehearse(task_id, check_cmd):
               ("passed" if c.returncode == 0 else "FAILED", branch, c.returncode))
         return c.returncode
     finally:
-        changes = git("-C", folder, "status", "--porcelain", "--ignored").stdout
+        changes = git("-C", folder, "status", "--porcelain").stdout
         head = git("-C", folder, "rev-parse", "HEAD").stdout.strip()
-        if changes or head != before_check or git("worktree", "remove", folder, check=False).returncode:
+        if changes or head != before_check or git("worktree", "remove", "--force", folder, check=False).returncode:
             print(f"Rehearsal worktree kept at {folder}. Preserve any cited evidence before removing it.")
 
 
