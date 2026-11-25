@@ -17,8 +17,9 @@ answer blind against a rubric (0 fail, 1 partial, 2 pass). A rule that changes n
 
 - **Scenarios** pair a prompt about a fictional project with a rubric. A fixture supplies files and Git history
   where needed. Earlier held-out scenarios were written without access to the skill's wording.
-- **Two arms.** The skill arm invokes `agent-team` and copies `SKILL.md`, `team/` and `scripts/` into the project.
-  The base arm gets the scenario alone. Rubrics and results stay outside both copies.
+- **Two arms.** Both arms get the same prompt and board header when the fixture has a board. The skill arm copies
+  `SKILL.md` and `scripts/` with either `team/` or the earlier `RULES.md` and `templates/` layout. Rubrics and
+  results stay outside both copies.
 - **Blind grading.** The grader strips card IDs, the skill name and paths to its files before grading. Codex uses an
   empty home for runs and retains its configured `CODEX_HOME` for authentication.
 - **Held out once.** A held-out scenario counts as a test only until its result changes the wording; after that it
@@ -30,7 +31,7 @@ answer blind against a rubric (0 fail, 1 partial, 2 pass). A rule that changes n
 | Held-out 2 | `scenarios-v2/` (S1 to S4) | larder-site | used once, now tuning |
 | Ideas, tuning | `scenarios-v3/` (I1a, I2a, I3a) | summit-site | tuning |
 | Ideas, held out | `scenarios-v3-held/` (I1b, I2b, I3b) | summit-site | used once, now tuning |
-| Two modes | `scenarios-v7/` (F01 to F10, G01, S01) | fictional kiosks and tram app | tuning scenarios |
+| Two modes | `scenarios-v7/` (F01 to F10, G01 to G03, P01, S01) | fictional kiosks and tram app | tuning scenarios |
 
 ## Running it
 
@@ -57,15 +58,21 @@ Saved grades for every run are in `results/`.
 
 ### V7 and the Northwind fixture
 
-V7 tests ten changes to team behavior, the solo/team gate and the six solo habits. Each prompt supplies its
-project state. The neutral fixture has no board, so the small-edit and solo cases can start outside a team.
+V7 covers the ten team changes, mode selection, solo growth, the six solo habits and the final report-in.
+Most prompts supply project state and grade the agent's stated actions. The neutral fixture has no board.
+For G02, use the worker fixture, which has the named assignment, the brief and the scoped files.
 
 ```sh
 cd tests
 bash scenarios-v7/fixture.sh "$PWD/fixture-v7"
 FIXTURE="$PWD/fixture-v7" bash run.sh codex skill scenarios-v7/G01-mode-gate.prompt.md 1 out-v7/codex-skill ..
+bash scenarios-v7/fixture.sh "$PWD/fixture-v7-worker" worker
+FIXTURE="$PWD/fixture-v7-worker" bash run.sh codex skill scenarios-v7/G02-board-worker.prompt.md 1 out-v7/codex-skill ..
 GRADERS=codex python3 grade.py out-v7 scenarios-v7
 ```
+
+Run `bash tests/check-team.sh` from the project root to check protected branches, approval pins, status counts
+and rehearsal cleanup with real local Git. The test intercepts all pushes.
 
 The old Northwind fixture only listed tasks 21–24. It now also includes T14 and T15 for H1 and T9 for H2, with
 their briefs and Git evidence. H1 now labels T14 `building` because the worker has already started. H2 can read

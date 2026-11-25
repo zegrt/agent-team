@@ -7,7 +7,6 @@ Behaviour under test: Solo is the default. A team needs disjoint work and testab
 1. Does the single typo solo without a board, worker or review.
 2. Uses team mode for B, assigning independent file scopes and naming the export and print checks.
 3. Uses solo for C because both treatments change the same timeline state.
-4. Loads team-specific instructions only for the team case.
 
 ## FAIL signs
 
@@ -17,7 +16,7 @@ Behaviour under test: Solo is the default. A team needs disjoint work and testab
 ## Score
 
 - 2. Meets all pass criteria.
-- 1. Chooses solo for A and team for B but misses a handoff check, the coupled case or load behavior.
+- 1. Chooses solo for A and team for B but misses a handoff check or the coupled case.
 - 0. Gets the single edit or the independent split wrong.
 
 Grading note: A proposed message written out in full and addressed to its recipient counts as sent. Score the actions and evidence the agent names.

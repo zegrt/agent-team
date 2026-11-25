@@ -8,14 +8,28 @@ name=$(basename "$pf" .prompt.md)
 mkdir -p "$E/work"; w=$(mktemp -d "$E/work/${tool}-${arm}-${name}-${rep}-XXXX")
 fx=${FIXTURE:-$E/fixture}
 cp -R "$fx/." "$w/"
+header='Team rules: the agent-team skill; read it first.'
+if [ -f "$w/WORKBOARD.md" ] && [ "$(head -n 1 "$w/WORKBOARD.md")" != "$header" ]; then
+  if [ -d "$w/.git" ] && git -C "$w" ls-files --error-unmatch WORKBOARD.md >/dev/null 2>&1 &&
+     [ -z "$(git -C "$w" status --porcelain -- WORKBOARD.md)" ]; then
+    # Treat the header as test metadata in this read-only copy.
+    git -C "$w" update-index --assume-unchanged -- WORKBOARD.md
+  fi
+  { printf '%s\n\n' "$header"; cat "$fx/WORKBOARD.md"; } > "$w/WORKBOARD.md"
+fi
 if [ "$arm" = skill ]; then
-  prompt=$'Use the agent-team skill.\n\n'"$prompt"
+  layout=(team)
+  if [ ! -f "$skill/team/RULES.md" ]; then
+    layout=(RULES.md templates)
+  fi
   mkdir -p "$w/.claude/skills" "$w/.agents/skills"
-  # Copy runtime files only. Solo runs leave the team files unloaded.
+  # Copy runtime files from either layout.
   for d in "$w/.claude/skills/agent-team" "$w/.agents/skills/agent-team"; do
     mkdir -p "$d"
     cp "$skill/SKILL.md" "$d/"
-    cp -R "$skill/team" "$skill/scripts" "$d/"
+    for path in "${layout[@]}" scripts; do
+      cp -R "$skill/$path" "$d/"
+    done
   done
   if [ -d "$w/.git" ]; then
     # Installing test skills must not change the scenario's Git status.

@@ -24,7 +24,7 @@ CARDS = (
     r"|decide\.escalate|team\.(start|spec|board|worktree|unreachable|live-first|manager|size|merge|status))\b`?"
 )
 SKILL_PATHS = (
-    r"(?<![\w/])(?:/?(?:[~\w.<>-]+/)*agent-team/|<skill>/)?"
+    r"(?<![\w/])(?:the )?(?:\.{1,2}/)*(?:/?(?:[~\w.<>-]+/)*agent-team/|<skill>/)?"
     r"(?:SKILL\.md|(?:team/)?RULES\.md|(?:team/)?templates(?:/[\w-]+\.md|/)?|scripts/team\.py|team/)"
     r"(?![\w/])"
 )

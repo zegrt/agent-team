@@ -4,15 +4,15 @@ Team rules: the agent-team skill; read it first.
 
 | File | Branch | Writer |
 |---|---|---|
-| WORKBOARD.md, DECISIONS.md, archives, briefs/<id>.md | main | manager |
+| WORKBOARD.md, DECISIONS.md, TASKS-ARCHIVE.md, DECISIONS-ARCHIVE.md, briefs/<id>.md, handoffs/manager.md | main | manager |
 | work, reports/<id>.md | task branch | builder |
 | reviews/<id>.md | review-<id> | reviewer |
-| workers/<name>.md | worker-<name> | named agent |
+| workers/<name>.md | worker-<name> | named worker |
 
-Approved state: `approved`
+Approved branch: `approved`. After an approved landing: `git branch -f approved main && git push origin approved`.
 Director's profile: <link or none>
 Decisions: [DECISIONS.md](DECISIONS.md)
-Stop contact: <one worker's thread>
+Stop contact: <worker thread>
 
 | Role | Agent | Machine and thread |
 |---|---|---|
@@ -22,17 +22,19 @@ Stop contact: <one worker's thread>
 
 ## Project rules
 
-<!-- Link explicit standing rules with their dates. -->
+<!-- Link only dated, explicit additions or tightenings. -->
 
 ## Corrections
 
-<!-- Link the dated original instruction and affected task or rule. -->
+<!-- Link the dated original and affected task or rule. -->
 
 ## Tasks
 
-| Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State | Brief |
-|---|---|---|---|---|---|---|---|---|---|
+| Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State | Brief | Tested commit | Review commit |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+
+<!-- Use full hashes. Review commit: use "-" for unassigned or "waived" after approval to skip an agreed review. -->
 
 ## Noticed
 
-<!-- Record the source task and link. -->
+<!-- Link each source task. -->

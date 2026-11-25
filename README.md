@@ -52,7 +52,9 @@ python3 ~/agent-team/scripts/team.py merge 12
 python3 ~/agent-team/scripts/team.py steps
 ```
 
-The script leaves board edits to the manager. `merge` requires a task row marked approved.
+The script leaves board edits to the manager. `merge` requires an approved row with the full tested task hash
+and any approved review hash. Land Small tasks directly. Add project-specific protected branch patterns in the
+manager's checkout with `git config --add agent-team.protectedBranch 'release/*'`.
 
 ## Changing the skill
 

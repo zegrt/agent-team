@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
-"""agent-team chores, so they run the same way every time. Standard library only; Mac and Windows.
+"""Agent-team Git commands. Run from the manager's main worktree.
 
-Run from the project's main folder (the manager's, on main), with the board at WORKBOARD.md:
-
-  python3 <skill>/scripts/team.py status              every task: state, branch @ hash, report, review
+  python3 <skill>/scripts/team.py status              task refs and board counts
   python3 <skill>/scripts/team.py rehearse <id> [-- <check command>]
-                                                      merge latest main into a throwaway copy of the
-                                                      task branch, run the check, clean up
-  python3 <skill>/scripts/team.py merge <id>          only when the board row says approved: merge the
-                                                      task and any review-<id> into main, push, move
-                                                      `approved`, delete the merged branches
-  python3 <skill>/scripts/team.py steps               print the merge steps, to do by hand if this
-                                                      script can't run
+                                                      test the task tip with latest main
+  python3 <skill>/scripts/team.py merge <id>          land and clean up approved task and review commits
+  python3 <skill>/scripts/team.py steps               show the manual steps
 
-On Windows use `python` for `python3`. Nothing here edits the board: the manager does, after.
+On Windows use python for python3. The manager edits WORKBOARD.md.
 """
+from fnmatch import fnmatchcase
 import os
 import re
 import subprocess
@@ -22,15 +17,21 @@ import sys
 import tempfile
 
 STEPS = """Merge steps (team.merge), one task at a time, only after the director approves:
-1. In the main folder, on main and clean: git pull --ff-only
-2. Rehearse: git worktree add -b rehearse-<id> ../<project>-rehearse-<id> origin/<branch>
-   then in it: git merge origin/main, run the brief's checks; then git worktree remove that folder and
-   git branch -D rehearse-<id>. Never check out or move the builder's branch.
-3. git merge --no-ff origin/<branch>. If the review branch exists: git merge --no-ff origin/review-<id>
-4. git push origin main; git branch -f approved main; git push origin approved
-5. git push origin --delete <branch>. If the review branch exists: git push origin --delete review-<id>.
-   Never delete a worker-<name> branch.
-6. On the board: the row's State to merged (date), with the merge commit."""
+1. Land Small tasks directly under team.merge.
+2. On clean main: git pull --ff-only origin main
+3. Rehearse the task tip in a detached worktree with latest main. Run the agreed checks.
+   Preserve evidence before removing the worktree. Require target evidence before approval.
+4. Compare both remote tips with the full approved hashes in the row. If a review is approved,
+   check its Reviewed commit matches the task hash. If a tip moved: stop and get fresh approval.
+5. Refuse protected task or review branches. Protect main, master, approved, the origin default,
+   worker-* and every pattern set with git config --get-all agent-team.protectedBranch.
+6. Merge the approved task hash and any approved review hash with git merge --no-ff.
+   Push main. Run git branch -f approved main, then git push origin approved.
+7. Delete only the merged task and review refs using a lease on each approved hash:
+   git push --force-with-lease=refs/heads/<branch>:<hash> origin --delete refs/heads/<branch>
+8. Mark the row merged with the date and merge commit."""
+
+BOARD = "WORKBOARD.md"
 
 
 def git(*args, check=True):
@@ -40,7 +41,7 @@ def git(*args, check=True):
     return r
 
 
-def board_rows(path="WORKBOARD.md"):
+def board_rows(path=BOARD):
     if not os.path.exists(path):
         sys.exit("No WORKBOARD.md here. Run from the project's main folder.")
     rows, header, in_tasks = [], None, False
@@ -63,6 +64,14 @@ def clean(cell):
     return cell.strip().strip("`").strip()
 
 
+def line_count(path):
+    try:
+        with open(path, encoding="utf-8") as file:
+            return sum(1 for _ in file)
+    except FileNotFoundError:
+        return 0
+
+
 def remote_has(ref):
     return git("rev-parse", "--verify", "--quiet", "origin/" + ref, check=False).returncode == 0
 
@@ -79,8 +88,13 @@ def find(task_id):
 
 
 def status():
-    git("fetch", "-q", "--prune", "origin")
     rows = board_rows()
+    merged = sum(bool(re.match(r"merged\b", clean(row.get("state", "")), re.I)) for row in rows)
+    print(f"{BOARD}: {line_count(BOARD)} lines")
+    print(f"DECISIONS.md: {line_count('DECISIONS.md')} lines")
+    print(f"Merged rows still on the board: {merged}")
+    if git("fetch", "-q", "--prune", "origin", check=False).returncode:
+        print("Could not refresh origin. Ref status is local.", file=sys.stderr)
     if not rows:
         print("No tasks on the board.")
     for r in rows:
@@ -95,7 +109,8 @@ def status():
             review = "review-" + tid
             where += " · review: %s" % ("yes" if remote_has(review) else "no")
         elif branch == "main":
-            where = "main @ %s" % git("rev-parse", "--short", "origin/main").stdout.strip()
+            ref = "origin/main" if remote_has("main") else "main"
+            where = "main @ %s" % git("rev-parse", "--short", ref).stdout.strip()
         print("%s: %s · %s" % (tid, state, where))
     print("(scope done, e.g. \"3 of 6\", is yours to add from the report)")
 
@@ -103,17 +118,19 @@ def status():
 def rehearse(task_id, check_cmd):
     branch = clean(find(task_id).get("branch", ""))
     git("fetch", "-q", "origin")
-    if not remote_has(branch):
-        sys.exit("origin/%s not found." % branch)
-    name = "rehearse-" + task_id
-    folder = os.path.join(tempfile.gettempdir(), "%s-%s" % (os.path.basename(os.getcwd()), name))
-    git("worktree", "add", "-q", "-b", name, folder, "origin/" + branch)
+    task = remote_tip(branch)
+    base = remote_tip("main")
+    folder = tempfile.mkdtemp(prefix="agent-team-rehearse-")
+    git("worktree", "add", "-q", "--detach", folder, task)
+    print(f"Task commit: {task}. Main commit: {base}.", flush=True)
+    before_check = task
     try:
-        m = subprocess.run(["git", "-C", folder, "merge", "--no-edit", "origin/main"], capture_output=True, text=True)
+        m = git("-C", folder, "merge", "--no-edit", base, check=False)
         if m.returncode != 0:
             print("Rehearsal FAILED: latest main does not merge cleanly into %s.\n%s" % (branch, m.stdout.strip()))
-            subprocess.run(["git", "-C", folder, "merge", "--abort"], capture_output=True)
+            git("-C", folder, "merge", "--abort", check=False)
             return 1
+        before_check = git("-C", folder, "rev-parse", "HEAD").stdout.strip()
         if not check_cmd:
             print("Merged cleanly. No check given: rerun with -- <check command>.")
             return 0
@@ -122,36 +139,85 @@ def rehearse(task_id, check_cmd):
               ("passed" if c.returncode == 0 else "FAILED", branch, c.returncode))
         return c.returncode
     finally:
-        git("worktree", "remove", "--force", folder, check=False)
-        git("branch", "-D", name, check=False)
+        changes = git("-C", folder, "status", "--porcelain", "--ignored").stdout
+        head = git("-C", folder, "rev-parse", "HEAD").stdout.strip()
+        if changes or head != before_check or git("worktree", "remove", folder, check=False).returncode:
+            print(f"Rehearsal worktree kept at {folder}. Preserve any cited evidence before removing it.")
+
+
+def remote_tip(branch):
+    return git("rev-parse", "--verify", f"refs/remotes/origin/{branch}^{{commit}}").stdout.strip()
+
+
+def verify_cleanup_branches(branches):
+    remote_head = git("ls-remote", "--symref", "origin", "HEAD").stdout
+    default = re.search(r"^ref: (refs/heads/\S+)\s+HEAD$", remote_head, re.M)
+    configured = git("config", "--get-all", "agent-team.protectedBranch", check=False).stdout.splitlines()
+    protected = ["main", "master", "approved", "HEAD", "worker-*", *configured]
+    for branch in branches:
+        if ((default and f"refs/heads/{branch}" == default[1])
+                or any(fnmatchcase(branch, pattern) for pattern in protected)):
+            sys.exit(f"Refusing to delete protected branch {branch}.")
+        git("check-ref-format", f"refs/heads/{branch}")
+
+
+def approved_tip(branch, expected):
+    if not expected:
+        sys.exit(f"Record the full approved commit for {branch}.")
+    tip = remote_tip(branch)
+    if tip != expected.lower():
+        sys.exit(f"origin/{branch} does not match its approved commit. Check the tip and get fresh approval.")
+    return tip
 
 
 def merge(task_id):
-    row = find(task_id)
-    branch, state = clean(row.get("branch", "")), row.get("state", "").lower()
-    if not state.startswith("approved"):
-        sys.exit("Task %s is '%s' on the board, not approved. Only the director's approval opens a merge." % (task_id, state))
     if git("branch", "--show-current").stdout.strip() != "main":
         sys.exit("Run this from the main folder, on main.")
     if git("status", "--porcelain").stdout.strip():
         sys.exit("The folder isn't clean. Stop and look before merging.")
-    git("pull", "-q", "--ff-only")
-    if not remote_has(branch):
-        sys.exit("origin/%s not found." % branch)
-    git("merge", "-q", "--no-ff", "--no-edit", "origin/" + branch)
+    git("pull", "-q", "--ff-only", "origin", "main")
+    git("fetch", "-q", "origin")
+    row = find(task_id)
+    task_id = clean(row["id"])
+    branch = clean(row.get("branch", ""))
+    state = clean(row.get("state", "")).lower()
+    if clean(row.get("size", "")).lower() == "small":
+        sys.exit(f"Land Small task {task_id} directly on main. See team.merge.")
+    if not re.match(r"approved\b", state):
+        sys.exit(f"Task {task_id} is '{state}' on the board. Only the director's approval opens a merge.")
     review = "review-" + task_id
-    if remote_has(review):
-        git("merge", "-q", "--no-ff", "--no-edit", "origin/" + review)
+    reviewed = clean(row.get("review commit", ""))
+    review_required = clean(row.get("reviewer", "")).lower() not in ("", "-", "none")
+    if reviewed in ("", "-") and review_required:
+        sys.exit(f"Record the full review commit or approved waiver for {task_id}.")
+    includes_review = reviewed.lower() not in ("", "-", "waived")
+    if includes_review and branch == review:
+        sys.exit("The task and review need separate branches.")
+    verify_cleanup_branches([branch, review] if includes_review else [branch])
+    approved = {branch: approved_tip(branch, clean(row.get("tested commit", "")))}
+    if includes_review:
+        review_tip = approved_tip(review, reviewed)
+        review_path = f"reviews/{task_id}.md"
+        changes = git("diff", "--name-only", f"main...{review_tip}").stdout.splitlines()
+        if any(path != review_path for path in changes):
+            sys.exit(f"Review {review} changes files outside {review_path}.")
+        report = git("show", f"{review_tip}:{review_path}").stdout
+        match = re.search(r"^Reviewed commit:[ \t]*`?([\da-f]+)`?[ \t]*$", report, re.I | re.M)
+        if not match or match[1].lower() != approved[branch]:
+            sys.exit(f"Review {review} does not cover the approved task commit.")
+        approved[review] = review_tip
+    git("merge", "-q", "--no-ff", "--no-edit", *approved.values())
     git("push", "-q", "origin", "main")
     git("branch", "-f", "approved", "main")
     git("push", "-q", "origin", "approved")
-    gone = [b for b in (branch, review) if remote_has(b)]
-    if gone:
-        git("push", "-q", "origin", "--delete", *gone)
+    refs = {f"refs/heads/{name}": tip for name, tip in approved.items()}
+    leases = [f"--force-with-lease={ref}:{tip}" for ref, tip in refs.items()]
+    cleanup = git("push", "-q", *leases, "origin", "--delete", *refs, check=False)
     head = git("rev-parse", "--short", "main").stdout.strip()
-    print("Merged %s at %s; approved moved; deleted %s." % (task_id, head, ", ".join(gone) or "nothing"))
-    print("Now on the board: %s State -> merged (date), commit %s." % (task_id, head))
-    return 0
+    print(f"Merged {task_id} at {head}. Mark the row merged with the date and commit.")
+    if cleanup.returncode:
+        print(f"Branch cleanup incomplete. Check the refs before retrying deletion.\n{cleanup.stderr.strip()}")
+    return cleanup.returncode
 
 
 def main(argv):
