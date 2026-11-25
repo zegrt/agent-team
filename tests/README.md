@@ -10,17 +10,17 @@ answer blind against a rubric (0 fail, 1 partial, 2 pass). A rule that changes n
   reserves for the manager.
 - **It isn't perfect.** Some held-out scores with the skill are still 1 out of 2, some gaps remain, and one scenario
   (S2 on Claude) gave no result because of a harness limit. All of it is in the log below.
-- **The lab has a limit.** Each held-out scenario can only be used once, so the real test from here is use: the
-  board's Corrections list, where the same correction twice means a rule is failing.
+- **The lab has a limit.** Each held-out scenario counts as fresh only until it shapes the skill. The results below
+  cover earlier revisions.
 
 ## The method
 
-- **Scenarios** are written by a separate agent that never sees the skill's wording, on fictional projects with
-  their own git repo (a "fixture"). Each has a prompt and a rubric.
-- **Two arms.** The same prompt runs with the skill (only `SKILL.md`, `RULES.md`, `templates/` and `scripts/`, never
-  the tests) and without it. Neither arm sees the user's installed skills or plugins.
-- **Blind grading.** Card names and the skill's name are stripped from each answer, then Claude and Codex grade it
-  separately.
+- **Scenarios** pair a prompt about a fictional project with a rubric. A fixture supplies files and Git history
+  where needed. Earlier held-out scenarios were written without access to the skill's wording.
+- **Two arms.** The skill arm invokes `agent-team` and copies `SKILL.md`, `team/` and `scripts/` into the project.
+  The base arm gets the scenario alone. Rubrics and results stay outside both copies.
+- **Blind grading.** The grader strips card IDs, the skill name and paths to its files before grading. Codex uses an
+  empty home for runs and retains its configured `CODEX_HOME` for authentication.
 - **Held out once.** A held-out scenario counts as a test only until its result changes the wording; after that it
   is a tuning scenario.
 
@@ -30,6 +30,7 @@ answer blind against a rubric (0 fail, 1 partial, 2 pass). A rule that changes n
 | Held-out 2 | `scenarios-v2/` (S1 to S4) | larder-site | used once, now tuning |
 | Ideas, tuning | `scenarios-v3/` (I1a, I2a, I3a) | summit-site | tuning |
 | Ideas, held out | `scenarios-v3-held/` (I1b, I2b, I3b) | summit-site | used once, now tuning |
+| Two modes | `scenarios-v7/` (F01 to F10, G01, S01) | fictional kiosks and tram app | tuning scenarios |
 
 ## Running it
 
@@ -53,6 +54,22 @@ Options: `batch.sh <arm> <scenario-folder> <out> <runs> [skill-folder] [tools]` 
 `scenarios-v2/fixture.sh <dir> S1` builds the variant S1 needs; put S1's prompt in its own folder.
 
 Saved grades for every run are in `results/`.
+
+### V7 and the Northwind fixture
+
+V7 tests ten changes to team behavior, the solo/team gate and the six solo habits. Each prompt supplies its
+project state. The neutral fixture has no board, so the small-edit and solo cases can start outside a team.
+
+```sh
+cd tests
+bash scenarios-v7/fixture.sh "$PWD/fixture-v7"
+FIXTURE="$PWD/fixture-v7" bash run.sh codex skill scenarios-v7/G01-mode-gate.prompt.md 1 out-v7/codex-skill ..
+GRADERS=codex python3 grade.py out-v7 scenarios-v7
+```
+
+The old Northwind fixture only listed tasks 21–24. It now also includes T14 and T15 for H1 and T9 for H2, with
+their briefs and Git evidence. H1 now labels T14 `building` because the worker has already started. H2 can read
+the palette, the task branch and the incoming review. Older scenario scores are historical.
 
 ## Log
 
@@ -166,7 +183,7 @@ on the new wording, on Codex: none fell to 0 (H1 went from 2 to 1 on its single 
 
 From a real project: a reviewer sent its findings to the director, and the manager was polling threads to see
 who had finished. New: every builder or reviewer run ends with one line to the manager, `report in: <id>, <status>,
-<where>`, never to the director even when asked (`templates/MESSAGES.md`, SKILL.md, REVIEW.md). Two new scenarios
+<where>`, never to the director even when asked ([message form](../team/templates/MESSAGES.md)). Two new scenarios
 (`scenarios-v4`, written blind), with the director asking in the worker's own session for the report. Old wording
 against new, 3 runs each, graded by Codex only. Mean out of 2:
 

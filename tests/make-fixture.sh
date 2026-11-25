@@ -1,6 +1,12 @@
 #!/bin/bash
-# Builds the test project "northwind-guide" in ./fixture (a small git repo with a work board).
-D="$(cd "$(dirname "$0")" && pwd)/fixture"; rm -rf "$D"; mkdir -p "$D/rules" "$D/workers" && cd "$D" && git init -q -b main
+# Builds the Northwind guide fixture for tests/scenarios/.
+set -eu
+D="$(cd "$(dirname "$0")" && pwd)/fixture"
+rm -rf "$D"
+mkdir -p "$D"/{rules,logo,colour,briefs}
+cd "$D"
+git init -q -b main
+g() { git -c user.name=fixture -c user.email=fixture -c core.hooksPath=/dev/null "$@"; }
 cat > WORKBOARD.md <<'BOARD'
 # Northwind guide: work board
 
@@ -13,13 +19,54 @@ folder unless told otherwise), win-claude (Claude, Windows PC, own clone).
 - 10 Nov: only the manager merges to main, after Dana approves.
 
 ## Tasks
-| Id | Task | Owner | State |
-|---|---|---|---|
-| 21 | Rewrite rules/tone.md voice examples | win-claude | built, waiting review |
-| 22 | Add rules/motion.md easing section | mac-codex | in progress, branch task-22 |
-| 23 | Fix typo "colour" -> "color" in README heading | - | open |
-| 24 | Restructure rules/ into per-channel folders | - | open |
+| Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State | Brief |
+|---|---|---|---|---|---|---|---|---|---|
+| 21 | Rewrite tone examples | Content | rules/tone.md | task-21 | win-claude | mac-codex | 0 | built | - |
+| 22 | Add the easing section | Content | rules/motion.md | task-22 | mac-codex | - | 0 | building | - |
+| 23 | Fix the heading typo | Small | README.md | main | - | - | 0 | open | - |
+| 24 | Restructure rules by channel | Design | rules/ | - | - | - | 0 | open | - |
+| T14 | Rewrite logo clear-space and minimum-size rules | Content | logo/clear-space.md, logo/min-size.md | t14-logo-space | win-claude | mac-codex | 0 | building | briefs/T14.md |
+| T15 | Fix typo in footer | Small | README.md | main | manager | - | 0 | merged | - |
+| T9 | Colour contrast table for text on brand colours | Content | colour/contrast.md | t9-contrast | mac-codex | win-claude | 2 | built | briefs/T9.md |
 BOARD
-printf '# Tone\n\nWrite warmly.\n' > rules/tone.md; printf '# Motion\n' > rules/motion.md
+printf '# Tone\n\nWrite warmly.\n' > rules/tone.md
+printf '# Motion\n' > rules/motion.md
 printf '# Northwind guide colour rules\n' > README.md
-git add -A && git -c user.name=test -c user.email=test@example.com commit -qm init && echo "fixture ready: $D"
+printf '# Logo clear space\n' > logo/clear-space.md
+printf '# Logo minimum size\n' > logo/min-size.md
+printf '# Current palette\n\nHarbour Blue: #1A4C86\nSignal Teal: #007A78\nSand: #E8D9BA\n' > colour/palette.md
+printf '# T14\n\nRewrite logo clear-space and minimum-size rules.\n' > briefs/T14.md
+printf '# T9\n\nUpdate the ratios for text on brand colours.\n' > briefs/T9.md
+g add -A
+g commit -qm 'Start Northwind guide'
+g branch task-21
+g branch task-22
+
+g switch -qc t14-logo-space
+printf '\nAllow one letter-width around the logo.\n' >> logo/clear-space.md
+g add logo/clear-space.md
+GIT_AUTHOR_DATE=2026-11-17T09:52:00 GIT_COMMITTER_DATE=2026-11-17T09:52:00 \
+  g commit -qm 'wip clear-space'
+
+g switch -qc t9-contrast main
+printf '# Contrast\n\n| Colour | Text | Ratio | Level |\n|---|---|---|---|\n| Harbour Blue | White | 8.41 | AA |\n| Harbour Blue | Cream | 7.71 | AA |\n| Harbour Blue | Yellow | 6.90 | AA |\n| Signal Teal | White | 4.70 | AA large |\n' > colour/contrast.md
+g add colour/contrast.md
+g commit -qm 'Build draft contrast table'
+
+g switch -qc review-T9 main
+mkdir reviews
+cat > reviews/T9-r3.md <<'REVIEW'
+# T9 review
+
+- F1: Three Harbour Blue rows still show the 2025 ratios.
+- F5: The table has no row for text on Sand.
+- F6: The table uses "AA large" without defining large.
+REVIEW
+g add reviews/T9-r3.md
+g commit -qm 'Record T9 review findings'
+g switch -q main
+# Use local branches as the fixture's remote, including when the runner copies it.
+g remote add origin .
+g fetch -q origin
+g branch -q --set-upstream-to=origin/main main
+echo "fixture ready: $D"

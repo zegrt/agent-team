@@ -8,8 +8,8 @@ Run from the project's main folder (the manager's, on main), with the board at W
                                                       merge latest main into a throwaway copy of the
                                                       task branch, run the check, clean up
   python3 <skill>/scripts/team.py merge <id>          only when the board row says approved: merge the
-                                                      task and review-<id> into main, push, move
-                                                      `approved`, delete both branches
+                                                      task and any review-<id> into main, push, move
+                                                      `approved`, delete the merged branches
   python3 <skill>/scripts/team.py steps               print the merge steps, to do by hand if this
                                                       script can't run
 
@@ -21,14 +21,15 @@ import subprocess
 import sys
 import tempfile
 
-STEPS = """Merge steps (team.manager), one task at a time, only after the director approves:
+STEPS = """Merge steps (team.merge), one task at a time, only after the director approves:
 1. In the main folder, on main and clean: git pull --ff-only
 2. Rehearse: git worktree add -b rehearse-<id> ../<project>-rehearse-<id> origin/<branch>
    then in it: git merge origin/main, run the brief's checks; then git worktree remove that folder and
    git branch -D rehearse-<id>. Never check out or move the builder's branch.
-3. git merge --no-ff origin/<branch>, then git merge --no-ff origin/review-<id> (the review lands on main)
+3. git merge --no-ff origin/<branch>. If the review branch exists: git merge --no-ff origin/review-<id>
 4. git push origin main; git branch -f approved main; git push origin approved
-5. git push origin --delete <branch> review-<id>. Never delete a worker-<name> branch.
+5. git push origin --delete <branch>. If the review branch exists: git push origin --delete review-<id>.
+   Never delete a worker-<name> branch.
 6. On the board: the row's State to merged (date), with the merge commit."""
 
 

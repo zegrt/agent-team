@@ -4,7 +4,7 @@ The board's task table, as of this morning:
 
 | Id | Task | Size | Files | Branch | Builder | Reviewer | Rounds | State |
 |---|---|---|---|---|---|---|---|---|
-| T14 | Rewrite logo clear-space and minimum-size rules | Content | `logo/clear-space.md`, `logo/min-size.md` | `t14-logo-space` | win-claude | mac-codex | 0 | open |
+| T14 | Rewrite logo clear-space and minimum-size rules | Content | `logo/clear-space.md`, `logo/min-size.md` | `t14-logo-space` | win-claude | mac-codex | 0 | building |
 | T15 | Fix typo in footer | Small | `README.md` | main | manager | - | - | merged |
 
 It is 15:40. win-claude picked up T14 at 09:10 and has written nothing since. `git log origin/t14-logo-space` shows one commit from 09:52, "wip clear-space", touching `logo/clear-space.md` only. No report in `reports/T14.md`.

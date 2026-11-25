@@ -19,11 +19,20 @@ for arm_dir in sorted(glob.glob(os.path.join(root, '*'))):
         name = os.path.basename(f).rsplit('-', 1)[0]
         rb, pr = rubric(name)
         if rb: jobs += [(os.path.basename(arm_dir), name, f, rb, pr, gr) for gr in GRADERS]
-CARDS = r"`?\b(board\.one-source|task\.size|review\.assess|review\.restart|decide\.escalate|team\.(worktree|unreachable|live-first|manager|size))\b`?"
+CARDS = (
+    r"`?\b(board\.one-source|task\.(size|change)|build\.check|review\.(risk|assess|restart)"
+    r"|decide\.escalate|team\.(start|spec|board|worktree|unreachable|live-first|manager|size|merge|status))\b`?"
+)
+SKILL_PATHS = (
+    r"(?<![\w/])(?:/?(?:[~\w.<>-]+/)*agent-team/|<skill>/)?"
+    r"(?:SKILL\.md|(?:team/)?RULES\.md|(?:team/)?templates(?:/[\w-]+\.md|/)?|scripts/team\.py|team/)"
+    r"(?![\w/])"
+)
 def blind(ans):
-    # hide which arm wrote it: card ids and the skill's name go (blind review, 18 Nov 2026)
+    # Hide identifiers from both layouts before replacing the skill name.
     ans = re.sub(CARDS, "", ans)
-    return re.sub(r"(?i)(the )?agent-team( skill)?|the skill('s)?|RULES\.md|SKILL\.md", "the team rules", ans)
+    ans = re.sub(SKILL_PATHS, "the team rules", ans, flags=re.I)
+    return re.sub(r"(?i)(the )?agent-team( skill)?|the skill('s)?", "the team rules", ans)
 def ask(grader, prompt):
     if grader == 'claude':
         r = subprocess.run(['claude','-p',prompt,'--no-session-persistence','--output-format','json','--tools',''], capture_output=True, text=True, cwd='/tmp', stdin=subprocess.DEVNULL)

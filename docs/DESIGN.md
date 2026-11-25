@@ -1,106 +1,24 @@
 # Design
 
-Why `agent-team` is shaped the way it is. The rules themselves are in [`SKILL.md`](../SKILL.md) and
-[`RULES.md`](../RULES.md); this page explains the choices behind them.
+[SKILL.md](../SKILL.md) starts in solo mode. [Team rules](../team/RULES.md) apply when the job divides into independent parts and each handoff can be tested. Separate sessions and worktrees support mixed tools and machines. Shared state, one evolving design or one shared timeline favor a single editor. Benchmarks show that the advantage of delegation varies with how the task splits. [Agent scaling benchmarks](https://arxiv.org/abs/2512.08296)
 
-## The gap it fills
+## Reference and acceptance
 
-Superpowers, BMAD, Spec Kit, Gas Town and Claude Code's own agent teams all organise AI agents. Most of them assume
-one orchestrating session, work checked by automated tests, and a human at the start and the end. `agent-team` is the
-thin layer they leave out:
+In field use, a brief that retold the director's note changed what the builder thought they had asked for. Other edits started before anyone opened the live bug. Linking the exact note, target and version keeps those inputs available to each agent. A local correction applies to that work. Standing rules and added requirements need their own approval.
 
-- **separate sessions**, often on separate machines, with no shared memory between them;
-- **Claude Code and Codex mixed** on one team;
-- **judgment work** (writing, design, docs) as much as code, so "the tests pass" isn't the whole check;
-- **a human director** who approves each merge and whose attention is the scarcest thing on the team.
+Early work in the real file lets the director judge one piece before the same choice is repeated. Checks on an export can catch regressions in that export. An editor, phone or live app can expose different behavior. Measured timing gives the director something they can compare. Full-speed playback leaves judgments about feel with them. [Motion perception study](https://aclanthology.org/2026.findings-acl.629/), [Runtime feature support](https://rive.app/docs/feature-support)
 
-It borrows the tested mechanisms of those projects where they fit, and credits each where it is used.
+## What the earlier rules addressed
 
-## Three layers, narrowest wins
+- **Board and task size.** Team messages got lost and summaries omitted corrections. A board record precedes a message. Small fixes stay with the manager. A design needs an approved plan before a build. The decision register stays short because old notes otherwise crowd out the decisions still in force. [Long-running agent harnesses](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [BMAD](https://github.com/bmad-code-org/BMAD-METHOD)
+- **Ownership.** Changing a brief mid-run sent builders toward different targets. Switching a shared checkout put a commit on another task's branch. One writer per file, a hold before an incompatible change and a worktree per branch address those cases. A quiet thread can still have unpushed work. [Gas Town](https://github.com/gastownhall/gastown), [Beads](https://github.com/gastownhall/beads)
+- **Briefs and reports.** Explicit output, file boundaries and checks keep work testable. Version fields and check output make a builder's result auditable. A short decision request made questions easier to answer. Workers' questions went unseen in their own threads, and reviews sent straight to the director bypassed assessment. The report-in goes to the manager. [Multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system), [Superpowers](https://github.com/obra/superpowers)
+- **Reviews.** Seeing a builder's account first biased the review. Fixing each finding as it arrived expanded the work and sometimes let a finding disappear. The manager records each route. Two failed rounds warrant looking at the source again. A review now starts with a named risk and a reproducible check. Clarity, consistency and exceptions still matter when reviewing a written rule. [Superpowers](https://github.com/obra/superpowers), [Spec Kit](https://github.com/github/spec-kit)
+- **Recovery and merge.** A task can pass on its branch and fail with current main. Rehearsal runs checks against the combined result, and the approved branch marks the last accepted merge. The old handoff kept the branch and next action available after a summary. A new manager needs the active threads and unresolved decisions too. [Agent harness design](https://www.anthropic.com/research/harness-design-long-running-apps)
+- **Cost and status.** In field use, watcher runs added work and still left stale status when a manager stopped. Report-ins and session events tell the manager when to reconcile the board with threads and worktrees. Routine work can start on a cheaper model. [Claude Code cost guidance](https://code.claude.com/docs/en/costs)
 
-1. **The project's board** (`WORKBOARD.md`): its decisions, roles, machines, logins and checks.
-2. **The director's profile**, if there is one: taste and working style.
-3. **This skill**: the general rules, true for any project and any director.
+[The original plan](history/PLAN-2026-11-17.md#sources) preserves the first version's source list. The [rule map](RULE-MAP.md) records which instructions carried forward. Load the agent instructions for the chosen mode. This page is background.
 
-A live instruction from the director beats all three. If it breaks one of the skill's rules, the agent doesn't
-silently obey or silently refuse: it puts it on the board as pending, says which rule it breaks and why the rule
-exists, recommends, and acts on the answer. A board can tighten or add a rule for its own project; it never copies the
-skill's text.
+## Testing
 
-## Three shapes for three kinds of rule
-
-Agents forget rules in a predictable way, so each kind of rule has the shape that survives best.
-
-| Kind | Example | Shape | Where |
-|---|---|---|---|
-| **Judgment** | Route every review finding before fixing any | A short card: rule, why, basis, scope | [`RULES.md`](../RULES.md) |
-| **Checkable** | A report gives each check's output | A field in a form, which can't be silently skipped | [`templates/`](../templates) |
-| **Mechanical** | Merge, move the approved marker, delete the branches | A script, which runs the same way every time | [`scripts/team.py`](../scripts/team.py) |
-
-When a rule doesn't stick, the first question is whether it is in the wrong shape, not how to say it louder. Two
-fixes in this skill's history came from exactly that: a report's commit hash kept going missing until it became a
-field, and two prose rules about changing tasks kept colliding until they became one state model.
-
-## How work moves
-
-**Sizes.** Each task is Small (the manager does it and says so), Content (brief, builder, one independent review,
-the director's approval) or Design (a written plan, approved before anything is built). Process scales with risk.
-
-**States.** A task is open, building, built, in review, reviewed, approved or merged; or held, blocked, needs info,
-or pending a decision. Only the manager moves it, on the board.
-
-**A running task doesn't move under its builder.** While a task is building, its brief is frozen and the files it
-lists are its own. A change either holds the task and restarts it from a new brief (when the change makes the current
-work wrong), or becomes a new task (when it only adds). This one rule covers new requirements from the director, a
-review that fails twice, work that outgrows its size, and anyone else needing the same files.
-
-**Everyone writes only their own branch.** The board and everything merged live on main, written only by the manager.
-The work and the builder's report go on the task branch; the review on `review-<id>`; each agent's handoff on
-`worker-<name>`. Git won't open one branch in two folders, and one writer per file means nothing collides.
-
-**Merges are rehearsed and gated.** Before asking for approval, the manager merges the latest main into a throwaway
-copy of the task branch and reruns the checks. After approval, it merges one task at a time and moves an `approved`
-branch, so there is always a known good state to go back to.
-
-## How it loads
-
-- **Frontmatter:** only `name` (it must match the folder) and a `description` that says when to use the skill and
-  nothing else. A description that summarises the workflow makes agents skip reading the steps.
-- **What loads when:** at the start, both tools see only the name and description. `SKILL.md` loads when the skill is
-  used; cards and templates only when a step points to them, so the cost in context stays small.
-- **Where:** Claude Code reads `~/.claude/skills/`, Codex reads `~/.agents/skills/`. Both follow symlinks, so one
-  clone serves both.
-- **After a summary:** Claude Code keeps only the first part of a skill, and Codex documents nothing. So the session
-  start sits at the top of `SKILL.md`, the board's first line points back to the skill, and an optional hook reminds
-  the agent to re-read it.
-
-## How it is tested, and its limits
-
-Each rule is tested the way the Superpowers project tests skills: run the situation without the rule and watch it
-fail, add the rule, and check it now passes. Scenarios are written by a separate agent that never sees the skill's
-wording, on fictional projects; answers are graded blind by two different models against a rubric. A held-out
-scenario is used once: after it shapes the wording, it only counts as tuning. The full method and every result,
-gaps included, are in [`tests/README.md`](../tests/README.md).
-
-Known limits:
-
-- It was drawn from one real project and about ten days of one director's corrections. It assumes git, and one team
-  with one manager per board.
-- Lab scores are a stand-in. From here, the real test is the board's Corrections list: the same correction twice
-  means a rule is failing.
-- Windows and the Codex reminder hook are not tested yet.
-
-## Sources
-
-The full list, with URLs and dates, is at the end of [the original plan](history/PLAN-2026-11-17.md#sources). The
-main ones:
-
-- Anthropic: [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents),
-  [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system),
-  [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
-- [Superpowers](https://github.com/obra/superpowers), the [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD),
-  [Spec Kit](https://github.com/github/spec-kit), [Gas Town](https://github.com/gastownhall/gastown) and
-  [Beads](https://github.com/gastownhall/beads)
-- Simon Willison, [Embracing the parallel coding agent lifestyle](https://simonwillison.net/2025/Oct/5/parallel-coding-agents/)
-- Cemri et al., [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657)
-- The [Agent Skills specification](https://agentskills.io/specification)
+The [test notes](../tests/README.md) document blind grading and previous results. Those scores cover earlier wording. The v7 scenarios cover the new instructions and are authored against this revision, so they count as tuning scenarios.

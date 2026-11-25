@@ -11,10 +11,9 @@ key=$(printf '%s|%s' "${sid:-nosession}" "$PWD" | cksum | cut -d" " -f1)
 marker="${TMPDIR:-/tmp}/agent-team-refresh-$key"
 remind() {
   cat <<'TXT'
-agent-team: the conversation was just summarised. You are a new session.
-1. Trust the board and `git log` over your memory of them.
-2. Re-read the agent-team skill's SKILL.md (and RULES.md for any card your next step names).
-3. Check your folder is clean and on your task's branch before doing anything else.
+agent-team: after a summary, reread the skill's SKILL.md.
+In solo mode, check DECISIONS.md against the live file.
+In team mode, reread team/RULES.md and follow team.start to recover your role and task.
 TXT
 }
 case "$mode" in
