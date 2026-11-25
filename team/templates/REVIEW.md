@@ -12,7 +12,7 @@ Result: <repro steps and evidence, or checks run and limits>
 
 ## Re-review
 
-<!-- Recheck prior findings only. Mark fixed only with evidence. Set Reviewed commit above to the full new task hash. Same branch. -->
+<!-- Recheck prior findings only. Mark fixed only with evidence. Set Reviewed commit above to the new full task hash. -->
 
 | # | Fixed or not fixed | Evidence |
 |---|---|---|

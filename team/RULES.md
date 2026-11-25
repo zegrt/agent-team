@@ -75,7 +75,7 @@
 - List pre-existing issues under Noticed. Resolve issues this task caused before approval.
 - For findings against a director decision: record and tell the director `dropped: against decision <id>`.
 - Drop nothing silently. The director's summary lists every finding with its route, one line each.
-- Have the reviewer recheck fixes on the new commit, on the same `review-<id>` branch, and set `Reviewed commit:` to the new full task hash.
+- Have the reviewer recheck fixes on the new commit in a detached worktree, then commit the update to `reviews/<id>.md` on the existing `review-<id>` branch with `Reviewed commit:` set to the new full task hash.
 
 ## review.restart
 
