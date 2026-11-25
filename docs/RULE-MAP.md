@@ -145,7 +145,7 @@ Source lines in the first table refer to `44d472e`. Each row groups equivalent i
 | N02 | Record numerical timing and measure on the actual target. Give the director full-speed playback. | [SKILL.md](../SKILL.md) |
 | N03 | Keep lasting decisions beside the work and archive superseded entries. Use a fresh thread and three-line handoff for unrelated work or repeated misses. | [SKILL.md](../SKILL.md) |
 | N04 | Invite a second agent for one testable question only when its answer changes the next move. | [SKILL.md](../SKILL.md) |
-| N05 | Default to solo. Use team mode for an assigned role, a director order or an independent, testable initial split. Wait for a yes before expanding ongoing solo work into team mode, then carry decisions and handoff over. | [SKILL.md](../SKILL.md) |
+| N05 | Default to solo. Use team mode for an assigned role or a director order. For an independent, testable split, at the start or later, suggest a team and wait for the director's explicit yes, then carry decisions and handoff over. | [SKILL.md](../SKILL.md) |
 | N06 | Link the original direction and reference. Keep directions scoped. Record unapproved additions as suggestions and leave them unbuilt. | [SKILL.md](../SKILL.md), [`team.spec`](../team/RULES.md#teamspec), [BRIEF.md](../team/templates/BRIEF.md), [REPORT.md](../team/templates/REPORT.md) |
 | N07 | Resolve pending instructions before dispatch and hold assignments that become coupled. | [`team.spec`](../team/RULES.md#teamspec), [`task.change`](../team/RULES.md#taskchange) |
 | N08 | Replay a linked live bug and record version and evidence before building. | [`team.spec`](../team/RULES.md#teamspec), [REPORT.md](../team/templates/REPORT.md) |

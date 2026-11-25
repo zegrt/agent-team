@@ -1,6 +1,6 @@
 # agent-team
 
-A skill for director-led work in Claude Code and Codex. Use one agent by default. Use a team when the job has independent parts and each handoff has a test.
+A skill for director-led work in Claude Code and Codex. Use one agent by default. The agent suggests a team when the job has independent parts and each handoff has a test, and switches only on the director's yes.
 
 ## Use it
 

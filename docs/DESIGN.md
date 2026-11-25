@@ -1,6 +1,6 @@
 # Design
 
-[SKILL.md](../SKILL.md) starts in solo mode. [Team rules](../team/RULES.md) apply when the job divides into independent parts and each handoff can be tested. Separate sessions and worktrees support mixed tools and machines. Shared state, one evolving design or one shared timeline favor a single editor. Benchmarks show that the advantage of delegation varies with how the task splits. [Agent scaling benchmarks](https://arxiv.org/abs/2512.08296)
+[SKILL.md](../SKILL.md) starts in solo mode. [Team rules](../team/RULES.md) apply when the director assigns roles or orders a team. An agent may suggest a team when the job divides into independent parts and each handoff can be tested, and switches only on the director's yes. Separate sessions and worktrees support mixed tools and machines. Shared state, one evolving design or one shared timeline favor a single editor. Benchmarks show that the advantage of delegation varies with how the task splits. [Agent scaling benchmarks](https://arxiv.org/abs/2512.08296)
 
 ## Reference and acceptance
 

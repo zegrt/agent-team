@@ -13,10 +13,11 @@ description: Use for director-led work, solo or in separate team sessions. Use w
 
 ## Choose a mode
 
-- If `WORKBOARD.md` or a brief gives you a role, or the director orders a team: use team mode.
-- Otherwise, default to solo. Use a team if the job splits into independent parts with testable handoffs. Check files, shared state and dependencies.
+- Use team mode if `WORKBOARD.md` or a brief names your role, or the director orders a team. A question such as "should we?" is not an order.
+- Otherwise, work solo. If the job splits into independent parts with testable handoffs, check files, shared state and dependencies, then suggest a team with the reason.
+- Until the director says yes, create no board, brief or worker. No reply or an unclear one means solo. A one-question second agent (below) is not team mode.
+- On entering team mode from solo: carry `DECISIONS.md` and the three-line handoff before dispatch.
 - In team mode: read [team/RULES.md](team/RULES.md) before acting. Skip the solo section.
-- If a solo job starts to split: tell the director and switch only on their yes. Carry `DECISIONS.md` and the three-line handoff into team mode before dispatch.
 
 ## Solo
 
